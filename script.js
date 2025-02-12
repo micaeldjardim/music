@@ -1,39 +1,91 @@
 import { db } from "./firebase.js";
-import { collection, doc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // Elementos HTML
-const videoPlayer = document.getElementById("videoPlayer");
-const lyricsContainer = document.getElementById("lyrics");
 const songList = document.getElementById("songList");
+const gameArea = document.getElementById("gameArea");
+const videoPlayer = document.getElementById("videoPlayer");
+const lyricsDisplay = document.getElementById("lyricsDisplay");
+const songTitle = document.getElementById("songTitle");
+const userInput = document.getElementById("userInput");
+const submitButton = document.getElementById("submitAnswer");
+const scoreDisplay = document.getElementById("score");
 
-// Carregar todas as músicas da coleção "songs"
-async function carregarMusicas() {
+// Variáveis globais
+let missingWords = [];
+let formattedLyrics = "";
+let score = 0;
+
+// Função para carregar a lista de músicas
+async function carregarListaMusicas() {
     const querySnapshot = await getDocs(collection(db, "songs"));
-    
-    songList.innerHTML = ""; // Limpa a lista antes de adicionar as músicas
+    songList.innerHTML = ""; // Limpa a lista antes de carregar
+
     querySnapshot.forEach((doc) => {
-        const song = doc.data();
-        const li = document.createElement("li");
-        li.textContent = song.title;
-        li.addEventListener("click", () => tocarMusica(doc.id)); // Ao clicar, toca a música
-        songList.appendChild(li);
+        const songData = doc.data();
+        const button = document.createElement("button");
+        button.textContent = songData.title;
+        button.classList.add("song-button");
+        button.onclick = () => carregarMusica(doc.id); // Carrega a música ao clicar
+        songList.appendChild(button);
     });
 }
 
-// Tocar a música selecionada
-function tocarMusica(songId) {
+// Função para carregar uma música específica
+async function carregarMusica(songId) {
     const docRef = doc(db, "songs", songId);
-    onSnapshot(docRef, (doc) => {
-        if (doc.exists()) {
-            const data = doc.data();
-            const videoId = new URL(data.videoUrl).searchParams.get("v");
-            videoPlayer.src = `https://www.youtube.com/embed/${videoId}`;
-            lyricsContainer.textContent = data.lyrics;
-        } else {
-            console.error("Música não encontrada!");
-        }
-    });
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+
+        // Atualiza o título da música e o vídeo
+        songTitle.textContent = data.title;
+        const videoId = new URL(data.videoUrl).searchParams.get("v");
+        videoPlayer.src = `https://www.youtube.com/embed/${videoId}`;
+
+        // Salva palavras para preenchimento
+        missingWords = data.missing;
+
+        // Exibe a letra com lacunas
+        formattedLyrics = data.lyrics;
+        lyricsDisplay.innerHTML = formattedLyrics.replace(/____/g, '<span class="missing-word">____</span>');
+
+        // Reinicia a pontuação
+        score = 0;
+        scoreDisplay.textContent = `Pontuação: ${score}`;
+
+        // Exibir a área do jogo
+        gameArea.style.display = "block";
+    } else {
+        console.error("Música não encontrada!");
+    }
 }
 
-// Carrega as músicas ao iniciar
-carregarMusicas();
+// Verifica a resposta do usuário
+submitButton.addEventListener("click", () => {
+    const userAnswer = userInput.value.trim().toUpperCase();
+    
+    if (missingWords.includes(userAnswer)) {
+        // Substitui o primeiro espaço vazio encontrado pela resposta correta
+        formattedLyrics = formattedLyrics.replace("____", userAnswer);
+        lyricsDisplay.innerHTML = formattedLyrics.replace(/____/g, '<span class="missing-word">____</span>');
+
+        // Remove a palavra encontrada da lista
+        missingWords = missingWords.filter(word => word !== userAnswer);
+
+        // Aumenta a pontuação
+        score += 10;
+        scoreDisplay.textContent = `Pontuação: ${score}`;
+
+        // Mensagem de acerto
+        alert("Correto!");
+    } else {
+        alert("Errado! Tente novamente.");
+    }
+
+    userInput.value = ""; // Limpa o campo
+});
+
+// Carregar a lista de músicas ao iniciar
+carregarListaMusicas();

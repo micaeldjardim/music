@@ -3,25 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Player de Música</title>
+    <title>Preencha a Música</title>
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="script.js"></script>
 </head>
 <body>
-    <h1>Player de Música</h1>
+    <h1>Escolha uma Música</h1>
 
-    <!-- Lista de músicas disponíveis -->
-    <h2>Escolha uma música:</h2>
-    <ul id="songList"></ul>
+    <!-- Lista de músicas -->
+    <div id="songList"></div>
 
-    <!-- Área para exibir o vídeo -->
-    <div id="videoContainer">
-        <iframe id="videoPlayer" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+    <!-- Área do jogo (inicialmente oculta) -->
+    <div id="gameArea" style="display: none;">
+        <h2 id="songTitle"></h2>
+
+        <!-- Player do YouTube -->
+        <div id="videoContainer">
+            <iframe id="videoPlayer" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <p id="lyricsDisplay"></p>
+
+        <input type="text" id="userInput" placeholder="Digite a palavra faltando">
+        <button id="submitAnswer">Submit</button>
+
+        <h3 id="score">Pontuação: 0</h3>
     </div>
-
-    <!-- Área para exibir a letra da música -->
-    <h2>Letra da Música</h2>
-    <pre id="lyrics">Selecione uma música...</pre>
-
-    <br>
-    <a href="admin.html">Adicionar nova
+</body>
+</html>
