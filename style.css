@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+#videoContainer {
+    margin: 20px auto;
+}
+
+#lyrics {
+    white-space: pre-wrap;
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 5px;
+    display: inline-block;
+    text-align: left;
+    max-width: 600px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    cursor: pointer;
+    padding: 5px;
+    background: #ddd;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+li:hover {
+    background: #bbb;
+}
+
+input, textarea {
+    width: 80%;
+    margin: 5px;
+    padding: 8px;
+}
+
+button {
+    padding: 10px;
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
