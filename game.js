@@ -1,15 +1,22 @@
 import { getMusicas } from "./firebase.js";
 
+let allMusicas = [];
+
 async function carregarMusicas() {
-  const musicas = await getMusicas();
+  allMusicas = await getMusicas();
+  renderMusicList();
+}
+
+function renderMusicList() {
   const container = document.getElementById("music-list");
   container.innerHTML = "";
-  musicas.forEach(musica => {
+  const searchTerm = document.getElementById("search-input").value.toLowerCase();
+  const filtered = allMusicas.filter(musica => musica.titulo.toLowerCase().includes(searchTerm));
+  filtered.forEach(musica => {
     const videoId = extrairVideoId(musica.URL);
     const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "";
     const div = document.createElement("div");
     div.className = "music-thumb";
-    // Título acima da imagem, sem fundo azul
     const title = document.createElement("div");
     title.className = "music-title-thumb";
     title.textContent = musica.titulo;
@@ -25,8 +32,9 @@ async function carregarMusicas() {
   });
 }
 
-let currentMusic = null;
+document.getElementById("search-input").addEventListener("input", renderMusicList);
 
+let currentMusic = null;
 function carregarMusica(musica) {
   currentMusic = musica;
   document.getElementById("music-title").textContent = musica.titulo;
@@ -52,7 +60,6 @@ function exibirLetraDrag(musica) {
   }).join("<br>");
   lyricsContainer.innerHTML = letraComEspacos;
 
-  // Cria o word bank com base na contagem de ocorrências
   const wordCount = {};
   musica.letra.split(" ").forEach(word => {
     let wordClean = word.replace(/[{}.,?!]/g, "").toLowerCase();
@@ -99,7 +106,6 @@ function exibirYoutubePlayer(musica) {
 function dragWord(event) {
   event.dataTransfer.setData("application/my-word", event.target.dataset.word);
   event.dataTransfer.effectAllowed = "move";
-  // Permite que tanto as palavras do word bank quanto as já posicionadas sejam arrastáveis
 }
 
 function allowDrop(event) {
@@ -111,19 +117,16 @@ function dropWord(event) {
   const dropTarget = event.currentTarget;
   const word = event.dataTransfer.getData("application/my-word");
   if (!word) return;
-  // Se o dropTarget já tiver uma palavra, envia-a de volta ao word bank
   const current = dropTarget.querySelector('.dropped-word');
   if (current) {
     const wordBank = document.getElementById("word-bank");
     wordBank.appendChild(current);
     dropTarget.innerHTML = "";
   }
-  // Remove a palavra de onde quer que esteja
   let origem = document.querySelector(`.draggable[data-word="${word}"]`) || document.querySelector(`.dropped-word[data-word="${word}"]`);
   if (origem) {
     origem.parentNode.removeChild(origem);
   }
-  // Cria o novo elemento que será colocado no blank
   const span = document.createElement("span");
   span.textContent = word;
   span.className = "dropped-word";
