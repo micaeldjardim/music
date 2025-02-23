@@ -7,12 +7,22 @@ body {
   background: #f7f8fa;
   color: #333;
   text-align: center;
+  padding-top: 80px; /* Ajusta conforme a altura do header */
 }
 
 .container {
   max-width: 1000px;
   margin: 0 auto;
 }
+
+.main-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 40px; /* Dá espaço para o header fixo */
+  color: #333;
+}
+
 
 /* Header */
 header {
@@ -21,9 +31,12 @@ header {
 }
 
 .logo {
-  width: 100px;
+  width: 200px;
+  height: auto;
+  position: absolute;
+  top: 20px;
+  left: 20px;
   display: block;
-  margin: 0 auto 10px;
 }
 
 header h1 {
@@ -78,7 +91,17 @@ header h1 {
 
 /* Tela Drag and Drop */
 .header {
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 20px 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
 .music-title {
@@ -148,9 +171,36 @@ header h1 {
   font-size: 16px;
 }
 
+/* Estilização do menu */
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav ul li {
+  display: inline;
+}
+
+.nav ul li a {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.nav ul li a:hover {
+  color: #007acc;
+}
+
 .nav-buttons {
   margin-top: 20px;
 }
+
+
 
 .btn {
   background-color: #007acc;

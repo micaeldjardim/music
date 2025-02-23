@@ -4,19 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Complete the Lyrics</title>
-  <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/fill-the-song.appspot.com/o/favicon.png?alt=media" type="image/png">
+  <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Ffavicon.png?alt=media&token=c275bf59-f4af-425f-80b0-e9826675ee67" type="image/png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.appspot.com/o/logo.png?alt=media" alt="Logo" class="logo">
-      <h1>Selecione uma Música</h1>
-      <input type="text" id="search-input" placeholder="Buscar música...">
-    </header>
+  
+  <!-- HEADER COM MENU -->
+  <header class="header">
+    <div class="header-left">
+      <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Flogo.jpg?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2" alt="Logo" class="logo">
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="#">Baixe o App</a></li>
+        <li><a href="#">Adicione uma Música</a></li>
+        <li><a href="#">Preços</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- TELA INICIAL COM LISTA DE MÚSICAS -->
     <div id="screen-home">
+      <h1 class="main-title">Selecione uma Música</h1>
+      <input type="text" id="search-input" placeholder="Buscar música...">
       <div id="music-list" class="music-list"></div>
     </div>
+
+    <!-- TELA DE JOGO (DRAG AND DROP) -->
     <div id="screen-drag" style="display: none;">
       <div class="header">
         <div id="music-title" class="music-title"></div>
@@ -35,11 +51,16 @@
         <button class="btn" onclick="checkAnswersDrag()">Submeter</button>
       </div>
     </div>
-  </div>
+  </main>
+
+  <!-- MODAL DE RESULTADOS -->
   <div id="resultModal" class="modal"></div>
+
+  <!-- FIREBASE CONFIG -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
     import { getFirestore } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+
     const firebaseConfig = {
       authDomain: "fill-the-song.firebaseapp.com",
       projectId: "fill-the-song",
@@ -48,11 +69,15 @@
       appId: "1:597494138856:web:029accd51127d1f5ab865d",
       measurementId: "G-LWCN77NQV5"
     };
+
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     window.firebaseDB = db;
   </script>
+
+  <!-- SCRIPTS -->
   <script src="firebase.js" type="module"></script>
   <script src="game.js" type="module"></script>
+
 </body>
 </html>
