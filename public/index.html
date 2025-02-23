@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete the Lyrics</title>
+  <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/fill-the-song.appspot.com/o/favicon.png?alt=media" type="image/png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.appspot.com/o/logo.png?alt=media" alt="Logo" class="logo">
+      <h1>Selecione uma Música</h1>
+      <input type="text" id="search-input" placeholder="Buscar música...">
+    </header>
+    <div id="screen-home">
+      <div id="music-list" class="music-list"></div>
+    </div>
+    <div id="screen-drag" style="display: none;">
+      <div class="header">
+        <div id="music-title" class="music-title"></div>
+      </div>
+      <div class="content">
+        <div class="video-area" id="player-container"></div>
+        <div class="game-area">
+          <div class="lyrics-area">
+            <div class="lyrics" id="lyricsDrag"></div>
+          </div>
+          <div class="word-bank-area" id="word-bank"></div>
+        </div>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn" onclick="goBack()">Voltar</button>
+        <button class="btn" onclick="checkAnswersDrag()">Submeter</button>
+      </div>
+    </div>
+  </div>
+  <div id="resultModal" class="modal"></div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+    const firebaseConfig = {
+      authDomain: "fill-the-song.firebaseapp.com",
+      projectId: "fill-the-song",
+      storageBucket: "fill-the-song.firebasestorage.app",
+      messagingSenderId: "597494138856",
+      appId: "1:597494138856:web:029accd51127d1f5ab865d",
+      measurementId: "G-LWCN77NQV5"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    window.firebaseDB = db;
+  </script>
+  <script src="firebase.js" type="module"></script>
+  <script src="game.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: #f7f8fa;
+  color: #333;
+  text-align: center;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Header */
+header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.logo {
+  width: 100px;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+header h1 {
+  margin: 10px 0;
+  font-size: 24px;
+  color: #222;
+}
+
+#search-input {
+  width: 80%;
+  max-width: 400px;
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Tela Home */
+.music-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.music-thumb {
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+  width: 200px;
+  text-align: left;
+}
+
+.music-thumb:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.music-thumb img {
+  width: 100%;
+  display: block;
+}
+
+.music-title-thumb {
+  font-size: 18px;
+  font-weight: 500;
+  padding: 8px;
+  margin-bottom: 5px;
+  color: #222;
+}
+
+/* Tela Drag and Drop */
+.header {
+  margin-bottom: 20px;
+}
+
+.music-title {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.video-area {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.game-area {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  width: 100%;
+}
+
+.lyrics-area {
+  flex: 1;
+  max-width: 600px;
+}
+
+.lyrics {
+  font-size: 20px;
+  line-height: 1.6;
+  background: #fff;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  min-height: 200px;
+  text-align: left;
+}
+
+.blank {
+  display: inline-block;
+  width: 100px;
+  border-bottom: 2px solid #007acc;
+  min-height: 30px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.word-bank-area {
+  width: 150px;
+  position: sticky;
+  top: 20px;
+}
+
+.draggable, .dropped-word {
+  display: inline-block;
+  margin: 5px;
+  padding: 8px 12px;
+  background-color: #007acc;
+  color: #fff;
+  border-radius: 4px;
+  cursor: grab;
+  font-size: 16px;
+}
+
+.nav-buttons {
+  margin-top: 20px;
+}
+
+.btn {
+  background-color: #007acc;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-transform: uppercase;
+  margin: 0 10px;
+}
+
+.btn:hover {
+  background-color: #005fa3;
+}
+
+/* Modal Popup */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #007acc;
+}
+
+.modal-content .stars {
+  font-size: 24px;
+  margin: 10px 0;
+  color: #ffb400;
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.modal-content .close:hover {
+  color: #000;
+}
