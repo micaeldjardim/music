@@ -44,34 +44,37 @@ function carregarMusica(musica) {
   exibirYoutubePlayer(musica);
 }
 
+// Função modificada para suportar frases (várias palavras consecutivas)
 function exibirLetraDrag(musica) {
-  const lyricsContainer = document.getElementById("lyricsDrag");
-  lyricsContainer.innerHTML = "";
-  let palavrasDisponiveis = musica.palavras.map(p => p.toLowerCase());
-  let linhas = musica.letra.split("<br>");
-  let letraComEspacos = linhas.map(linha => {
-    return linha.split(" ").map(palavra => {
-      let palavraLimpa = palavra.replace(/[{}.,?!]/g, "").toLowerCase();
-      if (palavrasDisponiveis.includes(palavraLimpa)) {
-        return `<span class="blank droppable" data-answer="${palavraLimpa}" ondragover="allowDrop(event)" ondrop="dropWord(event)"></span>`;
-      }
-      return palavra;
-    }).join(" ");
-  }).join("<br>");
-  lyricsContainer.innerHTML = letraComEspacos;
-
+  let letra = musica.letra;
+  // Considera cada frase disponível (pode conter múltiplas palavras) como uma resposta
+  const frasesDisponiveis = musica.palavras.map(p => p.toLowerCase());
+  
+  // Para cada frase, substitui todas as ocorrências na letra por um span de blank
+  frasesDisponiveis.forEach(phrase => {
+    const escapedPhrase = phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    const regex = new RegExp(`\\b${escapedPhrase}\\b`, 'gi');
+    letra = letra.replace(regex, `<span class="blank droppable" data-answer="${phrase}" ondragover="allowDrop(event)" ondrop="dropWord(event)"></span>`);
+  });
+  
+  document.getElementById("lyricsDrag").innerHTML = letra;
+  
+  // Cria o word bank baseado na contagem de ocorrências de cada frase na letra
   const wordCount = {};
-  musica.letra.split(" ").forEach(word => {
-    let wordClean = word.replace(/[{}.,?!]/g, "").toLowerCase();
-    if (palavrasDisponiveis.includes(wordClean)) {
-      wordCount[wordClean] = (wordCount[wordClean] || 0) + 1;
+  frasesDisponiveis.forEach(phrase => {
+    const escapedPhrase = phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    const regex = new RegExp(`\\b${escapedPhrase}\\b`, 'gi');
+    const matches = musica.letra.match(regex);
+    if (matches) {
+      wordCount[phrase] = matches.length;
     }
   });
+  
   const wordBank = document.getElementById("word-bank");
   wordBank.innerHTML = "";
-  for (let palavra in wordCount) {
-    for (let i = 0; i < wordCount[palavra]; i++) {
-      wordBank.innerHTML += `<span class="draggable" draggable="true" data-word="${palavra}" ondragstart="dragWord(event)">${palavra}</span>`;
+  for (let phrase in wordCount) {
+    for (let i = 0; i < wordCount[phrase]; i++) {
+      wordBank.innerHTML += `<span class="draggable" draggable="true" data-word="${phrase}" ondragstart="dragWord(event)">${phrase}</span>`;
     }
   }
 }
