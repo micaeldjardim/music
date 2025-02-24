@@ -47,10 +47,8 @@ function carregarMusica(musica) {
 // Função modificada para suportar frases (várias palavras consecutivas)
 function exibirLetraDrag(musica) {
   let letra = musica.letra;
-  // Considera cada frase disponível (pode conter múltiplas palavras) como uma resposta
   const frasesDisponiveis = musica.palavras.map(p => p.toLowerCase());
   
-  // Para cada frase, substitui todas as ocorrências na letra por um span de blank
   frasesDisponiveis.forEach(phrase => {
     const escapedPhrase = phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     const regex = new RegExp(`\\b${escapedPhrase}\\b`, 'gi');
@@ -59,7 +57,6 @@ function exibirLetraDrag(musica) {
   
   document.getElementById("lyricsDrag").innerHTML = letra;
   
-  // Cria o word bank baseado na contagem de ocorrências de cada frase na letra
   const wordCount = {};
   frasesDisponiveis.forEach(phrase => {
     const escapedPhrase = phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -88,34 +85,26 @@ function extrairVideoId(url) {
 function extrairVideoIdETempo(url) {
   let videoId = null;
   let startTime = 0;
-
-  // Extrai o ID do vídeo para URLs no formato normal (watch?v=...)
   let match = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
   if (match) {
       videoId = match[1];
   }
-
-  // Extrai o tempo de início (t=...)
   let timeMatch = url.match(/[?&]t=(\d+)/);
   if (timeMatch) {
       startTime = parseInt(timeMatch[1], 10);
   }
-
   return { videoId, startTime };
 }
-
 
 function exibirYoutubePlayer(musica) {
   const playerContainer = document.getElementById("player-container");
   playerContainer.innerHTML = "";
-
   if (musica.URL) {
       const { videoId, startTime } = extrairVideoIdETempo(musica.URL);
       if (!videoId) {
           console.error("ID do vídeo não encontrado!");
           return;
       }
-
       const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&start=${startTime}`;
       const iframe = document.createElement("iframe");
       iframe.setAttribute("width", "560");
@@ -124,11 +113,9 @@ function exibirYoutubePlayer(musica) {
       iframe.setAttribute("frameborder", "0");
       iframe.setAttribute("allow", "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture");
       iframe.setAttribute("allowfullscreen", "true");
-
       playerContainer.appendChild(iframe);
   }
 }
-
 
 function dragWord(event) {
   event.dataTransfer.setData("application/my-word", event.target.dataset.word);
@@ -144,22 +131,38 @@ function dropWord(event) {
   const dropTarget = event.currentTarget;
   const word = event.dataTransfer.getData("application/my-word");
   if (!word) return;
-  const current = dropTarget.querySelector('.dropped-word');
-  if (current) {
-    const wordBank = document.getElementById("word-bank");
-    wordBank.appendChild(current);
-    dropTarget.innerHTML = "";
+  
+  // Se o dropTarget já tiver uma palavra, verifique se é diferente e a retorne para o banco.
+  const existing = dropTarget.querySelector('.dropped-word');
+  if (existing) {
+    if (existing.textContent.trim() !== word) {
+      document.getElementById("word-bank").appendChild(existing);
+    } else {
+      return; // Se for a mesma, não faz nada.
+    }
   }
-  let origem = document.querySelector(`.draggable[data-word="${word}"]`) || document.querySelector(`.dropped-word[data-word="${word}"]`);
-  if (origem) {
+  
+  // Remove a palavra de sua origem, seja do banco ou de outro local.
+  let origem = document.querySelector(`.draggable[data-word="${word}"]`) ||
+               document.querySelector(`.dropped-word[data-word="${word}"]`);
+  if (origem && origem.parentNode) {
     origem.parentNode.removeChild(origem);
   }
+  
+  // Cria o elemento que será colocado no blank.
   const span = document.createElement("span");
   span.textContent = word;
   span.className = "dropped-word";
   span.setAttribute("draggable", "true");
   span.dataset.word = word;
   span.ondragstart = dragWord;
+  
+  // Permite retornar a palavra para o banco com double-click.
+  span.ondblclick = function() {
+    document.getElementById("word-bank").appendChild(span);
+    dropTarget.innerHTML = "";
+  };
+  
   dropTarget.innerHTML = "";
   dropTarget.appendChild(span);
 }
