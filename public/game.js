@@ -85,6 +85,16 @@ function extrairVideoId(url) {
   return (match && match[7].length === 11) ? match[7] : null;
 }
 
+function extrairVideoIdETempo(url) {
+  const videoIdMatch = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11}).*/);
+  const timeMatch = url.match(/[?&]t=(\d+)/);
+  
+  return {
+      videoId: videoIdMatch ? videoIdMatch[1] : null,
+      startTime: timeMatch ? timeMatch[1] : 0
+  };
+}
+
 function exibirYoutubePlayer(musica) {
   const playerContainer = document.getElementById("player-container");
   playerContainer.innerHTML = "";
@@ -95,6 +105,7 @@ function exibirYoutubePlayer(musica) {
       return;
     }
     const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&start=${startTime}`;
     const iframe = document.createElement("iframe");
     iframe.setAttribute("width", "560");
     iframe.setAttribute("height", "315");
