@@ -7,7 +7,8 @@ body {
   background: #f7f8fa;
   color: #333;
   text-align: center;
-  padding-top: 100px; /* space for the fixed header */
+  /* Enough top padding so content doesn't hide behind the fixed header */
+  padding-top: 100px;
 }
 
 .container {
@@ -23,25 +24,19 @@ body {
   color: #333;
 }
 
-/* Header fixed at top with auto-hide */
+/* Header fixed at the top, always visible */
 .header {
   display: flex;
-  align-items: flex-end; /* Align items at bottom of header */
+  align-items: flex-end; /* Aligns items at bottom of header */
   justify-content: space-between;
   background-color: #ffffff;
   padding: 10px 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: fixed;
+  position: fixed; /* Stays at the top of the viewport */
   width: 100%;
   top: 0;
   left: 0;
   z-index: 1000;
-  transition: transform 0.3s ease;
-}
-
-/* Class that hides header when scrolling down */
-.header.hide {
-  transform: translateY(-100%);
 }
 
 .header-left {
@@ -102,7 +97,7 @@ body {
 /* Card for each music item */
 .music-thumb {
   width: 200px;
-  min-height: 160px; /* enough space to handle 1 or 2 lines of title */
+  min-height: 160px; /* enough space for 1 or 2 lines of title */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -125,11 +120,11 @@ body {
   font-weight: 500;
   margin-bottom: 5px;
   color: #222;
+  text-align: center; /* centers the title text */
   min-height: 48px; /* enough for 2 lines */
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
 }
 
 /* Thumbnail image */
@@ -275,4 +270,9 @@ body {
 
 .modal-content .close:hover {
   color: #000;
+}
+
+/* If there's a secondary header inside #screen-drag, hide it */
+#screen-drag .header {
+  display: none;
 }
