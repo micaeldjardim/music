@@ -86,36 +86,49 @@ function extrairVideoId(url) {
 }
 
 function extrairVideoIdETempo(url) {
-  const videoIdMatch = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11}).*/);
-  const timeMatch = url.match(/[?&]t=(\d+)/);
-  
-  return {
-      videoId: videoIdMatch ? videoIdMatch[1] : null,
-      startTime: timeMatch ? timeMatch[1] : 0
-  };
+  let videoId = null;
+  let startTime = 0;
+
+  // Extrai o ID do vídeo para URLs no formato normal (watch?v=...)
+  let match = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
+  if (match) {
+      videoId = match[1];
+  }
+
+  // Extrai o tempo de início (t=...)
+  let timeMatch = url.match(/[?&]t=(\d+)/);
+  if (timeMatch) {
+      startTime = parseInt(timeMatch[1], 10);
+  }
+
+  return { videoId, startTime };
 }
+
 
 function exibirYoutubePlayer(musica) {
   const playerContainer = document.getElementById("player-container");
   playerContainer.innerHTML = "";
+
   if (musica.URL) {
-    const videoId = extrairVideoId(musica.URL);
-    if (!videoId) {
-      console.error("ID do vídeo não encontrado!");
-      return;
-    }
-    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&start=${startTime}`;
-    const iframe = document.createElement("iframe");
-    iframe.setAttribute("width", "560");
-    iframe.setAttribute("height", "315");
-    iframe.setAttribute("src", embedUrl);
-    iframe.setAttribute("frameborder", "0");
-    iframe.setAttribute("allow", "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture");
-    iframe.setAttribute("allowfullscreen", "true");
-    playerContainer.appendChild(iframe);
+      const { videoId, startTime } = extrairVideoIdETempo(musica.URL);
+      if (!videoId) {
+          console.error("ID do vídeo não encontrado!");
+          return;
+      }
+
+      const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&start=${startTime}`;
+      const iframe = document.createElement("iframe");
+      iframe.setAttribute("width", "560");
+      iframe.setAttribute("height", "315");
+      iframe.setAttribute("src", embedUrl);
+      iframe.setAttribute("frameborder", "0");
+      iframe.setAttribute("allow", "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture");
+      iframe.setAttribute("allowfullscreen", "true");
+
+      playerContainer.appendChild(iframe);
   }
 }
+
 
 function dragWord(event) {
   event.dataTransfer.setData("application/my-word", event.target.dataset.word);
