@@ -79,5 +79,21 @@
   <script src="firebase.js" type="module"></script>
   <script src="game.js" type="module"></script>
 
+  <script>
+    let lastScrollTop = 0;
+    window.addEventListener("scroll", function() {
+      let st = window.pageYOffset || document.documentElement.scrollTop;
+      const header = document.querySelector(".header");
+      if (st > lastScrollTop) {
+        // scrolling down → hide
+        header.classList.add("hide");
+      } else {
+        // scrolling up → show
+        header.classList.remove("hide");
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    }, false);
+  </script>
+  
 </body>
 </html>

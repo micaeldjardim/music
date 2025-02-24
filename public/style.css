@@ -7,7 +7,7 @@ body {
   background: #f7f8fa;
   color: #333;
   text-align: center;
-  padding-top: 80px; /* Ajusta conforme a altura do header */
+  padding-top: 100px; /* space for the fixed header */
 }
 
 .container {
@@ -19,32 +19,68 @@ body {
   text-align: center;
   font-size: 28px;
   font-weight: bold;
-  margin-top: 40px; /* Dá espaço para o header fixo */
+  margin-top: 40px;
   color: #333;
 }
 
+/* Header fixed at top with auto-hide */
+.header {
+  display: flex;
+  align-items: flex-end; /* Align items at bottom of header */
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 10px 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
 
-/* Header */
-header {
-  margin-bottom: 20px;
-  text-align: center;
+/* Class that hides header when scrolling down */
+.header.hide {
+  transform: translateY(-100%);
+}
+
+.header-left {
+  display: flex;
+  align-items: flex-end;
 }
 
 .logo {
   width: 200px;
   height: auto;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  display: block;
+  margin: 0;
 }
 
-header h1 {
-  margin: 10px 0;
-  font-size: 24px;
-  color: #222;
+/* Menu styling */
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
 }
 
+.nav ul li {
+  display: inline;
+}
+
+.nav ul li a {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.nav ul li a:hover {
+  color: #007acc;
+}
+
+/* Search input on home screen */
 #search-input {
   width: 80%;
   max-width: 400px;
@@ -54,56 +90,56 @@ header h1 {
   border-radius: 4px;
 }
 
-/* Tela Home */
+/* Music list layout */
 .music-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
+  align-items: flex-start; /* ensures top edges align */
 }
 
+/* Card for each music item */
 .music-thumb {
-  cursor: pointer;
+  width: 200px;
+  min-height: 160px; /* enough space to handle 1 or 2 lines of title */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
   transition: box-shadow 0.2s;
-  width: 200px;
-  text-align: left;
+  box-sizing: border-box;
+  padding: 10px;
 }
 
 .music-thumb:hover {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-.music-thumb img {
-  width: 100%;
-  display: block;
-}
-
+/* Title above the thumbnail, centered */
 .music-title-thumb {
   font-size: 18px;
   font-weight: 500;
-  padding: 8px;
   margin-bottom: 5px;
   color: #222;
-}
-
-/* Tela Drag and Drop */
-.header {
+  min-height: 48px; /* enough for 2 lines */
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: #ffffff;
-  padding: 20px 40px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1000;
+  justify-content: center;
+  text-align: center;
 }
 
+/* Thumbnail image */
+.music-thumb img {
+  width: 100%;
+  display: block;
+  margin-top: auto; /* pushes image down so title stays at the top */
+}
+
+/* Drag-and-drop screen */
 .music-title {
   font-size: 24px;
   font-weight: 500;
@@ -171,36 +207,10 @@ header h1 {
   font-size: 16px;
 }
 
-/* Estilização do menu */
-.nav ul {
-  list-style: none;
-  display: flex;
-  gap: 30px;
-  margin: 0;
-  padding: 0;
-}
-
-.nav ul li {
-  display: inline;
-}
-
-.nav ul li a {
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 500;
-  color: #333;
-  transition: color 0.3s ease;
-}
-
-.nav ul li a:hover {
-  color: #007acc;
-}
-
+/* Navigation buttons */
 .nav-buttons {
   margin-top: 20px;
 }
-
-
 
 .btn {
   background-color: #007acc;

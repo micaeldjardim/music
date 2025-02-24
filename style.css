@@ -7,6 +7,7 @@ body {
   background: #f7f8fa;
   color: #333;
   text-align: center;
+  padding-top: 100px; /* Espaço para o header fixo */
 }
 
 .container {
@@ -14,24 +15,66 @@ body {
   margin: 0 auto;
 }
 
-/* Header */
-header {
-  margin-bottom: 20px;
+.main-title {
   text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 40px;
+  color: #333;
+}
+
+/* Header global fixo */
+.header {
+  display: flex;
+  align-items: flex-end; /* Alinha os itens pela parte de baixo */
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 10px 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.header-left {
+  display: flex;
+  align-items: flex-end; /* Garante que a logo fique na base do header */
 }
 
 .logo {
-  width: 100px;
-  display: block;
-  margin: 0 auto 10px;
+  width: 200px;
+  height: auto;
+  margin: 0;
 }
 
-header h1 {
-  margin: 10px 0;
-  font-size: 24px;
-  color: #222;
+/* Estilização do menu */
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
 }
 
+.nav ul li {
+  display: inline;
+}
+
+.nav ul li a {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.nav ul li a:hover {
+  color: #007acc;
+}
+
+/* Input de busca e tela Home */
 #search-input {
   width: 80%;
   max-width: 400px;
@@ -77,10 +120,6 @@ header h1 {
 }
 
 /* Tela Drag and Drop */
-.header {
-  margin-bottom: 20px;
-}
-
 .music-title {
   font-size: 24px;
   font-weight: 500;
@@ -148,6 +187,7 @@ header h1 {
   font-size: 16px;
 }
 
+/* Botões de navegação */
 .nav-buttons {
   margin-top: 20px;
 }
@@ -215,4 +255,9 @@ header h1 {
 
 .modal-content .close:hover {
   color: #000;
+}
+
+/* Oculta o header duplicado dentro do screen-drag */
+#screen-drag .header {
+  display: none;
 }
