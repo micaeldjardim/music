@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Complete the lyrics</title>
+    <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Ffavicon.png?alt=media&token=c275bf59-f4af-425f-80b0-e9826675ee67" type="image/png">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  
+    <div class="conteiner-login">
+        <div>
+            <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Flogo.jpg?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2" alt="Logo" class="logo">
+        </div>
+        <form>
+        
+            <div class="form-field">
+                <input type="email" name="email" id="email" onchange="onChangeEmail()" placeholder="Email">
+                <div class="error" id="email-required-error">Email é obrigatório</div>
+                <div class="error" id="email-invalid-error">Email é inválido</div>
+            </div>
+            
+            <div class="form-field">
+                <input type="password" name="password" id="password" onchange="onChangePassword()" placeholder="Senha">
+                <div class="error" id="password-required-error">Senha é obrigatória</div>
+            </div>
+            <div>
+                <button type="button" class="clear" id="recovery-password-button" disabled="true">Recuperar senha</button>
+            </div>
+            <div>    
+                <button type="button" class="solid" id="login-button" disabled="true" onclick="login()">Entrar</button>
+            </div>
+            <div>
+                <button type="button" class="outline">Registrar</button>
+            </div>
+            
+        </form> 
+    
+    </div>
+    
+    <script src="login.js"></script>
+    <script src="validations.js"></script>
+
+</body>
+
+</html>

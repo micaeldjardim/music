@@ -1,0 +1,66 @@
+body{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+form{
+    width: 300px;
+}
+
+input, button{
+    padding: 10px;
+    width: -webkit-fill-available;
+}
+
+.clear{
+    border: none;
+}
+
+.solid, .clear{
+    background-color: transparent;
+    color: black;
+}
+
+.outline{
+    background-color: #545454;
+    color: white;
+}
+
+button{
+    cursor: pointer;
+    border: 1px solid #545454;
+    margin-bottom: 10px;
+    
+}
+
+.form-field{
+    margin-bottom: 10px;
+}
+
+button:not(:disabled):active{
+    opacity: 0.8;
+}
+
+button:disabled{
+    opacity: 0.7;
+}
+
+.logo{
+    width: 400px;
+}
+.conteiner-login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.error{
+    color: white;
+    background-color: red;
+    display: none;
+    margin-bottom: 10px;
+}
