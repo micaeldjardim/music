@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - Complete the Lyrics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <style>
+    .blog-post{
+      background-color: #fff;
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+      line-height: 1.6;
+      text-align: justify;
+    }
+    .blog-post img{
+      max-width: 70%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <a href="index.html">
+        <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Flogo.jpg?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2" alt="Logo" class="logo">
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="planoseprecos.html">Preços</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <!-- Conteúdo do Blog -->
+  <main>
+    <div id="blog-posts" class="blog-posts"></div>
+  </main>
+
+  <!-- Script para buscar os posts do Strapi -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    async function fetchPosts() {
+      try {
+        const response = await fetch('https://strapi-service-597494138856.us-central1.run.app/api/posts');
+        const data = await response.json();
+        const posts = data.data; // Os posts já vêm diretamente aqui
+        console.log(data); // Verifique a estrutura completa
+        renderPosts(posts);
+      } catch (error) {
+        console.error('Erro ao buscar posts do blog:', error);
+        document.getElementById('blog-posts').innerHTML = '<p>Erro ao carregar os posts.</p>';
+      }
+    }
+  
+    function renderPosts(posts) {
+      const container = document.getElementById('blog-posts');
+      container.innerHTML = "";
+      posts.forEach(post => {
+        // Verifica a estrutura do post
+        console.log(post);
+        // Desestrutura diretamente do objeto post
+        const { Titulo, Conteudo } = post;
+        
+        // Se algum dos campos estiver ausente, exibe um aviso no console
+        if (!Titulo || !Conteudo) {
+          console.warn("Estrutura inesperada no post:", post);
+          return;
+        }
+        
+        const postDiv = document.createElement('div');
+        postDiv.className = "blog-post";
+        // Converte o Markdown para HTML com marked(Conteudo)
+        postDiv.innerHTML = `
+          <h1>${Titulo}</h1>
+          <div>${marked.parse(Conteudo)}</div>
+        `;
+        container.appendChild(postDiv);
+      });
+    }
+  
+    // Inicializa a busca dos posts
+    fetchPosts();
+  </script>  
+</body>
+</html>

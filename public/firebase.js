@@ -2,12 +2,15 @@ import { getFirestore, collection, getDocs } from "https://www.gstatic.com/fireb
 
 const db = window.firebaseDB;
 
+// Função para buscar músicas do Firebase
 export async function getMusicas() {
-  const musicasRef = collection(db, "musicas");
-  const snapshot = await getDocs(musicasRef);
-  let listaMusicas = [];
-  snapshot.forEach(doc => {
-    listaMusicas.push({ id: doc.id, ...doc.data() });
-  });
-  return listaMusicas;
+    const musicasRef = collection(db, "musicas");
+    const snapshot = await getDocs(musicasRef);
+    let listaMusicas = [];
+    
+    snapshot.forEach(doc => {
+        listaMusicas.push({ id: doc.id, ...doc.data() });
+    });
+
+    return listaMusicas;
 }

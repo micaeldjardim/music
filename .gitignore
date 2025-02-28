@@ -6,6 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 firebase-debug.log*
 firebase-debug.*.log*
+logs/
 
 # Firebase cache
 .firebase/
@@ -64,6 +65,22 @@ node_modules/
 
 # dotenv environment variables file
 .env
+.env.
 
 # dataconnect generated files
 .dataconnect
+
+# Diretórios de build e cache
+.build/
+.cache/
+admin/build/
+
+# Uploads dinâmicos (caso os arquivos sejam gerados em runtime)
+public/uploads/
+
+.github/
+.firebase/
+firebase.json
+firestore.indexes.json
+firestore.rules
+.firebaserc

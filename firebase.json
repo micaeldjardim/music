@@ -1,4 +1,8 @@
 {
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
   "hosting": {
     "public": "public",
     "ignore": [
@@ -8,8 +12,8 @@
     ],
     "rewrites": [
       {
-        "source": "/planoseprecos",
-        "destination": "/planoseprecos.html"
+        "source": "**",
+        "destination": "/index.html"
       }
     ]
   }

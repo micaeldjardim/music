@@ -27,12 +27,13 @@ body {
 /* Header fixed at the top, always visible */
 .header {
   display: flex;
-  align-items: flex-end; /* Aligns items at bottom of header */
+  align-items: center; 
   justify-content: space-between;
   background-color: #ffffff;
   padding: 10px 40px;
+  box-sizing: border-box;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: fixed; /* Stays at the top of the viewport */
+  position: absolute;
   width: 100%;
   top: 0;
   left: 0;
@@ -51,12 +52,15 @@ body {
 }
 
 /* Menu styling */
+
 .nav ul {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
   gap: 30px;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 .nav ul li {

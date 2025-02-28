@@ -1,0 +1,26 @@
+# Use uma imagem Node.js leve (alpine)
+FROM node:18-alpine
+
+# Define o diretório de trabalho dentro do container
+WORKDIR /app
+
+# Copia os arquivos de package para instalar as dependências
+COPY package*.json ./
+
+# Instala as dependências
+RUN npm install
+
+# Copia o restante do projeto para o container
+COPY . .
+
+# Reconstrói o módulo nativo melhor-sqlite3 para o container
+RUN npm rebuild better-sqlite3
+
+# Compila o projeto (caso o Strapi precise do build)
+RUN npm run build
+
+# Expõe a porta padrão do Strapi
+EXPOSE 1337
+
+# Inicia o Strapi
+CMD ["npm", "run", "start"]
