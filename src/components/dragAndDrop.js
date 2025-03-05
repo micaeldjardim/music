@@ -1,9 +1,8 @@
-// components/lyricsDrag.js
 import { showResultPopup } from "./modal.js";
 
 /**
- * Exibe a letra da música com espaços (blanks) para preenchimento.
- * Também popula o banco de palavras (word-bank) com as palavras necessárias.
+ * 
+ * 
  * @param {Object} musica - Objeto da música contendo "letra" e "palavras".
  */
 export function exibirLetraDrag(musica) {
