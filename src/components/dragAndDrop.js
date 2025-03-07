@@ -1,43 +1,115 @@
 import { showResultPopup } from "./modal.js";
 
 /**
- * 
- * 
- * @param {Object} musica - Objeto da música contendo "letra" e "palavras".
+ * Prepara o componente de drag and drop com as palavras da música
+ * @param {Object} musica - Objeto da música contendo "letra" e "palavras"
  */
 export function exibirLetraDrag(musica) {
-  let letra = musica.letra;
+  const lyricsContainer = document.getElementById("lyricsDrag");
+  const wordBank = document.getElementById("word-bank");
   const frasesDisponiveis = musica.palavras.map(p => p.toLowerCase());
   
-  frasesDisponiveis.forEach(phrase => {
-    const escapedPhrase = phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-    const regex = new RegExp(`\\b${escapedPhrase}\\b`, 'gi');
-    letra = letra.replace(
-      regex,
-      `<span class="blank droppable" data-answer="${phrase}" ondragover="allowDrop(event)" ondrop="dropWord(event)"></span>`
-    );
+  // Criar mapa de contagem de palavras
+  const wordCount = createWordCountMap(musica, frasesDisponiveis);
+  
+  // Substituir palavras por espaços em branco
+  let letra = substituirPalavrasPorEspacos(musica.letra, frasesDisponiveis);
+  lyricsContainer.innerHTML = letra;
+  
+  // Adicionar event listeners aos droppables
+  const droppables = document.querySelectorAll('.droppable');
+  droppables.forEach(droppable => {
+    droppable.addEventListener('dragover', allowDrop);
+    droppable.addEventListener('drop', dropWord);
   });
   
-  document.getElementById("lyricsDrag").innerHTML = letra;
-  
+  // Popular o banco de palavras
+  preencherBancoPalavras(wordBank, wordCount);
+}
+
+/**
+ * Cria um mapa de contagem de palavras
+ * @param {Object} musica - Objeto da música
+ * @param {Array} frases - Lista de frases disponíveis
+ * @returns {Object} Mapa de contagem de palavras
+ */
+function createWordCountMap(musica, frases) {
   const wordCount = {};
-  frasesDisponiveis.forEach(phrase => {
-    const escapedPhrase = phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  frases.forEach(phrase => {
+    const escapedPhrase = escapeRegExp(phrase);
     const regex = new RegExp(`\\b${escapedPhrase}\\b`, 'gi');
     const matches = musica.letra.match(regex);
     if (matches) {
       wordCount[phrase] = matches.length;
     }
   });
-  
-  const wordBank = document.getElementById("word-bank");
+  return wordCount;
+}
+
+/**
+ * Escapa caracteres especiais para uso em regex
+ * @param {string} string - String a ser escapada
+ * @returns {string} String escapada
+ */
+function escapeRegExp(string) {
+  return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+
+/**
+ * Substitui palavras por espaços em branco
+ * @param {string} texto - Texto original
+ * @param {Array} frases - Frases a serem substituídas
+ * @returns {string} Texto com espaços em branco
+ */
+function substituirPalavrasPorEspacos(texto, frases) {
+  let resultado = texto;
+  frases.forEach(phrase => {
+    const escapedPhrase = escapeRegExp(phrase);
+    const regex = new RegExp(`\\b${escapedPhrase}\\b`, 'gi');
+    resultado = resultado.replace(
+      regex,
+      `<span class="blank droppable" data-answer="${phrase}"></span>`
+    );
+  });
+  return resultado;
+}
+
+/**
+ * Preenche o banco de palavras com as palavras disponíveis
+ * @param {HTMLElement} wordBank - Elemento do banco de palavras
+ * @param {Object} wordCount - Mapa de contagem de palavras
+ */
+function preencherBancoPalavras(wordBank, wordCount) {
   wordBank.innerHTML = "";
+  const elementos = [];
+  
   for (let phrase in wordCount) {
     for (let i = 0; i < wordCount[phrase]; i++) {
-      wordBank.innerHTML += `<span class="draggable" draggable="true" data-word="${phrase}" ondragstart="dragWord(event)">${phrase}</span>`;
+      const span = document.createElement("span");
+      span.className = "draggable";
+      span.draggable = true;
+      span.dataset.word = phrase;
+      span.textContent = phrase;
+      span.addEventListener('dragstart', dragWord);
+      elementos.push(span);
     }
   }
+  
+  // Embaralhar os elementos usando o algoritmo Fisher-Yates
+  shuffleArray(elementos);
+  
+  const fragment = document.createDocumentFragment();
+  elementos.forEach(el => fragment.appendChild(el));
+  wordBank.appendChild(fragment);
 }
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
 
 /**
  * Inicia o drag de uma palavra.
@@ -46,6 +118,11 @@ export function exibirLetraDrag(musica) {
 export function dragWord(event) {
   event.dataTransfer.setData("application/my-word", event.target.dataset.word);
   event.dataTransfer.effectAllowed = "move";
+  // Adicionar classe para efeito visual durante o drag
+  event.target.classList.add('dragging');
+  setTimeout(() => {
+    event.target.classList.remove('dragging');
+  }, 0);
 }
 
 /**
@@ -54,6 +131,16 @@ export function dragWord(event) {
  */
 export function allowDrop(event) {
   event.preventDefault();
+  // Opcional: adicionar classe de highlight ao passar sobre o alvo
+  event.currentTarget.classList.add('drag-hover');
+}
+
+/**
+ * Remove o highlight quando o drag sai da área
+ * @param {DragEvent} event 
+ */
+export function dragLeave(event) {
+  event.currentTarget.classList.remove('drag-hover');
 }
 
 /**
@@ -63,38 +150,80 @@ export function allowDrop(event) {
 export function dropWord(event) {
   event.preventDefault();
   const dropTarget = event.currentTarget;
+  dropTarget.classList.remove('drag-hover');
+  
   const word = event.dataTransfer.getData("application/my-word");
   if (!word) return;
   
+  handleWordDrop(dropTarget, word);
+}
+
+/**
+ * Manipula o drop de uma palavra
+ * @param {HTMLElement} dropTarget - Elemento alvo
+ * @param {string} word - Palavra a ser colocada
+ */
+function handleWordDrop(dropTarget, word) {
   const existing = dropTarget.querySelector('.dropped-word');
   if (existing) {
     if (existing.textContent.trim() !== word) {
-      document.getElementById("word-bank").appendChild(existing);
+      // Devolver palavra existente para o banco
+      devolverAoBanco(existing);
     } else {
-      return;
+      return; // Mesma palavra, não faz nada
     }
   }
   
+  // Remover palavra original do seu local atual
+  removerPalavraOrigem(word);
+  
+  // Criar e adicionar nova palavra ao destino
+  const span = criarElementoPalavra(word, dropTarget);
+  
+  dropTarget.innerHTML = "";
+  dropTarget.appendChild(span);
+}
+
+/**
+ * Devolve uma palavra para o banco de palavras
+ * @param {HTMLElement} palavra - Elemento de palavra
+ */
+function devolverAoBanco(palavra) {
+  document.getElementById("word-bank").appendChild(palavra);
+}
+
+/**
+ * Remove a palavra da sua origem
+ * @param {string} word - Palavra a ser removida
+ */
+function removerPalavraOrigem(word) {
   let origem = document.querySelector(`.draggable[data-word="${word}"]`) ||
                document.querySelector(`.dropped-word[data-word="${word}"]`);
   if (origem && origem.parentNode) {
     origem.parentNode.removeChild(origem);
   }
-  
+}
+
+/**
+ * Cria um elemento de palavra para ser colocado no destino
+ * @param {string} word - Texto da palavra
+ * @param {HTMLElement} dropTarget - Alvo do drop
+ * @returns {HTMLElement} Elemento span criado
+ */
+function criarElementoPalavra(word, dropTarget) {
   const span = document.createElement("span");
   span.textContent = word;
   span.className = "dropped-word";
-  span.setAttribute("draggable", "true");
+  span.draggable = true;
   span.dataset.word = word;
-  span.ondragstart = dragWord;
+  span.addEventListener('dragstart', dragWord);
   
-  span.ondblclick = function() {
-    document.getElementById("word-bank").appendChild(span);
+  span.addEventListener('dblclick', function() {
+    devolverAoBanco(span);
     dropTarget.innerHTML = "";
-  };
+  });
   
-  dropTarget.innerHTML = "";
-  dropTarget.appendChild(span);
+  return span;
 }
 
 /**
@@ -103,22 +232,39 @@ export function dropWord(event) {
 export function checkAnswersDrag() {
   const blanks = document.querySelectorAll("#lyricsDrag .blank");
   let correctCount = 0;
+  let totalPreenchidos = 0;
+  
   blanks.forEach(blank => {
     const respostaCorreta = blank.dataset.answer;
-    if (blank.textContent.trim() === respostaCorreta) {
-      correctCount++;
-      blank.classList.remove("wrong");
+    const conteudoAtual = blank.textContent.trim();
+    
+    if (conteudoAtual) {
+      totalPreenchidos++;
+      
+      if (conteudoAtual === respostaCorreta) {
+        correctCount++;
+        blank.classList.add("correct");
+        blank.classList.remove("wrong");
+      } else {
+        blank.classList.add("wrong");
+        blank.classList.remove("correct");
+      }
     } else {
-      blank.classList.add("wrong");
+      blank.classList.remove("wrong", "correct");
     }
   });
+  
   const total = blanks.length;
   const percentage = Math.round((correctCount / total) * 100);
+  
+  // Determinar número de estrelas com base na porcentagem
   let stars = 1;
   if (percentage === 100) {
     stars = 3;
   } else if (percentage >= 70) {
     stars = 2;
   }
+  
+  // Mostrar popup com resultado
   showResultPopup(percentage, stars);
 }
