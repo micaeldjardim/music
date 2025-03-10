@@ -88,7 +88,7 @@ body {
   padding: 8px 12px;
   font-size: 16px;
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 18px;
   margin-bottom: 40px;
 }
 
@@ -108,7 +108,7 @@ body {
   align-items: center;
   text-align: center;
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 18px;
   overflow: hidden;
   transition: box-shadow 0.2s;
   box-sizing: border-box;
@@ -152,9 +152,11 @@ body {
 .video-area {
   margin-bottom: 10px;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 18px;
+  border: 1px solid;
   overflow: hidden;
-
+  height: 315px;
+  
 }
 
 .game-area {
@@ -167,7 +169,7 @@ body {
 
 .lyrics-area {
   flex: 1;
-  max-width: 550px;
+  max-width: 560px;
   display: inline-block;
   margin-left: 180px;
 }
@@ -177,8 +179,8 @@ body {
   line-height: 2.0;
   background: #fff;
   padding: 15px;
-  border: 1px solid #616161;
-  border-radius: 10px;
+  border: 1px solid #e0dcdc;
+  border-radius: 18px;
   min-height: 200px;
   text-align: left;
 }
@@ -243,7 +245,6 @@ body {
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
-
 
 .nav-buttons {
   margin-top: 20px;
