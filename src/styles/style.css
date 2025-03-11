@@ -4,10 +4,9 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 20px;
-  background: #f7f8fa;
+  background: #ffffff;
   color: #333;
   text-align: center;
-  /* Enough top padding so content doesn't hide behind the fixed header */
   padding-top: 100px;
 }
 
@@ -20,23 +19,21 @@ body {
   text-align: center;
   font-size: 28px;
   font-weight: bold;
-  margin-top: 40px;
+  margin-top: 80px;
+  margin-bottom: 20px;
   color: #333;
 }
 
-/* Header fixed at the top, always visible */
-.header {
+.header-conteiner {
   display: flex;
-  align-items: flex-end; /* Aligns items at bottom of header */
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  background-color: #ffffff;
   padding: 10px 40px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: fixed; /* Stays at the top of the viewport */
   width: 100%;
-  top: 0;
-  left: 0;
   z-index: 1000;
+  margin-top: -100px;
+  position: sticky;
 }
 
 .header-left {
@@ -50,13 +47,23 @@ body {
   margin: 0;
 }
 
-/* Menu styling */
+.profile{
+  width: 35px;
+  height: 35px;
+  margin-right: 60px;
+}
+
+.logo_index{
+  width: 250px;
+  height: auto;
+  margin: 0;
+}
+
 .nav ul {
   list-style: none;
   display: flex;
-  gap: 30px;
-  margin: 0;
-  padding: 0;
+  align-items: center;
+  gap: 20px;
 }
 
 .nav ul li {
@@ -75,35 +82,33 @@ body {
   color: #007acc;
 }
 
-/* Search input on home screen */
 #search-input {
   width: 80%;
   max-width: 400px;
   padding: 8px 12px;
   font-size: 16px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 18px;
+  margin-bottom: 40px;
 }
 
-/* Music list layout */
 .music-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
-  align-items: flex-start; /* ensures top edges align */
+  align-items: flex-start;
 }
 
-/* Card for each music item */
 .music-thumb {
   width: 200px;
-  min-height: 160px; /* enough space for 1 or 2 lines of title */
+  min-height: 160px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 18px;
   overflow: hidden;
   transition: box-shadow 0.2s;
   box-sizing: border-box;
@@ -114,27 +119,24 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* Title above the thumbnail, centered */
 .music-title-thumb {
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 5px;
   color: #222;
-  text-align: center; /* centers the title text */
-  min-height: 48px; /* enough for 2 lines */
+  text-align: center;
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Thumbnail image */
 .music-thumb img {
   width: 100%;
   display: block;
-  margin-top: auto; /* pushes image down so title stays at the top */
+  margin-top: auto;
 }
 
-/* Drag-and-drop screen */
 .music-title {
   font-size: 24px;
   font-weight: 500;
@@ -148,8 +150,13 @@ body {
 }
 
 .video-area {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: center;
+  border-radius: 18px;
+  border: 1px solid;
+  overflow: hidden;
+  height: 315px;
+  
 }
 
 .game-area {
@@ -162,47 +169,83 @@ body {
 
 .lyrics-area {
   flex: 1;
-  max-width: 600px;
+  max-width: 560px;
+  display: inline-block;
+  margin-left: 180px;
 }
 
 .lyrics {
   font-size: 20px;
-  line-height: 1.6;
+  line-height: 2.0;
   background: #fff;
   padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid #e0dcdc;
+  border-radius: 18px;
   min-height: 200px;
   text-align: left;
 }
 
 .blank {
-  display: inline-block;
-  width: 100px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 160px;
   border-bottom: 2px solid #007acc;
   min-height: 30px;
   vertical-align: middle;
   text-align: center;
+  height: 10px;
+  border: 1px line #007acc;
+  background: rgba(255, 255, 255, 0.3);
+  font-weight: bold;
+  font-size: 18px;
+  transition: transform 0.3s ease, background 0.3s ease;
+  border-radius: 20px;
 }
 
 .word-bank-area {
   width: 150px;
   position: sticky;
   top: 20px;
+  z-index: 100;
 }
 
-.draggable, .dropped-word {
-  display: inline-block;
-  margin: 5px;
-  padding: 8px 12px;
+.draggable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 40px;
   background-color: #007acc;
+  border-radius: 20px;
   color: #fff;
-  border-radius: 4px;
   cursor: grab;
   font-size: 16px;
+  font-weight: bold;
+  box-sizing: border-box;
+  margin: 5px;
 }
 
-/* Navigation buttons */
+.dropped-word {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background-color: #007acc;
+  border-radius: 20px;
+  color: #fff;
+  cursor: grab;
+  font-size: 16px;
+  font-weight: bold;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+}
+
+.draggable:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
 .nav-buttons {
   margin-top: 20px;
 }
@@ -214,7 +257,7 @@ body {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 10px;
   text-transform: uppercase;
   margin: 0 10px;
 }
@@ -223,7 +266,6 @@ body {
   background-color: #005fa3;
 }
 
-/* Modal Popup */
 .modal {
   display: none;
   position: fixed;
@@ -272,7 +314,6 @@ body {
   color: #000;
 }
 
-/* If there's a secondary header inside #screen-drag, hide it */
 #screen-drag .header {
   display: none;
 }
