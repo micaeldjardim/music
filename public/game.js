@@ -27,7 +27,10 @@ function renderMusicList() {
       img.alt = musica.titulo;
       div.appendChild(img);
     }
-    div.onclick = () => carregarMusica(musica);
+    div.onclick = () => {
+      carregarMusica(musica);
+      history.pushState({ screen: 'drag', musica }, '', `#musica-${musica.id}`);
+    };
     container.appendChild(div);
   });
 }
@@ -224,7 +227,16 @@ function tryAgain() {
 function goBack() {
   document.getElementById("screen-home").style.display = "block";
   document.getElementById("screen-drag").style.display = "none";
+  history.pushState({ screen: 'home' }, '', '#home');
 }
+
+window.addEventListener('popstate', (event) => {
+  if (event.state && event.state.screen === 'drag') {
+    carregarMusica(event.state.musica);
+  } else {
+    goBack();
+  }
+});
 
 carregarMusicas();
 
