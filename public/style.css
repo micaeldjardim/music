@@ -27,7 +27,8 @@ body {
 /* Header fixed at the top, always visible */
 .header {
   display: flex;
-  align-items: center; 
+  align-items: center;
+  margin-bottom: 50px; 
   justify-content: space-between;
   background-color: #ffffff;
   padding: 10px 40px;
@@ -52,7 +53,6 @@ body {
 }
 
 /* Menu styling */
-
 .nav ul {
   list-style: none;
   display: flex;
@@ -280,3 +280,4 @@ body {
 #screen-drag .header {
   display: none;
 }
+

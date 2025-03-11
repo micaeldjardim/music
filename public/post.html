@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post - Complete the Lyrics</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+  <!-- HEADER (pode ser o mesmo do blog) -->
+  <header class="header">
+    <div class="header-left">
+      <a href="index.html">
+        <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Flogo.jpg?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2" alt="Logo" class="logo">
+      </a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="planoseprecos.html">Preços</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <!-- Conteúdo do Post -->
+  <main>
+    <div id="post-content" class="post-content"></div>
+  </main>
+  <!-- Nosso script -->
+  <script type="module">
+    import { createClient } from "https://cdn.skypack.dev/@sanity/client";
+    import { marked } from "https://cdn.jsdelivr.net/npm/marked@4.3.0/lib/marked.esm.js";
+
+    // Cria a instância do client do Sanity
+    const client = createClient({
+      projectId: '2vnlh9ne',  
+      dataset: 'production',         
+      useCdn: true,
+      apiVersion: '2023-03-10'                  
+    });
+
+    // Função para ler o parâmetro "slug" da URL
+    function getSlugFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('slug');
+    }
+
+    // Função para buscar o post com base no slug
+    async function fetchPost() {
+      const slug = getSlugFromUrl();
+      if (!slug) {
+        document.getElementById('post-content').innerHTML = '<p>Slug não informado.</p>';
+        return;
+      }
+      try {
+        const query = `*[_type == "post" && slug.current == $slug][0]{
+          title,
+          content,
+          mainImage{
+            asset->{
+              url
+            }
+          }
+        }`;
+        const post = await client.fetch(query, { slug });
+        renderPost(post);
+      } catch (error) {
+        console.error('Erro ao buscar post:', error);
+        document.getElementById('post-content').innerHTML = '<p>Erro ao carregar o post.</p>';
+      }
+    }
+
+    // Função para renderizar o post na página
+    function renderPost(post) {
+      const container = document.getElementById('post-content');
+      if (!post) {
+        container.innerHTML = '<p>Post não encontrado.</p>';
+        return;
+      }
+      let html = `<h1>${post.title}</h1>`;
+      if (post.mainImage && post.mainImage.asset && post.mainImage.asset.url) {
+        html += `<img src="${post.mainImage.asset.url}" alt="${post.title}">`;
+      }
+      // Se o conteúdo estiver em Markdown, converte para HTML com marked.
+      // Caso contrário, exiba diretamente.
+      const content = post.content ? marked.parse(post.content) : '<p>Conteúdo não disponível.</p>';
+      html += `<div>${content}</div>`;
+      container.innerHTML = html;
+    }
+
+    // Chama a função para buscar e renderizar o post
+    fetchPost();
+  </script>
+</body>
+</html>
