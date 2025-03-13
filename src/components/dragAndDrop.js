@@ -233,6 +233,7 @@ export function checkAnswersDrag() {
   const blanks = document.querySelectorAll("#lyricsDrag .blank");
   let correctCount = 0;
   let totalPreenchidos = 0;
+  let totalBlanks = blanks.length;
   
   blanks.forEach(blank => {
     const respostaCorreta = blank.dataset.answer;
@@ -254,17 +255,67 @@ export function checkAnswersDrag() {
     }
   });
   
-  const total = blanks.length;
-  const percentage = Math.round((correctCount / total) * 100);
+  // Calcula completude (quanto do exercício foi tentado)
+  const completude = Math.round((totalPreenchidos / totalBlanks) * 100);
   
-  // Determinar número de estrelas com base na porcentagem
+  // Calcula precisão (quanto do que foi respondido está correto)
+  const precisao = totalPreenchidos > 0 ? Math.round((correctCount / totalPreenchidos) * 100) : 0;
+  
+  // Calcula pontuação final - média ponderada entre completude e precisão
+  // Precisão tem peso maior (70%) que completude (30%)
+  const pontuacaoFinal = Math.round((precisao * 0.7) + (completude * 0.3));
+  
+  // Determinar número de estrelas com base na pontuação final
   let stars = 1;
-  if (percentage === 100) {
+  if (pontuacaoFinal >= 90) {
     stars = 3;
-  } else if (percentage >= 70) {
+    disparaConfete();
+  } else if (pontuacaoFinal >= 70) {
     stars = 2;
   }
   
   // Mostrar popup com resultado
-  showResultPopup(percentage, stars);
+  showResultPopup(pontuacaoFinal, stars, {
+    precisao: precisao,
+    completude: completude,
+    totalCorretas: correctCount,
+    totalRespondidas: totalPreenchidos,
+    totalQuestoes: totalBlanks
+  });
+}
+
+function disparaConfete() {
+  // Verificar se confetti está disponível
+  if (typeof confetti !== 'function') {
+    console.warn("Biblioteca confetti não encontrada");
+    return;
+  }
+
+  // Configuração do confete
+  const duracaoConfete = 3000; // duração em milissegundos
+  const confeteCompleto = {
+    particleCount: 200,
+    spread: 160,
+    origin: { y: 0.6 },
+    colors: ['#FFD700', '#FFC0CB', '#00FFFF', '#FF69B4', '#7FFF00']
+  };
+  
+  // Dispara confete
+  confetti(confeteCompleto);
+  
+  // Adiciona alguns disparos adicionais para um efeito mais impressionante
+  setTimeout(() => {
+    confetti({
+      particleCount: 50,
+      angle: 60,
+      spread: 80,
+      origin: { x: 0 }
+    });
+    confetti({
+      particleCount: 50,
+      angle: 120,
+      spread: 80,
+      origin: { x: 1 }
+    });
+  }, 750);
 }

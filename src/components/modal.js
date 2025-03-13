@@ -1,4 +1,3 @@
-
 /**
  * Exibe o modal com o resultado baseado na porcentagem de acertos e número de estrelas.
  * @param {number} percentage - Porcentagem de acertos.
