@@ -11,7 +11,6 @@
   </head>
   <body>
 
-
     <header class="header-conteiner">
       <div class="header-left">
         <a href="index.html">
@@ -29,7 +28,9 @@
           <li><a href="pages/planoseprecos.html">Preços</a></li>
           <li><a href="#">Blog</a></li>
           <a href="pages/dashboard.html">
-          <li><img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Fprofile.webp?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2" alt="profile" class="profile"></li>
+            <li><img
+                src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Fprofile.webp?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2"
+                alt="profile" class="profile"></li>
           </a>
         </ul>
       </nav>
@@ -37,10 +38,15 @@
 
     <main>
 
-     
       <div id="screen-home">
         <h1 class="main-title">Selecione uma Música</h1>
-        <input type="text" id="search-input" placeholder="Buscar música...">
+        <div class="search-filters">
+          <input type="text" id="search-input" placeholder="Buscar música...">
+          <div class="filter-conteiner">
+      
+          </div>
+        </div>
+
         <div id="music-list" class="music-list"></div>
       </div>
 
@@ -86,7 +92,8 @@
 
     <script src="services/firebase.js" type="module"></script>
     <script src="index.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script> 
+    <script
+      src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
     <script>
     let lastScrollTop = 0;

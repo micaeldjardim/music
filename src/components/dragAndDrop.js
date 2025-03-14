@@ -116,8 +116,14 @@ function shuffleArray(array) {
  * @param {DragEvent} event 
  */
 export function dragWord(event) {
+  // Adicionar um ID único à palavra sendo arrastada
+  const elementId = 'drag-' + Date.now();
+  event.target.id = elementId;
+  
   event.dataTransfer.setData("application/my-word", event.target.dataset.word);
+  event.dataTransfer.setData("application/element-id", elementId);
   event.dataTransfer.effectAllowed = "move";
+  
   // Adicionar classe para efeito visual durante o drag
   event.target.classList.add('dragging');
   setTimeout(() => {
@@ -153,18 +159,22 @@ export function dropWord(event) {
   dropTarget.classList.remove('drag-hover');
   
   const word = event.dataTransfer.getData("application/my-word");
+  const elementId = event.dataTransfer.getData("application/element-id");
   if (!word) return;
   
-  handleWordDrop(dropTarget, word);
+  handleWordDrop(dropTarget, word, elementId);
 }
 
 /**
  * Manipula o drop de uma palavra
  * @param {HTMLElement} dropTarget - Elemento alvo
  * @param {string} word - Palavra a ser colocada
+ * @param {string} elementId - ID do elemento arrastado
  */
-function handleWordDrop(dropTarget, word) {
+function handleWordDrop(dropTarget, word, elementId) {
   const existing = dropTarget.querySelector('.dropped-word');
+  
+  // Verifica se já tem uma palavra no destino
   if (existing) {
     if (existing.textContent.trim() !== word) {
       // Devolver palavra existente para o banco
@@ -174,10 +184,43 @@ function handleWordDrop(dropTarget, word) {
     }
   }
   
-  // Remover palavra original do seu local atual
-  removerPalavraOrigem(word);
+  // Usa o ID para obter EXATAMENTE a palavra que foi arrastada
+  const elementoArrastado = document.getElementById(elementId);
   
-  // Criar e adicionar nova palavra ao destino
+  if (elementoArrastado) {
+    // Se for uma palavra já inserida (dropped-word)
+    if (elementoArrastado.classList.contains('dropped-word')) {
+      // Limpa o blank-space original
+      if (elementoArrastado.parentNode && elementoArrastado.parentNode.classList.contains('droppable')) {
+        elementoArrastado.parentNode.innerHTML = "";
+      }
+      
+      // Move exatamente o elemento arrastado para o novo local
+      dropTarget.innerHTML = "";
+      dropTarget.appendChild(elementoArrastado);
+      return; // Sai da função, pois já movemos o elemento
+    } else {
+      // Remove a palavra original do word-bank
+      if (elementoArrastado.parentNode) {
+        elementoArrastado.parentNode.removeChild(elementoArrastado);
+      }
+      
+      // Transforma a palavra do banco em uma dropped-word
+      elementoArrastado.className = "dropped-word";
+      
+      // Adiciona o evento de dblclick para retornar ao banco
+      elementoArrastado.addEventListener('dblclick', function() {
+        devolverAoBanco(elementoArrastado);
+      });
+      
+      // Coloca no destino
+      dropTarget.innerHTML = "";
+      dropTarget.appendChild(elementoArrastado);
+      return;
+    }
+  }
+  
+  // Fallback: se por algum motivo não encontrou o elemento, cria um novo
   const span = criarElementoPalavra(word, dropTarget);
   
   dropTarget.innerHTML = "";
@@ -189,18 +232,22 @@ function handleWordDrop(dropTarget, word) {
  * @param {HTMLElement} palavra - Elemento de palavra
  */
 function devolverAoBanco(palavra) {
-  document.getElementById("word-bank").appendChild(palavra);
-}
-
-/**
- * Remove a palavra da sua origem
- * @param {string} word - Palavra a ser removida
- */
-function removerPalavraOrigem(word) {
-  let origem = document.querySelector(`.draggable[data-word="${word}"]`) ||
-               document.querySelector(`.dropped-word[data-word="${word}"]`);
-  if (origem && origem.parentNode) {
-    origem.parentNode.removeChild(origem);
+  const wordBank = document.getElementById("word-bank");
+  
+  // Cria uma nova palavra para o banco em vez de mover a existente
+  const newWord = document.createElement("span");
+  newWord.className = "draggable";
+  newWord.draggable = true;
+  newWord.dataset.word = palavra.dataset.word;
+  newWord.textContent = palavra.dataset.word;
+  newWord.addEventListener('dragstart', dragWord);
+  
+  // Adiciona a nova palavra ao banco
+  wordBank.appendChild(newWord);
+  
+  // Remove a palavra antiga (se tiver um pai)
+  if (palavra.parentNode) {
+    palavra.parentNode.removeChild(palavra);
   }
 }
 
@@ -216,11 +263,20 @@ function criarElementoPalavra(word, dropTarget) {
   span.className = "dropped-word";
   span.draggable = true;
   span.dataset.word = word;
-  span.addEventListener('dragstart', dragWord);
+  
+  // Usar um listener único para o dragstart
+  span.addEventListener('dragstart', function(event) {
+    event.dataTransfer.setData("application/my-word", word);
+    event.dataTransfer.effectAllowed = "move";
+    span.classList.add('dragging');
+    setTimeout(() => {
+      span.classList.remove('dragging');
+    }, 0);
+  });
   
   span.addEventListener('dblclick', function() {
+    // Devolve ao banco e limpa o espaço
     devolverAoBanco(span);
-    dropTarget.innerHTML = "";
   });
   
   return span;
@@ -251,7 +307,7 @@ export function checkAnswersDrag() {
         blank.classList.remove("correct");
       }
     } else {
-      blank.classList.remove("wrong", "correct");
+      blank.classList.remove('wrong', 'correct');
     }
   });
   
