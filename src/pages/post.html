@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post</title>
+  <link rel="stylesheet" href="../styles/blog.css">
+  <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+    <header class="header-conteiner">
+        <div class="header-left">
+            <a href="../index.html">
+                <img
+                    src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Flogo.jpg?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2"
+                    alt="Logo" class="logo_index">
+            </a>
+        </div>
+        
+            <nav class="nav">
+                <ul>
+                    <li><a href="../auth/login.html">Login</a></li>
+                    <li><a href="#">Baixe o App</a></li>
+                    <li><a href="#">Adicione uma Música</a></li>
+                    <li><a href="pages/planoseprecos.html">Preços</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <a href="pages/dashboard.html">
+                    <li><img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Fprofile.webp?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2" alt="profile" class="profile"></li>
+                    </a>
+                </ul>
+            </nav>
+    </header>     
+  <div id="post-content" class="post-container"></div>
+
+  <script type="module">
+    import { createClient } from "https://cdn.skypack.dev/@sanity/client";
+    import { toHTML } from "https://cdn.skypack.dev/@portabletext/to-html";
+
+    // Cria a instância do client do Sanity
+    const client = createClient({
+      projectId: '2vnlh9ne',  
+      dataset: 'production',         
+      useCdn: true,
+      apiVersion: '2023-03-10'                  
+    });
+
+    // Função para buscar um post específico usando GROQ
+    async function fetchPost(slug) {
+      try {
+        // Consulta GROQ para buscar um post pelo slug e resolver referências de imagem
+        const query = `*[_type == "post" && slug.current == $slug][0]{
+          title,
+          conteudo[]{
+            ...,
+            asset->{
+              url
+            }
+          },
+          mainImage{
+            asset->{
+              url
+            }
+          }
+        }`;
+        const params = { slug: slug };
+        const post = await client.fetch(query, params);
+        console.log('Post fetched:', post); // Log do post retornado
+        renderPost(post);
+      } catch (error) {
+        console.error('Erro ao buscar o post:', error);
+        document.getElementById('post-content').innerHTML = '<p>Erro ao carregar o post.</p>';
+      }
+    }
+
+    // Função para renderizar o post na página
+    function renderPost(post) {
+      const container = document.getElementById('post-content');
+      container.innerHTML = "";
+
+      // Obtém a URL da imagem, se existir
+      const imageUrl = post.mainImage && post.mainImage.asset && post.mainImage.asset.url ? post.mainImage.asset.url : '';
+      console.log('Main Image URL:', imageUrl); // Log da URL da imagem principal
+
+      // Renderiza o conteúdo Portable Text para HTML com componentes personalizados
+      const contentHTML = toHTML(post.conteudo, {
+        components: {
+          types: {
+            image: ({ value }) => {
+              console.log('Image Block:', value); // Log do bloco de imagem
+              const imageUrl = value.asset && value.asset.url ? value.asset.url : '';
+              const altText = value.alt || '';
+              console.log('Image URL:', imageUrl); // Log da URL da imagem
+              return imageUrl ? `<img src="${imageUrl}" alt="${altText}">` : '';
+            },
+            block: ({ value }) => {
+              if (value.style === 'h2') {
+                return `<h2>${value.children.map(child => child.text).join(' ')}</h2>`;
+              }
+              if (value.style === 'h3') {
+                return `<h3>${value.children.map(child => child.text).join(' ')}</h3>`;
+              }
+              return `<p>${value.children.map(child => child.text).join(' ')}</p>`;
+            },
+            listItem: ({ value }) => {
+              return `<li>${value.children.map(child => child.text).join(' ')}</li>`;
+            }
+          }
+        }
+      });
+
+      // Cria o elemento do post
+      const postDiv = document.createElement('div');
+      postDiv.className = "post-content";
+      postDiv.innerHTML = `
+        <h1>${post.title}</h1>
+        ${imageUrl ? `<img src="${imageUrl}" alt="${post.title}">` : ""}
+        ${contentHTML}
+      `;
+      container.appendChild(postDiv);
+    }
+
+    // Obtém o slug da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug');
+
+    // Chama a função para buscar o post ao carregar a página
+    if (slug) {
+      fetchPost(slug);
+    } else {
+      document.getElementById('post-content').innerHTML = '<p>Post não encontrado.</p>';
+    }
+  </script>
+</body>
+</html>

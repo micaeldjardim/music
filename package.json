@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@portabletext/to-html": "^2.0.14"
+  }
+}
