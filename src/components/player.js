@@ -41,14 +41,15 @@ export function extrairVideoId(url) {
         console.error("ID do vídeo não encontrado!");
         return;
       }
-      const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&start=${startTime}`;
+      const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&start=${startTime}
+          &cc_load_policy=0&modestbranding=1&disablekb=1&rel=0&fs=0`.replace(/\s+/g, "");
       const iframe = document.createElement("iframe");
       iframe.setAttribute("width", "560");
       iframe.setAttribute("height", "315");
       iframe.setAttribute("src", embedUrl);
       iframe.setAttribute("frameborder", "0");
       iframe.setAttribute("allow", "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture");
-      iframe.setAttribute("allowfullscreen", "true");
+      iframe.setAttribute("allowfullscreen", "false");
       playerContainer.appendChild(iframe);
     }
   }
