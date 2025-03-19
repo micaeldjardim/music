@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -37,17 +38,54 @@
     </header>
 
     <main>
-
       <div id="screen-home">
-        <h1 class="main-title">Selecione uma Música</h1>
+
         <div class="search-filters">
-          <input type="text" id="search-input" placeholder="Buscar música...">
-          <div class="filter-conteiner">
-      
+           <input type="text" id="search-input" placeholder="Buscar música...">
+          <h3>Country</h3>          
+          <div class="country-filter">
+            <button class="country-btn">
+              <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Fworld.webp?alt=media&token=3b3b3b3b-1b3b-4b3b-8b3b-9b3b3b3b3b3b" alt="outros">
+            </button>
+            <button class="country-btn">
+              <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Fusa.webp?alt=media&token=3b3b3b3b-1b3b-4b3b-8b3b-9b3b3b3b3b3b" alt="EUA">
+            </button>
+            <button class="country-btn">
+              <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Fcanada.webp?alt=media&token=3b3b3b3b-1b3b-4b3b-8b3b-9b3b3b3b3b3b" alt="CAN">
+            </button>
+            <button class="country-btn">
+              <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Fuk.webp?alt=media&token=3b3b3b3b-1b3b-4b3b-8b3b-9b3b3b3b3b3b" alt="UK">
+            </button>
+            <button class="country-btn">
+              <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Faustralia.webp?alt=media&token=3b3b3b3b-1b3b-4b3b-8b3b-9b3b3b3b3b3b" alt="AU">
+            </button>
+          </div>
+          
+          <h3>Level</h3>
+          <div class="dificult-filter">
+              <button class="dificult-btn">Fácil</button>
+              <button class="dificult-btn">Médio</button>
+              <button class="dificult-btn">Difícil</button>
+              <button class="dificult-btn">Muito Difícil</button>
+          </div>
+          <h3>Grammar</h3>
+          <div class="grammar-filter">
+              <button class="grammar-btn">Imperative</button>
+              <button class="grammar-btn">Simple Past</button>
+              <button class="grammar-btn">Simple Present</button>
+              <button class="grammar-btn">Simple Future</button>
+              <button class="grammar-btn">Past Continuous</button>
+              <button class="grammar-btn">Present Perfect</button>
+              <button class="grammar-btn">Past Perfect</button>
+              <button class="grammar-btn">Future Simple</button>
+              <button class="grammar-btn">Future Continuous</button>
+              <button class="grammar-btn">Future Perfect</button>
           </div>
         </div>
 
-        <div id="music-list" class="music-list"></div>
+        <div class="music-container">
+          <div id="music-list" class="music-list"></div>
+        </div>
       </div>
 
       <div id="screen-drag" style="display: none;">
@@ -71,7 +109,6 @@
     </main>
 
     <div id="resultModal" class="modal"></div>
-
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
     import { getFirestore } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
@@ -94,20 +131,6 @@
     <script src="index.js" type="module"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-
-    <script>
-    let lastScrollTop = 0;
-    window.addEventListener("scroll", function() {
-      let st = window.pageYOffset || document.documentElement.scrollTop;
-      const header = document.querySelector(".header");
-      if (st > lastScrollTop) {
-        header.classList.add("hide");
-      } else {
-        header.classList.remove("hide");
-      }
-      lastScrollTop = st <= 0 ? 0 : st;
-    }, false);
-  </script>
 
   </body>
 </html>
