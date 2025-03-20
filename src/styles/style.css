@@ -436,6 +436,7 @@ body {
 }
 
 .video-area {
+  display: flex;
   margin-bottom: 10px;
   text-align: center;
   border-radius: 18px;

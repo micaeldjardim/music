@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "canvas-confetti": "^1.9.3"
+    "@sanity/vision": "^3.80.1",
+    "canvas-confetti": "^1.9.3",
+    "sanity": "^3.80.1"
   }
 }
