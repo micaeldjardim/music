@@ -8,27 +8,21 @@ export function setHomeNavigation(fn) {
   navegarParaHomeFunction = fn;
 }
 
-// Modifique a função carregarMusicas para configurar os botões de país existentes
 export async function carregarMusicas(callbackSelectMusic) {
   allMusicas = await getMusicas();
   window.allMusicas = allMusicas;
   
-  // Renderiza a lista de músicas
   renderMusicList(callbackSelectMusic);
-  
-  // Configura os filtros de país
   configurarBotoesCountry(callbackSelectMusic);
   
   return allMusicas;
 }
 
-// Adicione esta nova função para configurar os botões de país existentes
 function configurarBotoesCountry(callbackSelectMusic) {
   const botoesPais = document.querySelectorAll(".country-btn");
   
   if (botoesPais.length === 0) return;
   
-  // Mapeamento de textos alt para códigos de país na base de dados
   const mapeamentoPaises = {
     "EUA": "USA",
     "CAN": "Canada",
@@ -36,20 +30,22 @@ function configurarBotoesCountry(callbackSelectMusic) {
     "AU": "Australia"
   };
   
-  // Adicione botão "Todos" que já deve estar representado pelo botão "outros"
-  const botaoTodos = Array.from(botoesPais).find(btn => btn.querySelector('img').alt === "outros");
-  if (botaoTodos) {
-    botaoTodos.addEventListener("click", () => {
-      // Remove classe ativa de todos os botões
-      botoesPais.forEach(btn => btn.classList.remove("active"));
-      // Adiciona classe ativa a este botão
-      botaoTodos.classList.add("active");
-      // Renderiza todas as músicas
-      renderMusicList(callbackSelectMusic);
+  const paisesMapeados = Object.values(mapeamentoPaises);
+  
+  const botaoOutros = Array.from(botoesPais).find(btn => btn.querySelector('img').alt === "outros");
+  if (botaoOutros) {
+    botaoOutros.addEventListener("click", () => {
+      if (botaoOutros.classList.contains("active")) {
+        botaoOutros.classList.remove("active");
+        renderMusicList(callbackSelectMusic);
+      } else {
+        botoesPais.forEach(btn => btn.classList.remove("active"));
+        botaoOutros.classList.add("active");
+        renderMusicList(callbackSelectMusic, null, paisesMapeados);
+      }
     });
   }
   
-  // Configurar os outros botões para filtrar por país
   botoesPais.forEach(botao => {
     const img = botao.querySelector("img");
     if (!img) return;
@@ -57,22 +53,19 @@ function configurarBotoesCountry(callbackSelectMusic) {
     const paisAlt = img.alt;
     const paisCodigo = mapeamentoPaises[paisAlt];
     
-    if (!paisCodigo || paisAlt === "outros") return; // Pula o botão "outros" que já configuramos
+    if (!paisCodigo || paisAlt === "outros") return;
     
     botao.addEventListener("click", () => {
-      // Remove classe ativa de todos os botões
-      botoesPais.forEach(btn => btn.classList.remove("active"));
-      // Adiciona classe ativa a este botão
-      botao.classList.add("active");
-      // Renderiza apenas músicas deste país
-      renderMusicList(callbackSelectMusic, paisCodigo);
+      if (botao.classList.contains("active")) {
+        botao.classList.remove("active");
+        renderMusicList(callbackSelectMusic);
+      } else {
+        botoesPais.forEach(btn => btn.classList.remove("active"));
+        botao.classList.add("active");
+        renderMusicList(callbackSelectMusic, paisCodigo);
+      }
     });
   });
-  
-  // Adiciona a classe active ao botão "Todos" inicialmente
-  if (botaoTodos) {
-    botaoTodos.classList.add("active");
-  }
 }
 
 export function encontrarMusicaPorId(id) {
@@ -152,24 +145,23 @@ export function mostrarTelaInicial() {
   }
 }
 
-export function renderMusicList(callbackSelectMusic, countryFilter = null) {
+export function renderMusicList(callbackSelectMusic, countryFilter = null, excludeCountries = null) {
   const container = document.getElementById("music-list");
   if (!container) return;
-  
-  // Debug para verificar dados das músicas
-  console.log("Todas as músicas:", allMusicas);
-  // Verificação específica da propriedade artista em cada música
-  allMusicas.forEach(m => {
-    console.log(`Música: ${m.titulo}, Artista: [${m.artista}], País: [${m.country}], Tipo: ${typeof m.artista}`);
-  });
   
   const searchInput = document.getElementById("search-input");
   const searchTerm = searchInput ? searchInput.value.toLowerCase() : "";
   
-  // Aplicar filtro por país e pesquisa
   const filtered = allMusicas.filter(musica => {
     const matchesSearch = musica.titulo.toLowerCase().includes(searchTerm);
-    const matchesCountry = countryFilter ? musica.country === countryFilter : true;
+    
+    let matchesCountry = true;
+    if (countryFilter) {
+      matchesCountry = musica.country === countryFilter;
+    } else if (excludeCountries) {
+      matchesCountry = !excludeCountries.includes(musica.country);
+    }
+    
     return matchesSearch && matchesCountry;
   });
   
@@ -178,7 +170,7 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null) {
     return;
   }
   
-  container.innerHTML = ''; // Limpar conteúdo existente
+  container.innerHTML = '';
   
   filtered.forEach(musica => {
     const videoId = extrairVideoId(musica.URL);
@@ -186,7 +178,6 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null) {
     const div = document.createElement("div");
     div.className = "music-thumb";
     
-    // Container específico para conteúdo de texto
     const textContainer = document.createElement("div");
     textContainer.className = "text-container";
     
@@ -202,16 +193,12 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null) {
     title.textContent = musica.titulo;
     textContainer.appendChild(title);
 
-    // Verifica se artista existe e não é uma string vazia
     const artist = document.createElement("div");
     artist.className = "music-artist-thumb";
     artist.textContent = ((musica.artista || musica.artist || "").trim()) || "Artista Desconhecido";
     textContainer.appendChild(artist);
     
-    // Adicione o container de texto ao div principal
     div.appendChild(textContainer);
-    
-    console.log("Musica sendo renderizada:", musica.titulo, "Artista:", musica.artista);
     
     div.onclick = () => {
       callbackSelectMusic(musica);
@@ -250,37 +237,27 @@ export function criarSlug(texto) {
 export function renderCountryFilters(parentElement, callbackSelectMusic) {
   if (!parentElement) return;
   
-  // Limpar filtros existentes
   parentElement.innerHTML = '';
   
-  // Coletar países únicos das músicas
   const countries = [...new Set(allMusicas.map(musica => musica.country).filter(Boolean))];
   
-  // Criar botão "Todos"
   const allButton = document.createElement('button');
   allButton.textContent = 'Todos';
   allButton.className = 'country-filter active';
   allButton.onclick = () => {
-    // Remove classe ativa de todos os botões
     document.querySelectorAll('.country-filter').forEach(btn => btn.classList.remove('active'));
-    // Adiciona classe ativa a este botão
     allButton.classList.add('active');
-    // Renderiza todas as músicas
     renderMusicList(callbackSelectMusic);
   };
   parentElement.appendChild(allButton);
   
-  // Criar botão para cada país
   countries.forEach(country => {
     const button = document.createElement('button');
     button.textContent = country;
     button.className = 'country-filter';
     button.onclick = () => {
-      // Remove classe ativa de todos os botões
       document.querySelectorAll('.country-filter').forEach(btn => btn.classList.remove('active'));
-      // Adiciona classe ativa a este botão
       button.classList.add('active');
-      // Renderiza apenas músicas deste país
       renderMusicList(callbackSelectMusic, country);
     };
     parentElement.appendChild(button);

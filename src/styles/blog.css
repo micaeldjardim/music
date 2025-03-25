@@ -34,10 +34,12 @@
   border-top-right-radius: 8px;
 }
 
-/* Conteúdo do post */
 .post-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   max-width: 1300px;
-  margin: 0 auto;
+  margin: 20px auto; 
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
