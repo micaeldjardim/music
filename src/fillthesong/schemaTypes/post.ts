@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity';
 
 export default defineType({
   name: 'post',
@@ -21,13 +21,27 @@ export default defineType({
     }),
     defineField({
       name: 'mainImage',
-      title: 'Main image',
+      title: 'Main Image',
       type: 'image',
       options: {
         hotspot: true,
       },
-    }),
+      fields: [
         defineField({
+          name: 'alt',
+          title: 'Texto Alternativo',
+          type: 'string',
+          description: 'Descrição da imagem para acessibilidade e SEO',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'description',
+      title: 'Descrição do Post',
+      type: 'text',
+      description: 'Pequeno resumo do post para SEO e meta description',
+    }),
+    defineField({
       name: 'conteudo',
       title: 'Conteúdo',
       type: 'blockContent',
@@ -40,4 +54,4 @@ export default defineType({
       media: 'mainImage',
     },
   },
-})
+});

@@ -1,6 +1,6 @@
 // services/musicService.js
 import { getMusicas } from "./firebase.js";
-import { extrairVideoId } from "../components/player.js";
+import { extrairVideoIdETempo } from "../components/player.js";
 
 let allMusicas = [];
 
@@ -26,7 +26,7 @@ export function renderMusicList(callbackSelectMusic) {
     musica.titulo.toLowerCase().includes(searchTerm)
   );
   filtered.forEach(musica => {
-    const videoId = extrairVideoId(musica.URL);
+    const { videoId } = extrairVideoIdETempo(musica.URL);
     const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "";
     const div = document.createElement("div");
     div.className = "music-thumb";

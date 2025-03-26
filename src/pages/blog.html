@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog</title>
+  <meta name="description" content="Confira os últimos posts do nosso blog sobre aprender inglês com o auxílio de músicas!">
   <link rel="stylesheet" href="../styles/blog.css">
   <link rel="stylesheet" href="../styles/style.css">
 </head>
@@ -11,100 +12,62 @@
     <header class="header-conteiner">
         <div class="header-left">
             <a href="../index.html">
-                <img
-                    src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Flogo.jpg?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2"
+                <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Flogo.jpg?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2" 
                     alt="Logo" class="logo_index">
             </a>
         </div>
         
-            <nav class="nav">
-                <ul>
-                    <li><a href="../auth/login.html">Login</a></li>
-                    <li><a href="#">Baixe o App</a></li>
-                    <li><a href="#">Adicione uma Música</a></li>
-                    <li><a href="pages/planoseprecos.html">Preços</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <a href="pages/dashboard.html">
-                    <li><img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Fprofile.webp?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2" alt="profile" class="profile"></li>
-                    </a>
-                </ul>
-            </nav>
+        <nav class="nav">
+            <ul>
+                <li><a href="../auth/login.html">Login</a></li>
+                <li><a href="#">Baixe o App</a></li>
+                <li><a href="#">Adicione uma Música</a></li>
+                <li><a href="pages/planoseprecos.html">Preços</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <a href="pages/dashboard.html">
+                    <li><img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Fprofile.webp?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2" 
+                        alt="Profile" class="profile"></li>
+                </a>
+            </ul>
+        </nav>
     </header>              
-  <div id="blog-posts" class="blog-posts"></div>
 
-  <script type="module">
-    import { createClient } from "https://cdn.skypack.dev/@sanity/client";
+    <div id="blog-posts" class="blog-posts"></div>
 
-    // Cria a instância do client do Sanity
-    const client = createClient({
-      projectId: '2vnlh9ne',  
-      dataset: 'production',         
-      useCdn: true,
-      apiVersion: '2023-03-10'                  
-    });
+    <script type="module">
+        import { createClient } from "https://cdn.skypack.dev/@sanity/client";
 
-    // Função para buscar posts usando GROQ
-    async function fetchPosts() {
-      try {
-        // Consulta GROQ para buscar posts do tipo "post"
-        const query = `*[_type == "post"]{
-          title,
-          conteudo,
-          slug,
-          mainImage{
-            asset->{
-              url
-            }
-          }
-        }`;
-        const posts = await client.fetch(query);
-        console.log('Posts fetched:', posts); // Log dos posts retornados
-        renderPosts(posts);
-      } catch (error) {
-        console.error('Erro ao buscar posts do blog:', error);
-        document.getElementById('blog-posts').innerHTML = '<p>Erro ao carregar os posts.</p>';
-      }
-    }
+        const client = createClient({
+            projectId: '2vnlh9ne',  
+            dataset: 'production',         
+            useCdn: true,
+            apiVersion: '2023-01-01'
+        });
 
-    // Função para renderizar os posts na página
-    function renderPosts(posts) {
-      const container = document.getElementById('blog-posts');
-      container.innerHTML = "";
-      posts.forEach(post => {
-        console.log('Rendering post:', post); // Log de cada post a ser renderizado
-        
-        // Obtém a URL da imagem, se existir
-        const imageUrl = post.mainImage && post.mainImage.asset && post.mainImage.asset.url ? post.mainImage.asset.url : '';
-        
-        // Verifica se o conteúdo existe e extrai o resumo dos primeiros 200 caracteres
-        let summary = 'No summary available';
-        if (post.conteudo && Array.isArray(post.conteudo)) {
-          const contentText = post.conteudo.map(block => {
-            if (block.children && Array.isArray(block.children)) {
-              return block.children.map(child => child.text).join(' ');
-            }
-            return '';
-          }).join(' ');
-          summary = contentText.substring(0, 300);
+        async function fetchPosts() {
+            const query = `*[_type == "post"]{
+                title,
+                slug,
+                mainImage{asset->{url}, alt},
+                description
+            }`;
+            const posts = await client.fetch(query);
+
+            const blogContainer = document.getElementById('blog-posts');
+            blogContainer.innerHTML = posts.map(post => `
+                <article class="blog-post">
+                    <a href="post.html?slug=${post.slug.current}">
+                        <img src="${post.mainImage?.asset?.url}" 
+                             alt="${post.mainImage?.alt || 'Imagem do post'}" class="blog-post img">
+                    </a>
+                    <h2>${post.title}</h2>
+                    <p>${post.description || 'Leia mais sobre este post...'}</p>
+                    <a href="post.html?slug=${post.slug.current}" class="read-more">Ler mais</a>
+                </article>
+            `).join('');
         }
 
-        console.log('Summary:', summary); // Log do resumo
-
-        // Cria o elemento do post
-        const postDiv = document.createElement('div');
-        postDiv.className = "blog-post";
-        postDiv.innerHTML = `
-          ${imageUrl ? `<img src="${imageUrl}" alt="${post.title}">` : ""}
-          <h1>${post.title}</h1>
-          <p>${summary}${'...'}</p> <!-- Adiciona o resumo aqui -->
-          <a href="post.html?slug=${post.slug.current}">Continue Reading</a>
-        `;
-        container.appendChild(postDiv);
-      });
-    }
-
-    // Chama a função para buscar os posts ao carregar a página
-    fetchPosts();
-  </script>
+        fetchPosts();
+    </script>
 </body>
 </html>
