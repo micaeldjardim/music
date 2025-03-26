@@ -1,56 +1,89 @@
+let player; // Variável global para armazenar o player
+
 /**
- * Extrai o ID do vídeo do YouTube a partir da URL.
- * @param {string} url - URL do vídeo.
- * @returns {string|null} - ID do vídeo ou null se não encontrado.
+ * Função chamada quando a API do YouTube está pronta.
+ * Cria um novo player e gerencia eventos.
+ * @param {string} videoId - ID do vídeo do YouTube.
+ * @param {number} startTime - Tempo de início do vídeo (em segundos).
  */
-export function extrairVideoId(url) {
-    const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    return (match && match[7].length === 11) ? match[7] : null;
-  }
-  
-  /**
-   * Extrai o ID do vídeo e o tempo de início (se definido) a partir da URL.
-   * @param {string} url - URL do vídeo.
-   * @returns {Object} - Objeto com videoId e startTime.
-   */
-  export function extrairVideoIdETempo(url) {
+function criarPlayer(videoId, startTime = 0) {
+    if (player) {
+        player.loadVideoById({ videoId, startSeconds: startTime });
+    } else {
+        player = new YT.Player("player-container", {
+            height: "360",
+            width: "640",
+            videoId: videoId,
+            playerVars: {
+                autoplay: 1,
+                start: startTime,
+                controls: 1, // 1 para mostrar os controles do player
+                rel: 0, // Evita mostrar vídeos relacionados
+                showinfo: 0, // Remove informações do vídeo
+                cc_load_policy: 0 // Bloqueia legendas
+            },
+            events: {
+                onReady: onPlayerReady,
+                onStateChange: onPlayerStateChange,
+            },
+        });
+    }
+}
+
+/**
+ * Chamada quando o player está pronto.
+ */
+function onPlayerReady(event) {
+    event.target.playVideo(); // Inicia a reprodução automática
+}
+
+/**
+ * Monitora mudanças no estado do player.
+ */
+function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.ENDED) {
+        console.log("O vídeo terminou!");
+    }
+}
+
+/**
+ * Extrai o ID do vídeo e o tempo de início da URL do YouTube.
+ * @param {string} url - URL do vídeo.
+ * @returns {Object} - Objeto com videoId e startTime.
+ */
+export function extrairVideoIdETempo(url) {
     let videoId = null;
     let startTime = 0;
-    let match = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
+
+    // Expressão regular para capturar o ID do vídeo
+    let match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/v\/|.*\/embed\/|.*\/shorts\/))([0-9A-Za-z_-]{11})/);
     if (match) {
-      videoId = match[1];
+        videoId = match[1];
     }
-    let timeMatch = url.match(/[?&]t=(\d+)/);
+
+    // Captura tempo de início no formato 't=60' ou 't=1h2m3s'
+    let timeMatch = url.match(/[?&]t=(\d+h)?(\d+m)?(\d+s?)?/);
     if (timeMatch) {
-      startTime = parseInt(timeMatch[1], 10);
+        let horas = timeMatch[1] ? parseInt(timeMatch[1]) * 3600 : 0;
+        let minutos = timeMatch[2] ? parseInt(timeMatch[2]) * 60 : 0;
+        let segundos = timeMatch[3] ? parseInt(timeMatch[3]) : 0;
+        startTime = horas + minutos + segundos;
     }
+
     return { videoId, startTime };
-  }
-  
-  /**
-   * Exibe o player do YouTube no container, utilizando a URL da música.
-   * @param {Object} musica - Objeto da música com a propriedade URL.
-   */
-  export function exibirYoutubePlayer(musica) {
-    const playerContainer = document.getElementById("player-container");
-    playerContainer.innerHTML = "";
+}
+
+/**
+ * Exibe o player do YouTube no container, utilizando a API do YouTube.
+ * @param {Object} musica - Objeto da música com a propriedade URL.
+ */
+export function exibirYoutubePlayer(musica) {
     if (musica.URL) {
-      const { videoId, startTime } = extrairVideoIdETempo(musica.URL);
-      if (!videoId) {
-        console.error("ID do vídeo não encontrado!");
-        return;
-      }
-      const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&start=${startTime}
-          &cc_load_policy=0&modestbranding=1&disablekb=1&rel=0&fs=0`.replace(/\s+/g, "");
-      const iframe = document.createElement("iframe");
-      iframe.setAttribute("width", "560");
-      iframe.setAttribute("height", "315");
-      iframe.setAttribute("src", embedUrl);
-      iframe.setAttribute("frameborder", "0");
-      iframe.setAttribute("allow", "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture");
-      iframe.setAttribute("allowfullscreen", "false");
-      playerContainer.appendChild(iframe);
+        const { videoId, startTime } = extrairVideoIdETempo(musica.URL);
+        if (!videoId) {
+            console.error("ID do vídeo não encontrado!");
+            return;
+        }
+        criarPlayer(videoId, startTime);
     }
-  }
-  
+}
