@@ -179,19 +179,57 @@ body {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.dificult-btn{
+.dificult-filter {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  width: 100%;
+  padding: 5px;
+}
+
+.dificult-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 10px 15px;
   border-radius: 18px;
-  border: 1px solid #ddd;
   cursor: pointer;
+  color: #333;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  min-width: 100px;
+  margin: 5px;
+  position: relative;
+}
+
+/* Cores diferentes para cada botão de dificuldade */
+.dificult-btn:nth-child(1) { border-color: #4CAF50; } /* Verde para Fácil */
+.dificult-btn:nth-child(2) { border-color: #2196F3; } /* Azul para Médio */
+.dificult-btn:nth-child(3) { border-color: #FFC107; } /* Amarelo para Difícil */
+.dificult-btn:nth-child(4) { border-color: #F44336; } /* Vermelho para Muito Difícil */
+
+.dificult-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Estilo para botão ativo */
+.dificult-btn.active {
+  background-color: rgba(255, 255, 255, 0.95);
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset;
+  font-weight: bold;
 }
 
 .grammar-btn{
   display: flex;
-  flex-direction: r;
   align-items: center;
   justify-content: center;
   padding: 10px;
@@ -210,7 +248,6 @@ body {
   border-radius: 18px;
 }
 
-/* Estilo revisado para os botões de gramática */
 .grammar-filter {
   display: flex;
   gap: 10px;
@@ -222,7 +259,6 @@ body {
   padding: 5px;
 }
 
-/* Estilo base para os botões de gramática */
 .grammar-btn {
   display: flex;
   align-items: center;
@@ -241,7 +277,7 @@ body {
   position: relative;
 }
 
-/* Cores de borda para os botões */
+
 .grammar-btn:nth-child(7n+1) { border-color: rgba(161, 40, 22, 1); }
 .grammar-btn:nth-child(7n+2) { border-color: rgba(179, 58, 41, 1); }
 .grammar-btn:nth-child(7n+3) { border-color: rgba(145, 82, 76, 1); }
@@ -250,7 +286,7 @@ body {
 .grammar-btn:nth-child(7n+6) { border-color: rgba(84, 137, 177, 1); }
 .grammar-btn:nth-child(7n+7) { border-color: rgba(78, 158, 207, 1); }
 
-/* Efeito hover para os botões */
+
 .grammar-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -311,7 +347,7 @@ body {
 
 .music-thumb {
   width: 250px;
-  min-height: 280px;
+  height: 340px;
   display: flex;
   flex-direction: column;
   align-items: flex-start; /* Alinhamento à esquerda para seguir o novo design */
@@ -381,7 +417,7 @@ body {
   display: inline-block;
   background: #A52916;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 18px;
   color: white;
   font-weight: bold;
   margin: 5px 0;
@@ -392,9 +428,9 @@ body {
 /* Gramática (se aplicável) */
 .music-grammar {
   display: inline-block;
-  background: #CF9A4F;
+  background: linear-gradient(94deg, rgba(161,40,22,1) 0%, rgba(78,158,207,1) 100%);
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 18px;
   font-weight: bold;
   margin-top: 10px;
   color: white;
@@ -697,6 +733,18 @@ body {
   .nav ul {
     flex-direction: column;
     gap: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dificult-btn {
+    padding: 8px 12px;
+    min-width: 90px;
+    font-size: 13px;
+  }
+  
+  .dificult-filter {
+    gap: 6px;
   }
 }
 
