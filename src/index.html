@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -9,6 +8,7 @@
       href="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Ffavicon.png?alt=media&token=c275bf59-f4af-425f-80b0-e9826675ee67"
       type="image/png">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/login.css">
   </head>
   <body>
 
@@ -23,9 +23,9 @@
 
       <nav class="nav">
         <ul>
-          <li><a href="auth/login.html">Login</a></li>
+          <li><a href="#" id="login-button">Login</a></li>
           <li><a href="#">Baixe o App</a></li>
-          <li><a href="#">Adicione uma Música</a></li>
+          <li><a href="pages/addMusic.html">Adicione uma Música</a></li>
           <li><a href="pages/planoseprecos.html">Preços</a></li>
           <li><a href="pages/blog.html">Blog</a></li>
           <a href="pages/dashboard.html">
@@ -39,7 +39,7 @@
 
     <main>
       <div id="screen-home">
-
+        <div id="modal-container"></div>
         <div class="search-filters">
            <input type="text" id="search-input" placeholder="Buscar música...">
           <h3>Country</h3>          
@@ -132,6 +132,89 @@
     <script src="index.js" type="module"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+    <script>
+      window.onload = () => {
+        setTimeout(() => {
+          loadLoginModal();
+        }, 5000); // 10 segundos
+      };
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const loginButton = document.getElementById('login-button');
+        if (loginButton) {
+          loginButton.addEventListener('click', (event) => {
+            event.preventDefault(); // Evita o comportamento padrão do link
+            loadLoginModal(); // Chama a função para abrir o modal
+          });
+        }
+      });
+
+      function loadLoginModal() {
+        fetch('./auth/login.html')
+          .then(response => response.text())
+          .then(html => {
+            const modalContainer = document.getElementById('modal-container');
+            modalContainer.innerHTML = `
+              <div class="modal-overlay">
+                <div class="modal-content">
+                  <span class="close-modal">&times;</span>
+                  ${html}
+                </div>
+              </div>
+            `;
+
+            // Adiciona o evento de clique para fechar o modal
+            const closeModalButton = document.querySelector('.close-modal');
+            if (closeModalButton) {
+              closeModalButton.addEventListener('click', closeModal);
+            }
+
+            // Carrega o script login.js dinamicamente
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = './auth/login.js';
+            document.body.appendChild(script);
+          })
+          .catch(error => console.error('Erro ao carregar o modal de login:', error));
+      }
+
+      function loadRegisterModal() {
+        fetch('./auth/register.html')
+          .then(response => response.text())
+          .then(html => {
+            const modalContainer = document.getElementById('modal-container');
+            modalContainer.innerHTML = `
+              <div class="modal-overlay">
+                <div class="modal-content">
+                  <span class="close-modal">&times;</span>
+                  ${html}
+                </div>
+              </div>
+            `;
+
+            // Adiciona o evento de clique para fechar o modal
+            const closeModalButton = document.querySelector('.close-modal');
+            if (closeModalButton) {
+              closeModalButton.addEventListener('click', closeModal2);
+            }
+
+            // Carrega o script register.js dinamicamente
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = './auth/register.js';
+            document.body.appendChild(script);
+          })
+          .catch(error => console.error('Erro ao carregar o modal de registro:', error));
+      }
+
+      function closeModal2() {
+        const modalContainer = document.getElementById('modal-container');
+        if (modalContainer) {
+          modalContainer.innerHTML = '';
+        }
+      }
+    </script>
 
   </body>
 </html>

@@ -17,7 +17,7 @@ function criarPlayer(videoId, startTime = 0) {
             playerVars: {
                 autoplay: 1,
                 start: startTime,
-                controls: 1, // 1 para mostrar os controles do player
+                controls: 0, // 1 para mostrar os controles do player
                 rel: 0, // Evita mostrar vídeos relacionados
                 showinfo: 0, // Remove informações do vídeo
                 cc_load_policy: 0 // Bloqueia legendas
@@ -87,3 +87,9 @@ export function exibirYoutubePlayer(musica) {
         criarPlayer(videoId, startTime);
     }
 }
+
+export function stopPlayer() {
+    if (player) {
+      player.stopVideo(); // Para o vídeo
+    }
+  }

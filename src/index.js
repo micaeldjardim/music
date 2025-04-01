@@ -9,6 +9,7 @@ import {
 } from "./components/dragAndDrop.js";
 import { closeModal } from "./components/modal.js";
 import * as routerService from "./services/routerService.js";
+import { stopPlayer } from "./components/player.js";
 
 const { extrairMusicaIdDaURL, navegarParaMusica, navegarParaHome } = routerService;
 let currentMusic = null;
@@ -49,6 +50,7 @@ window.closeModal = closeModal;
 
 export function goBack() {
   mostrarTelaInicial();
+  stopPlayer();
   navegarParaHome();
 }
 
@@ -59,9 +61,11 @@ window.addEventListener('popstate', (event) => {
       carregarMusica(musica);
     } else {
       mostrarTelaInicial();
+      stopPlayer();
     }
   } else {
     mostrarTelaInicial();
+    stopPlayer();
   }
 });
 

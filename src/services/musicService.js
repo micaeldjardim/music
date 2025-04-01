@@ -1,5 +1,5 @@
 import { getMusicas } from "./firebase.js";
-import { extrairVideoId, extrairVideoIdETempo } from "../components/player.js";
+import { extrairVideoIdETempo } from "../components/player.js";
 
 let allMusicas = [];
 let navegarParaHomeFunction = null;
@@ -173,7 +173,7 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null, exclu
   container.innerHTML = '';
   
   filtered.forEach(musica => {
-    const videoId = extrairVideoId(musica.URL) || extrairVideoIdETempo(musica.URL).videoId;
+    const videoId = extrairVideoIdETempo(musica.URL).videoId;
     const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "";
     const div = document.createElement("div");
     div.className = "music-thumb";
