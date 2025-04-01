@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="styles/style.css">
   </head>
   <body>
-
-
     <header class="header-conteiner">
       <div class="header-left">
         <a href="index.html">
@@ -100,6 +98,12 @@
       lastScrollTop = st <= 0 ? 0 : st;
     }, false);
   </script>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script type="text/javascript">
+      $(window).load(function() {
+          $(".loader").fadeOut("slow");
+      });
+  </script>
   </body>
+  <div class="loader"></div>
 </html>
