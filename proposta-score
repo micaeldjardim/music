@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resultado</title>
+
+  <!-- GSAP para animações -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- Howler para efeitos sonoros -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+
+  <!-- Fonte -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --azul-escuro: #064D7A;
+      --azul-claro: #519ECF;
+      --vermelho: #A52916;
+      --amarelo: #CF9A4F;
+      --roxo: #762379;
+      --font-base: 16px;
+    }
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at top, #ffffff, #f0f4f8);
+      font-family: 'Inter', sans-serif;
+      text-align: center;
+      color: var(--azul-escuro);
+      padding: 50px 20px;
+    }
+    header, main, footer {
+      max-width: 800px;
+      margin: auto;
+    }
+    h1 {
+      font-size: 2rem; /* 32px */
+      margin-bottom: 1rem;
+      color: var(--azul-escuro);
+    }
+    .estrelas-container {
+      margin-top: 2rem;
+    }
+    .estrela {
+      width: 70px;
+      margin: 10px;
+      opacity: 0;
+      transform: scale(0);
+      display: inline-block;
+      filter: drop-shadow(0 0 6px rgba(0,0,0,0.2));
+    }
+    #pontos {
+      font-size: 2.625rem; /* 42px */
+      margin: 2.5rem 0 1.875rem;
+      color: var(--roxo);
+      font-weight: 700;
+    }
+    .btn-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .btn {
+      background: white;
+      color: var(--azul-escuro);
+      border: 2px solid var(--azul-claro);
+      border-radius: 12px;
+      padding: 0.875rem 1.625rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .btn:hover {
+      background: var(--azul-claro);
+      color: white;
+      transform: scale(1.04);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Você mandou muito bem!</h1>
+  </header>
+  <main>
+    <section class="estrelas-container">
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" class="estrela" id="estrela1" alt="Estrela 1" />
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" class="estrela" id="estrela2" alt="Estrela 2" />
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" class="estrela" id="estrela3" alt="Estrela 3" />
+    </section>
+
+    <section id="pontos">+0 pontos</section>
+
+    <section class="btn-container">
+      <button class="btn" onclick="proximaMusica()">Próxima música</button>
+      <button class="btn" onclick="verDashboard()">Ver meu progresso</button>
+      <button class="btn" onclick="verExplicacao()">Ver explicação gramatical</button>
+    </section>
+  </main>
+
+  <script>
+    // Som de vitória
+    const somVitoria = new Howl({
+      src: ['https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3'],
+      volume: 0.7
+    });
+    somVitoria.play();
+
+    // Timeline para animar as estrelas
+    const tl = gsap.timeline();
+    tl.to("#estrela1", { delay: 0.2, scale: 1, opacity: 1, duration: 0.5, ease: "bounce.out" })
+      .to("#estrela2", { delay: 0.1, scale: 1, opacity: 1, duration: 0.5, ease: "bounce.out" }, "-=0.3")
+      .to("#estrela3", { delay: 0.1, scale: 1, opacity: 1, duration: 0.5, ease: "bounce.out" }, "-=0.3");
+
+    // Animação do contador de pontos usando GSAP
+    let pontos = { val: 0 };
+    gsap.to(pontos, {
+      duration: 1.5,
+      val: 250,
+      onUpdate: () => {
+        document.getElementById("pontos").innerText = "+" + Math.floor(pontos.val) + " pontos";
+      }
+    });
+
+    // Funções para botões de ação
+    function proximaMusica() {
+      window.location.href = "/jogo.html?musica=proxima";
+    }
+
+    function verDashboard() {
+      window.location.href = "/dashboard.html";
+    }
+
+    function verExplicacao() {
+      window.location.href = "/explicacao.html?musica=atual";
+    }
+  </script>
+</body>
+</html>
