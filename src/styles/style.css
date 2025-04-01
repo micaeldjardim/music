@@ -95,15 +95,76 @@ body {
   color: #007acc;
 }
 
+.search-input-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
 #search-input {
-  width: 80%;
-  height: 50px;
-  padding: 8px 12px;
-  font-size: 16px;
+  width: 100%;
+  padding: 10px;
+  padding-right: 40px; /* Espaço para o botão */
   border: 1px solid #ddd;
-  border-radius: 50px;
-  margin-bottom: 30px;
-  
+  border-radius: 20px;
+  font-size: 16px;
+}
+
+.toggle-filtros-btn-inline {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  border-radius: 50%;
+}
+
+.toggle-filtros-btn-inline:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.toggle-filtros-btn-inline.active {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.filter-icon-svg {
+  transition: transform 0.3s ease;
+}
+
+.toggle-filtros-btn-inline.active .filter-icon-svg {
+  transform: rotate(180deg);
+}
+
+.filtros-content {
+  width: 100%;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin 0.3s ease-out;
+  max-height: 1000px;
+  opacity: 1;
+  overflow: hidden;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+}
+
+.filtros-content.hidden {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  border: none;
+  pointer-events: none;
 }
 
 .music-container {
@@ -368,19 +429,6 @@ body {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Elemento para o gênero musical */
-.music-genre {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #762379;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  z-index: 2;
-}
-
 /* Ícone musical */
 .music-icon {
   font-size: 40px;
@@ -415,7 +463,7 @@ body {
 /* Nível de dificuldade */
 .music-difficulty {
   display: inline-block;
-  background: #A52916;
+  background: grey;
   padding: 5px 10px;
   border-radius: 18px;
   color: white;
@@ -436,6 +484,45 @@ body {
   color: white;
   font-size: 14px;
   align-self: flex-start;
+  transition: all 0.3s ease;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.music-grammar:hover {
+  white-space: normal;
+  max-width: none;
+  z-index: 10;
+}
+
+.music-grammar.expanded {
+  max-width: none;
+  white-space: normal;
+  z-index: 10;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Adicionar no seu style.css */
+.grammar-badge {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.25);
+  color: white;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+.music-grammar:hover .grammar-badge {
+  display: none;
 }
 
 /* Ajuste na estrutura da imagem para o novo layout */
@@ -746,6 +833,51 @@ body {
   .dificult-filter {
     gap: 6px;
   }
+}
+
+/* Adicione estes estilos ao seu arquivo CSS */
+
+.toggle-filtros-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  margin: 10px 0;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-filtros-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.toggle-filtros-btn.active {
+  background-color: #e0e0e0;
+}
+
+.filter-icon {
+  margin-left: 8px;
+  font-style: normal;
+}
+
+.filtros-content {
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin 0.3s ease-out;
+  max-height: 1000px;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.filtros-content.hidden {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  pointer-events: none;
 }
 
 

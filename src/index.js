@@ -67,7 +67,7 @@ window.addEventListener('popstate', (event) => {
 
 function tryAgain() {
   if (!currentMusic) {
-    console.error("Nenhuma música atual definida!");
+    console.error("Nenhuma música atual definida.");
     return;
   }
   closeModal();
@@ -79,4 +79,28 @@ document.addEventListener('DOMContentLoaded', () => {
   if (backButton) {
     backButton.onclick = goBack;
   }
+  
+  // Configurar toggle dos filtros
+  const toggleButton = document.getElementById('toggle-filtros-btn');
+  const filtrosContent = document.getElementById('filtros-content');
+  
+  // Iniciar com os filtros escondidos
+  filtrosContent.classList.add('hidden');
+  
+  // Adicionar evento de clique para mostrar/esconder os filtros
+  toggleButton.addEventListener('click', (event) => {
+    // Evitar que o clique no botão afete o campo de busca
+    event.preventDefault();
+    event.stopPropagation();
+    
+    filtrosContent.classList.toggle('hidden');
+    toggleButton.classList.toggle('active');
+    
+    // O SVG será rotacionado automaticamente via CSS quando .active for adicionado
+  });
+  
+  // Evitar que clicar no campo de busca afete o botão
+  document.getElementById('search-input').addEventListener('click', (event) => {
+    event.stopPropagation();
+  });
 });

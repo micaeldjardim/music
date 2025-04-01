@@ -292,7 +292,36 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null, exclu
     if (musica.grammar) {
       const grammar = document.createElement("div");
       grammar.className = "music-grammar";
-      grammar.textContent = musica.grammar;
+      
+      // Formatação do texto da gramática
+      if (Array.isArray(musica.grammar)) {
+        if (musica.grammar.length > 3) {
+          // Cria versão limitada com 3 primeiras gramáticas
+          const limitedGrammars = musica.grammar.slice(0, 3).join(', ');
+          const badgeCount = musica.grammar.length - 3;
+          grammar.innerHTML = `${limitedGrammars} <span class="grammar-badge">+${badgeCount}</span>`;
+          
+          // Adiciona o tooltip com todas as gramáticas
+          grammar.title = musica.grammar.join(', ');
+          
+          // Adiciona evento de mouse over/out para mostrar todas as gramáticas
+          grammar.addEventListener('mouseover', function() {
+            this.dataset.originalHtml = this.innerHTML;
+            this.textContent = musica.grammar.join(', ');
+          });
+          
+          grammar.addEventListener('mouseout', function() {
+            this.innerHTML = this.dataset.originalHtml;
+          });
+        } else {
+          // Se tiver 3 ou menos, mostra normalmente
+          grammar.textContent = musica.grammar.join(', ');
+        }
+      } else {
+        // Se for string, usa diretamente
+        grammar.textContent = musica.grammar;
+      }
+      
       textContainer.appendChild(grammar);
     }
     

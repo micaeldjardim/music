@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -6,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete the Lyrics</title>
     <link rel="icon"
-      href="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Ffavicon.png?alt=media&token=c275bf59-f4af-425f-80b0-e9826675ee67"
+      href="img/logo-microphone.webp"
       type="image/png">
     <link rel="stylesheet" href="styles/style.css">
   </head>
@@ -41,35 +40,46 @@
       <div id="screen-home">
 
         <div class="search-filters">
-           <input type="text" id="search-input" placeholder="Buscar música...">
-          <h3>Country</h3>          
-          <div class="country-filter">
-            <button class="country-btn">
-              <img src="./img/EUA.webp" alt="EUA">
-            </button>
-            <button class="country-btn">
-              <img src="./img/CAN.webp" alt="CAN">
-            </button>
-            <button class="country-btn">
-              <img src="./img/UK.webp" alt="UK">
-            </button>
-            <button class="country-btn">
-              <img src="./img/AU.webp" alt="AU">
-            </button>
-            <button class="country-btn">
-              <img src="./img/world.webp" alt="outros">  
+          <div class="search-input-container">
+            <input type="text" id="search-input" placeholder="Buscar música...">
+            <button id="toggle-filtros-btn" class="toggle-filtros-btn-inline" aria-label="Filtros">
+              <svg class="filter-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6H20M7 12H17M9 18H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </button>
           </div>
           
-          <h3>Level</h3>
-          <div class="dificult-filter">
+          <!-- Container que agrupa todos os filtros -->
+          <div id="filtros-content" class="filtros-content">
+            <h3>Country</h3>          
+            <div class="country-filter">
+              <button class="country-btn">
+                <img src="./img/EUA.webp" alt="EUA">
+              </button>
+              <button class="country-btn">
+                <img src="./img/CAN.webp" alt="CAN">
+              </button>
+              <button class="country-btn">
+                <img src="./img/UK.webp" alt="UK">
+              </button>
+              <button class="country-btn">
+                <img src="./img/AU.webp" alt="AU">
+              </button>
+              <button class="country-btn">
+                <img src="./img/world.webp" alt="outros">  
+              </button>
+            </div>
+            
+            <h3>Level</h3>
+            <div class="dificult-filter">
               <button class="dificult-btn">Fácil</button>
               <button class="dificult-btn">Médio</button>
               <button class="dificult-btn">Difícil</button>
               <button class="dificult-btn">Muito Difícil</button>
-          </div>
-          <h3>Grammar</h3>
-          <div class="grammar-filter">
+            </div>
+            
+            <h3>Grammar</h3>
+            <div class="grammar-filter">
               <button class="grammar-btn">Imperative</button>
               <button class="grammar-btn">Simple Past</button>
               <button class="grammar-btn">Simple Present</button>
@@ -78,7 +88,6 @@
               <button class="grammar-btn">Present Perfect</button>
               <button class="grammar-btn">Present Continuous</button>
               <button class="grammar-btn">Past Perfect</button>
-              <button class="grammar-btn">Future Simple</button>
               <button class="grammar-btn">Future Continuous</button>
               <button class="grammar-btn">Future Perfect</button>
               <button class="grammar-btn">Participle</button>
@@ -87,8 +96,7 @@
               <button class="grammar-btn">Modal</button>
               <button class="grammar-btn">Can't</button>
               <button class="grammar-btn">Passive Voice</button>
-
-
+            </div>
           </div>
         </div>
 
