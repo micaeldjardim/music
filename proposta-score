@@ -11,6 +11,9 @@
   <!-- Howler para efeitos sonoros -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
 
+  <!-- Canvas Confetti para efeito de confete -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <!-- Fonte -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
 
@@ -123,6 +126,16 @@
       val: 250,
       onUpdate: () => {
         document.getElementById("pontos").innerText = "+" + Math.floor(pontos.val) + " pontos";
+      },
+      onComplete: () => {
+        if (Math.floor(pontos.val) === 250) {
+          // Efeito de confete quando atingir 250 pontos (3 estrelas)
+          confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+        }
       }
     });
 
