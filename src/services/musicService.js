@@ -3,10 +3,12 @@ import { extrairVideoId, extrairVideoIdETempo } from "../components/player.js";
 
 let allMusicas = [];
 let navegarParaHomeFunction = null;
+
 let filtroCountryAtivo = null;
 let filtroExcludeCountriesAtivo = null;
 let filtroDificuldadeAtivo = null;
 let filtroGrammarAtivo = null; // Nova variável para rastrear o filtro de gramática
+
 
 export function setHomeNavigation(fn) {
   navegarParaHomeFunction = fn;
@@ -186,14 +188,17 @@ function configurarBotoesGrammar(callbackSelectMusic, gramaticasDisponiveis) {
 
 // Função renderMusicList corrigida para lidar com arrays de gramática
 export function renderMusicList(callbackSelectMusic, countryFilter = null, excludeCountries = null, dificuldadeFilter = null, grammarFilter = null) {
+
   const container = document.getElementById("music-list");
   if (!container) return;
   
   const searchInput = document.getElementById("search-input");
   const searchTerm = searchInput ? searchInput.value.toLowerCase() : "";
   
+
   console.log("Filtros aplicados:", { countryFilter, excludeCountries, dificuldadeFilter, grammarFilter });
   
+
   const filtered = allMusicas.filter(musica => {
     const matchesSearch = musica.titulo.toLowerCase().includes(searchTerm);
     
@@ -204,6 +209,7 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null, exclu
       matchesCountry = !excludeCountries.includes(musica.country);
     }
     
+
     let matchesDificuldade = true;
     if (dificuldadeFilter) {
       matchesDificuldade = (musica.level || "").toLowerCase() === dificuldadeFilter.toLowerCase();
@@ -234,6 +240,7 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null, exclu
   
   console.log(`Filtro aplicado: ${filtered.length} músicas encontradas de ${allMusicas.length}`);
   
+
   if (filtered.length === 0) {
     container.innerHTML = '<div class="no-results">Nenhuma música encontrada</div>';
     return;
@@ -242,9 +249,11 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null, exclu
   container.innerHTML = '';
   
   filtered.forEach(musica => {
+
     // Construir card da música
     const result = extrairVideoId(musica.URL) || extrairVideoIdETempo(musica.URL);
     const videoId = result ? result.videoId : null;
+
     const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "";
     
     const div = document.createElement("div");

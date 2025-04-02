@@ -102,7 +102,7 @@ body {
   align-items: center;
 }
 
-#search-input {
+
   width: 100%;
   padding: 10px;
   padding-right: 40px; /* Espaço para o botão */
@@ -151,6 +151,7 @@ body {
   overflow: hidden;
   margin-top: 10px;
   border: 1px solid #ddd;
+
   border-radius: 20px;
   padding: 15px;
   background-color: #f9f9f9;
@@ -165,6 +166,7 @@ body {
   padding-bottom: 0;
   border: none;
   pointer-events: none;
+
 }
 
 .music-container {
@@ -239,6 +241,7 @@ body {
   border: 2px solid #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
+
 
 .dificult-filter {
   display: flex;
@@ -319,6 +322,7 @@ body {
   width: 100%;
   padding: 5px;
 }
+
 
 .grammar-btn {
   display: flex;
@@ -879,5 +883,6 @@ body {
   margin-bottom: 0;
   pointer-events: none;
 }
+
 
 

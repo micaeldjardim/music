@@ -59,6 +59,7 @@ window.addEventListener('popstate', (event) => {
       carregarMusica(musica);
     } else {
       mostrarTelaInicial();
+
     }
   } else {
     mostrarTelaInicial();
@@ -79,7 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (backButton) {
     backButton.onclick = goBack;
   }
-  
+
+
   // Configurar toggle dos filtros
   const toggleButton = document.getElementById('toggle-filtros-btn');
   const filtrosContent = document.getElementById('filtros-content');
@@ -103,4 +105,5 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('search-input').addEventListener('click', (event) => {
     event.stopPropagation();
   });
+
 });

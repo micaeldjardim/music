@@ -104,4 +104,4 @@ export function exibirYoutubePlayer(musica) {
         }
         criarPlayer(videoId, startTime);
     }
-}
+

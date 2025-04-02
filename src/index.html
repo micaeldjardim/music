@@ -8,6 +8,7 @@
       href="img/logo-microphone.webp"
       type="image/png">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/login.css">
   </head>
   <body>
 
@@ -22,9 +23,9 @@
 
       <nav class="nav">
         <ul>
-          <li><a href="auth/login.html">Login</a></li>
+          <li><a href="#" id="login-button">Login</a></li>
           <li><a href="#">Baixe o App</a></li>
-          <li><a href="#">Adicione uma Música</a></li>
+          <li><a href="pages/addMusic.html">Adicione uma Música</a></li>
           <li><a href="pages/planoseprecos.html">Preços</a></li>
           <li><a href="pages/blog.html">Blog</a></li>
           <a href="pages/dashboard.html">
@@ -38,7 +39,7 @@
 
     <main>
       <div id="screen-home">
-
+        <div id="modal-container"></div>
         <div class="search-filters">
           <div class="search-input-container">
             <input type="text" id="search-input" placeholder="Buscar música...">
@@ -72,14 +73,17 @@
             
             <h3>Level</h3>
             <div class="dificult-filter">
+
               <button class="dificult-btn">Fácil</button>
               <button class="dificult-btn">Médio</button>
               <button class="dificult-btn">Difícil</button>
               <button class="dificult-btn">Muito Difícil</button>
+
             </div>
             
             <h3>Grammar</h3>
             <div class="grammar-filter">
+
               <button class="grammar-btn">Imperative</button>
               <button class="grammar-btn">Simple Past</button>
               <button class="grammar-btn">Simple Present</button>
@@ -119,6 +123,7 @@
           </div>
         </div>
         <div class="nav-buttons">
+
           
         </div>
       </div>
@@ -141,10 +146,11 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     window.firebaseDB = db;
-  </script>
+    </script>
 
     <script src="services/firebase.js" type="module"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="auth/modalLogin.js"></script>
     <script src="index.js" type="module"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
@@ -156,6 +162,7 @@
 
       gtag('config', 'G-8087DFE69T');
     </script>
+
 
   </body>
 </html>
