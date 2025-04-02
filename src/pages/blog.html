@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog</title>
+  <link rel="icon" href= "../img/logo-microphone.webp" type="image/png">
   <meta name="description" content="Confira os últimos posts do nosso blog sobre aprender inglês com o auxílio de músicas!">
   <link rel="stylesheet" href="../styles/blog.css">
   <link rel="stylesheet" href="../styles/style.css">
@@ -12,9 +13,9 @@
     <header class="header-conteiner">
         <div>
             <a href="../index.html">
-                <img
-                  src="../img/logo-microphone.webp"
-                  alt="Logo" class="logo_index">
+
+                <img src="../img/logo-microphone.webp"
+                    alt="Logo" class="logo_index">
             </a>
         </div>
         
@@ -25,10 +26,11 @@
                 <li><a href="#">Adicione uma Música</a></li>
                 <li><a href="pages/planoseprecos.html">Preços</a></li>
                 <li><a href="blog.html">Blog</a></li>
-                <a href="dashboard.html">
-                    <li><img
-                        src="../img/profile.webp"
-                        alt="profile" class="profile"></li>
+
+                <a href="pages/dashboard.html">
+                    <li><img src="../img/profile.webp" 
+                        alt="Profile" class="profile"></li>
+
                 </a>
             </ul>
         </nav>
@@ -71,5 +73,14 @@
 
         fetchPosts();
     </script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+  
+        gtag('config', 'G-8087DFE69T');
+      </script>
+      
+  
 </body>
 </html>

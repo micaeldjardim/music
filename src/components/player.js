@@ -20,7 +20,9 @@ function criarPlayer(videoId, startTime = 0) {
                 controls: 0, // 1 para mostrar os controles do player
                 rel: 0, // Evita mostrar vídeos relacionados
                 showinfo: 0, // Remove informações do vídeo
-                cc_load_policy: 0 // Bloqueia legendas
+                cc_load_policy: 0, // Bloqueia legendas
+                modestbranding: 0, // Remove logo do YouTube
+                disablekb: 1 // Desabilita o controle de teclado
             },
             events: {
                 onReady: onPlayerReady,
@@ -74,6 +76,22 @@ export function extrairVideoIdETempo(url) {
 }
 
 /**
+ * Extrai apenas o ID do vídeo da URL do YouTube.
+ * @param {string} url - URL do vídeo do YouTube.
+ * @returns {Object|null} - Objeto com videoId ou null se não encontrado.
+ */
+export function extrairVideoId(url) {
+    if (!url) return null;
+    
+    // Expressão regular para capturar o ID do vídeo
+    let match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:.*v=|.*\/v\/|.*\/embed\/|.*\/shorts\/))([0-9A-Za-z_-]{11})/);
+    if (match) {
+        return { videoId: match[1] };
+    }
+    return null;
+}
+
+/**
  * Exibe o player do YouTube no container, utilizando a API do YouTube.
  * @param {Object} musica - Objeto da música com a propriedade URL.
  */
@@ -86,5 +104,4 @@ export function exibirYoutubePlayer(musica) {
         }
         criarPlayer(videoId, startTime);
     }
-}
 
