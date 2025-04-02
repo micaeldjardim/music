@@ -88,8 +88,3 @@ export function exibirYoutubePlayer(musica) {
     }
 }
 
-export function stopPlayer() {
-    if (player) {
-      player.stopVideo(); // Para o vídeo
-    }
-  }

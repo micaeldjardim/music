@@ -1,5 +1,5 @@
 /* 🔹 Estilos apenas para Login e Registro */
-.conteiner-login {
+.container-login {
     background: white;
     padding: 30px;
     border-radius: 16px;
@@ -11,13 +11,13 @@
 }
 
 /* 🔹 Imagem do logo dentro do login/registro */
-.conteiner-login .logo {
+.container-login .logo {
     width: 150px;
     margin-bottom: 20px;
 }
 
 /* 🔹 Campos de formulário */
-.conteiner-login .form-field input {
+.container-login .form-field input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -26,13 +26,13 @@
     margin-bottom: 10px;
 }
 
-.conteiner-login .form-field input:focus {
+.container-login .form-field input:focus {
     border-color: #519ECF;
     outline: none;
 }
 
 /* 🔹 Mensagens de erro */
-.conteiner-login .error {
+.container-login .error {
     color: red;
     font-size: 14px;
     display: none;
@@ -41,7 +41,7 @@
 }
 
 /* 🔹 Botões */
-.conteiner-login button {
+.container-login button {
     width: 100%;
     padding: 12px;
     font-size: 16px;
@@ -53,19 +53,19 @@
 }
 
 /* Botão de login */
-.conteiner-login .solid {
+.container-login .solid {
     background-color: #519ECF;
     color: white;
     margin-bottom: 10px; /* Espaçamento abaixo do botão */
     gap: 30px; /* Remova se não for necessário */
 }
 
-.conteiner-login .solid:hover {
+.container-login .solid:hover {
     background-color: #064D7A;
 }
 
 /* Botão de registrar */
-.conteiner-login .outline {
+.container-login .outline {
     background: transparent;
     color: #064D7A;
     border: 2px solid #064D7A;
@@ -73,20 +73,20 @@
     gap: 30px; /* Remova se não for necessário */
 }
 
-.conteiner-login .outline:hover {
+.container-login .outline:hover {
     background: #064D7A;
     color: white;
 }
 
 /* Botão de recuperação */
-.conteiner-login .clear {
+.container-login .clear {
     background-color: #e2e8f0;
     color: #333;
     margin-bottom: 10px; /* Espaçamento abaixo do botão */
     gap: 30px; /* Remova se não for necessário */
 }
 
-.conteiner-login .clear:hover {
+.container-login .clear:hover {
     background-color: #d1d5db;
 }
 
@@ -97,7 +97,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5); /* Fundo escuro */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -107,11 +107,18 @@
 .modal-content {
     background: white;
     padding: 20px;
-    border-radius: 16px;
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
+    border-radius: 10px;
+    position: relative;
 }
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
 
 /* 🔹 Título do Modal */
 .modal-title {
@@ -164,11 +171,28 @@
     background-color: #d1d5db;
 }
 
-.close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    font-weight: bold;
+/* 🔹 Social Login */
+.social-login {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.social-button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
-  }
+}
+
+.social-button.google {
+    background-color: #4285F4;
+    color: white;
+}
+
+.social-button.facebook {
+    background-color: #1877F2;
+    color: white;
+}

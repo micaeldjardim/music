@@ -50,7 +50,6 @@ window.closeModal = closeModal;
 
 export function goBack() {
   mostrarTelaInicial();
-  stopPlayer();
   navegarParaHome();
 }
 
