@@ -5,50 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro - Complete the lyrics</title>
   <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Ffavicon.png?alt=media&token=c275bf59-f4af-425f-80b0-e9826675ee67" type="image/png">
-  <link rel="stylesheet" href="../styles/login.css">
+  
 </head>
 <body>
   
-  <div class="conteiner-login">
+  <div class="container-login">
     <div>
-      <img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Flogo.jpg?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2" alt="Logo" class="logo">
+      <a>
+          <img
+            src="img/logo.webp"
+            alt="Logo" class="logo">
+      </a>
+  </div>
+  <form>
+    <div class="form-field">
+      <input type="text" name="name" id="name" placeholder="Nome completo" required autocomplete="name">
     </div>
-    <form>
-      <div class="form-field">
-        <input type="text" name="nome" id="nome" onchange="onChangeNome()" placeholder="Nome">
-        <div class="error" id="nome-required-error">Nome é obrigatório</div>
-      </div>
-      
-      <div class="form-field">
-        <input type="email" name="email" id="email" onchange="onChangeEmail()" placeholder="Email">
-        <div class="error" id="email-required-error">Email é obrigatório</div>
-        <div class="error" id="email-invalid-error">Email é inválido</div>
-      </div>
-      
-      <div class="form-field">
-        <input type="password" name="password" id="password" onchange="onChangePassword()" placeholder="Senha">
-        <div class="error" id="password-required-error">Senha é obrigatória</div>
-      </div>
-      
-      <div class="form-field">
-        <input type="password" name="confirmPassword" id="confirmPassword" onchange="onChangeConfirmPassword()" placeholder="Confirmar Senha">
-        <div class="error" id="confirmPassword-required-error">Confirmação de senha é obrigatória</div>
-        <div class="error" id="confirmPassword-mismatch-error">As senhas não coincidem</div>
-      </div>
-      
-      <div>
-        <button type="button" class="solid" id="register-button" onclick="register()">Registrar</button>
-      </div>
-      <a href="login.html">
-        <div>
-          <button type="button" class="outline" onclick="redirectToLogin()">Voltar para Login</button>
-        </div>
-    </a>
-    </form> 
+  
+    <div class="form-field">
+      <input type="email" name="email" id="email" placeholder="Email" required autocomplete="email">
+    </div>
+  
+    <div class="form-field">
+      <input type="password" name="password" id="password" placeholder="Senha" required autocomplete="new-password">
+    </div>
+  
+    <div>    
+      <button type="button" class="solid" id="register-button" disabled="true">Registrar</button>
+    </div>
+  </form>
+  
+  
   </div>
   
-  <script src="register.js"></script>
-  <script src="validations.js"></script>
+  <script type="module" src="register.js"></script>
 
 </body>
 </html>

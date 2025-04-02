@@ -4,131 +4,120 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Post</title>
+  <link rel="icon" href= "../img/logo-microphone.webp" type="image/png">
   <link rel="stylesheet" href="../styles/blog.css">
   <link rel="stylesheet" href="../styles/style.css">
 </head>
 <body>
-    <header class="header-conteiner">
-        <div class="header-left">
-            <a href="../index.html">
-                <img
-                    src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Flogo.jpg?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2"
-                    alt="Logo" class="logo_index">
-            </a>
-        </div>
-        
-            <nav class="nav">
-                <ul>
-                    <li><a href="../auth/login.html">Login</a></li>
-                    <li><a href="#">Baixe o App</a></li>
-                    <li><a href="#">Adicione uma Música</a></li>
-                    <li><a href="pages/planoseprecos.html">Preços</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <a href="pages/dashboard.html">
-                    <li><img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Fprofile.webp?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2" alt="profile" class="profile"></li>
-                    </a>
-                </ul>
-            </nav>
-    </header>     
+  <header class="header-conteiner">
+    <div>
+      <a href="../index.html">
+
+        <img
+          src="../img/logo-microphone.webp"
+          alt="Logo" class="logo_index">
+
+      </a>
+  </div>
+    
+    <nav class="nav">
+      <ul>
+        <li><a href="../auth/login.html">Login</a></li>
+        <li><a href="#">Baixe o App</a></li>
+        <li><a href="#">Adicione uma Música</a></li>
+        <li><a href="pages/planoseprecos.html">Preços</a></li>
+        <li><a href="blog.html">Blog</a></li>
+
+        <a href="pages/dashboard.html">
+          <li><img src="../img/profile.webp" alt="profile" class="profile"></li>
+        </a>
+
+      </ul>
+    </nav>
+  </header>
+
   <div id="post-content" class="post-container"></div>
 
   <script type="module">
     import { createClient } from "https://cdn.skypack.dev/@sanity/client";
     import { toHTML } from "https://cdn.skypack.dev/@portabletext/to-html";
 
-    // Cria a instância do client do Sanity
+    // Configuração do Sanity Client
     const client = createClient({
-      projectId: '2vnlh9ne',  
-      dataset: 'production',         
+      projectId: '2vnlh9ne',
+      dataset: 'production',
       useCdn: true,
-      apiVersion: '2023-03-10'                  
+      apiVersion: '2023-01-01',
     });
 
-    // Função para buscar um post específico usando GROQ
-    async function fetchPost(slug) {
-      try {
-        // Consulta GROQ para buscar um post pelo slug e resolver referências de imagem
+    // Obtém o slug do post da URL
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('slug');
+
+    if (!slug) {
+      document.getElementById('post-content').innerHTML = "<p>Post não encontrado.</p>";
+    } else {
+      async function fetchPost() {
         const query = `*[_type == "post" && slug.current == $slug][0]{
           title,
+          mainImage {
+            asset->{url},
+            alt
+          },
           conteudo[]{
             ...,
-            asset->{
-              url
-            }
-          },
-          mainImage{
-            asset->{
-              url
+            _type == "image" => {
+              "asset": asset->,
+              "alt": alt
             }
           }
         }`;
-        const params = { slug: slug };
-        const post = await client.fetch(query, params);
-        console.log('Post fetched:', post); // Log do post retornado
-        renderPost(post);
-      } catch (error) {
-        console.error('Erro ao buscar o post:', error);
-        document.getElementById('post-content').innerHTML = '<p>Erro ao carregar o post.</p>';
-      }
-    }
 
-    // Função para renderizar o post na página
-    function renderPost(post) {
-      const container = document.getElementById('post-content');
-      container.innerHTML = "";
+        try {
+          const post = await client.fetch(query, { slug });
 
-      // Obtém a URL da imagem, se existir
-      const imageUrl = post.mainImage && post.mainImage.asset && post.mainImage.asset.url ? post.mainImage.asset.url : '';
-      console.log('Main Image URL:', imageUrl); // Log da URL da imagem principal
-
-      // Renderiza o conteúdo Portable Text para HTML com componentes personalizados
-      const contentHTML = toHTML(post.conteudo, {
-        components: {
-          types: {
-            image: ({ value }) => {
-              console.log('Image Block:', value); // Log do bloco de imagem
-              const imageUrl = value.asset && value.asset.url ? value.asset.url : '';
-              const altText = value.alt || '';
-              console.log('Image URL:', imageUrl); // Log da URL da imagem
-              return imageUrl ? `<img src="${imageUrl}" alt="${altText}">` : '';
-            },
-            block: ({ value }) => {
-              if (value.style === 'h2') {
-                return `<h2>${value.children.map(child => child.text).join(' ')}</h2>`;
-              }
-              if (value.style === 'h3') {
-                return `<h3>${value.children.map(child => child.text).join(' ')}</h3>`;
-              }
-              return `<p>${value.children.map(child => child.text).join(' ')}</p>`;
-            },
-            listItem: ({ value }) => {
-              return `<li>${value.children.map(child => child.text).join(' ')}</li>`;
-            }
+          if (!post) {
+            document.getElementById('post-content').innerHTML = "<p>Post não encontrado.</p>";
+            return;
           }
+
+          let postHTML = `<h1>${post.title}</h1>`;
+
+          if (post.mainImage) {
+            postHTML += `<img src="${post.mainImage.asset.url}" alt="${post.mainImage.alt || 'Imagem do post'}" class="post-container img">`;
+          }
+
+          // Customizando a conversão de Portable Text para adicionar `alt` às imagens
+          const customRenderers = {
+            types: {
+              image: ({ value }) => {
+                const imageUrl = value.asset?.url;
+                const imageAlt = value.alt || "Imagem sem descrição";
+
+                return `<img src="${imageUrl}" alt="${imageAlt}" class="post-container img">`;
+              },
+            },
+          };
+
+          postHTML += toHTML(post.conteudo, { components: customRenderers });
+
+          document.getElementById('post-content').innerHTML = postHTML;
+        } catch (error) {
+          console.error("Erro ao buscar post:", error);
+          document.getElementById('post-content').innerHTML = "<p>Erro ao carregar post.</p>";
         }
-      });
+      }
 
-      // Cria o elemento do post
-      const postDiv = document.createElement('div');
-      postDiv.className = "post-content";
-      postDiv.innerHTML = `
-        <h1>${post.title}</h1>
-        ${imageUrl ? `<img src="${imageUrl}" alt="${post.title}">` : ""}
-        ${contentHTML}
-      `;
-      container.appendChild(postDiv);
-    }
-
-    // Obtém o slug da URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const slug = urlParams.get('slug');
-
-    // Chama a função para buscar o post ao carregar a página
-    if (slug) {
-      fetchPost(slug);
-    } else {
-      document.getElementById('post-content').innerHTML = '<p>Post não encontrado.</p>';
+      fetchPost();
     }
   </script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-8087DFE69T');
+  </script>
+
 </body>
 </html>

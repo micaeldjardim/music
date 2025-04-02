@@ -5,42 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete the Lyrics</title>
     <link rel="icon"
-      href="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Ffavicon.png?alt=media&token=c275bf59-f4af-425f-80b0-e9826675ee67"
+      href="img/logo-microphone.webp"
       type="image/png">
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/login.css">
   </head>
   <body>
+
+
     <header class="header-conteiner">
       <div class="header-left">
         <a href="index.html">
           <img
-            src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Flogo.jpg?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2"
+            src="img/logo-microphone.webp"
             alt="Logo" class="logo_index">
         </a>
       </div>
 
       <nav class="nav">
         <ul>
-          <li><a href="auth/login.html">Login</a></li>
+          <li><a href="#" id="login-button">Login</a></li>
           <li><a href="#">Baixe o App</a></li>
-          <li><a href="#">Adicione uma Música</a></li>
+          <li><a href="pages/addMusic.html">Adicione uma Música</a></li>
           <li><a href="pages/planoseprecos.html">Preços</a></li>
           <li><a href="pages/blog.html">Blog</a></li>
           <a href="pages/dashboard.html">
-          <li><img src="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Fprofile.webp?alt=media&token=f61f13a3-bd62-4c02-be47-92aac655c7d2" alt="profile" class="profile"></li>
+            <li><img
+                src="./img/profile.webp"
+                alt="profile" class="profile"></li>
           </a>
         </ul>
       </nav>
     </header>
 
     <main>
-
-     
       <div id="screen-home">
-        <h1 class="main-title">Selecione uma Música</h1>
-        <input type="text" id="search-input" placeholder="Buscar música...">
-        <div id="music-list" class="music-list"></div>
-      </div>
+        <div id="modal-container"></div>
+        <div class="search-filters">
+          <div class="search-input-container">
+            <input type="text" id="search-input" placeholder="Buscar música...">
+            <button id="toggle-filtros-btn" class="toggle-filtros-btn-inline" aria-label="Filtros">
+              <svg class="filter-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6H20M7 12H17M9 18H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          
+          <!-- Container que agrupa todos os filtros -->
+          <div id="filtros-content" class="filtros-content">
+            <h3>Country</h3>          
+            <div class="country-filter">
+              <button class="country-btn">
+                <img src="./img/EUA.webp" alt="EUA">
+              </button>
+              <button class="country-btn">
+                <img src="./img/CAN.webp" alt="CAN">
+              </button>
+              <button class="country-btn">
+                <img src="./img/UK.webp" alt="UK">
+              </button>
+              <button class="country-btn">
+                <img src="./img/AU.webp" alt="AU">
+              </button>
+              <button class="country-btn">
+                <img src="./img/world.webp" alt="outros">  
+              </button>
+            </div>
+            
+            <h3>Level</h3>
+            <div class="dificult-filter">
+
+              <button class="dificult-btn">Fácil</button>
+              <button class="dificult-btn">Médio</button>
+              <button class="dificult-btn">Difícil</button>
+              <button class="dificult-btn">Muito Difícil</button>
+
+            </div>
+            
+            <h3>Grammar</h3>
+            <div class="grammar-filter">
+
+              <button class="grammar-btn">Imperative</button>
+              <button class="grammar-btn">Simple Past</button>
+              <button class="grammar-btn">Simple Present</button>
+              <button class="grammar-btn">Simple Future</button>
+              <button class="grammar-btn">Past Continuous</button>
+              <button class="grammar-btn">Present Perfect</button>
+              <button class="grammar-btn">Present Continuous</button>
+              <button class="grammar-btn">Past Perfect</button>
+              <button class="grammar-btn">Future Continuous</button>
+              <button class="grammar-btn">Future Perfect</button>
+              <button class="grammar-btn">Participle</button>
+              <button class="grammar-btn">Every</button>
+              <button class="grammar-btn">There is</button>
+              <button class="grammar-btn">Modal</button>
+              <button class="grammar-btn">Can't</button>
+              <button class="grammar-btn">Passive Voice</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="music-container">
+          <div id="music-list" class="music-list"></div>
+        </div>
+      </div>  
 
       <div id="screen-drag" style="display: none;">
         <div class="header">
@@ -56,14 +124,13 @@
           </div>
         </div>
         <div class="nav-buttons">
-          <button class="btn" onclick="goBack()">Voltar</button>
-          <button class="btn" onclick="checkAnswersDrag()">Submeter</button>
+
+          
         </div>
       </div>
     </main>
 
     <div id="resultModal" class="modal"></div>
-
     <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
     import { getFirestore } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
@@ -80,30 +147,25 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     window.firebaseDB = db;
-  </script>
+    </script>
 
     <script src="services/firebase.js" type="module"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="auth/modalLogin.js"></script>
     <script src="index.js" type="module"></script>
-
+    <script
+      src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-8087DFE69T"></script>
     <script>
-    let lastScrollTop = 0;
-    window.addEventListener("scroll", function() {
-      let st = window.pageYOffset || document.documentElement.scrollTop;
-      const header = document.querySelector(".header");
-      if (st > lastScrollTop) {
-        header.classList.add("hide");
-      } else {
-        header.classList.remove("hide");
-      }
-      lastScrollTop = st <= 0 ? 0 : st;
-    }, false);
-  </script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script type="text/javascript">
-      $(window).load(function() {
-          $(".loader").fadeOut("slow");
-      });
-  </script>
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8087DFE69T');
+    </script>
+
+
   </body>
-  <div class="loader"></div>
 </html>
+

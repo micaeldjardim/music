@@ -1,46 +1,478 @@
-// services/musicService.js
 import { getMusicas } from "./firebase.js";
-import { extrairVideoId } from "../components/player.js";
+import { extrairVideoId, extrairVideoIdETempo } from "../components/player.js";
 
 let allMusicas = [];
+let navegarParaHomeFunction = null;
 
-/**
- * Carrega as músicas do Firebase e renderiza a lista, utilizando a callback
- * passada para quando uma música for selecionada.
- * @param {Function} callbackSelectMusic - Função executada ao selecionar uma música.
- */
-export async function carregarMusicas(callbackSelectMusic) {
-  allMusicas = await getMusicas();
-  renderMusicList(callbackSelectMusic);
+let filtroCountryAtivo = null;
+let filtroExcludeCountriesAtivo = null;
+let filtroDificuldadeAtivo = null;
+let filtroGrammarAtivo = null; // Nova variável para rastrear o filtro de gramática
+
+
+export function setHomeNavigation(fn) {
+  navegarParaHomeFunction = fn;
 }
 
-/**
- * Renderiza a lista de músicas filtradas de acordo com o termo pesquisado.
- * @param {Function} callbackSelectMusic - Função executada ao clicar em uma música.
- */
-export function renderMusicList(callbackSelectMusic) {
+export async function carregarMusicas(callbackSelectMusic) {
+  allMusicas = await getMusicas();
+  window.allMusicas = allMusicas;
+  
+  // Verificação dos valores de gramática disponíveis
+  const gramaticas = new Set();
+  console.log("Verificando gramáticas em cada música:");
+  
+  // Número de músicas com gramática definida
+  let musicasComGramatica = 0;
+  
+  allMusicas.forEach(musica => {
+    if (musica.grammar) {
+      // Verifica se a gramática é um array ou uma string
+      if (Array.isArray(musica.grammar)) {
+        musica.grammar.forEach(g => {
+          if (typeof g === 'string' && g.trim() !== '') {
+            gramaticas.add(g.toLowerCase());
+          }
+        });
+        console.log(`Música: "${musica.titulo}" - Gramáticas: [${musica.grammar.join(', ')}]`);
+      } else if (typeof musica.grammar === 'string' && musica.grammar.trim() !== '') {
+        gramaticas.add(musica.grammar.toLowerCase());
+        console.log(`Música: "${musica.titulo}" - Gramática: "${musica.grammar}"`);
+      }
+      musicasComGramatica++;
+    } else {
+      console.log(`Música: "${musica.titulo}" - Sem gramática definida`);
+    }
+  });
+  
+  console.log(`${musicasComGramatica} de ${allMusicas.length} músicas têm gramática definida`);
+  console.log("Gramáticas disponíveis:", Array.from(gramaticas));
+  
+  renderMusicList(callbackSelectMusic);
+  configurarBotoesCountry(callbackSelectMusic);
+  configurarBotoesDificuldade(callbackSelectMusic);
+  configurarBotoesGrammar(callbackSelectMusic, gramaticas);
+  
+  return allMusicas;
+}
+
+function configurarBotoesCountry(callbackSelectMusic) {
+  const botoesPais = document.querySelectorAll(".country-btn");
+  
+  if (botoesPais.length === 0) return;
+  
+  const mapeamentoPaises = {
+    "EUA": "USA",
+    "CAN": "Canada",
+    "UK": "UK", 
+    "AU": "Australia"
+  };
+  
+  const paisesMapeados = Object.values(mapeamentoPaises);
+  
+  const botaoOutros = Array.from(botoesPais).find(btn => btn.querySelector('img')?.alt === "outros");
+  if (botaoOutros) {
+    botaoOutros.addEventListener("click", () => {
+      if (botaoOutros.classList.contains("active")) {
+        botaoOutros.classList.remove("active");
+        filtroCountryAtivo = null;
+        filtroExcludeCountriesAtivo = null;
+        renderMusicList(callbackSelectMusic, null, null, filtroDificuldadeAtivo, filtroGrammarAtivo);
+      } else {
+        botoesPais.forEach(btn => btn.classList.remove("active"));
+        botaoOutros.classList.add("active");
+        filtroCountryAtivo = null;
+        filtroExcludeCountriesAtivo = paisesMapeados;
+        renderMusicList(callbackSelectMusic, null, paisesMapeados, filtroDificuldadeAtivo, filtroGrammarAtivo);
+      }
+    });
+  }
+  
+  botoesPais.forEach(botao => {
+    const img = botao.querySelector("img");
+    if (!img) return;
+    
+    const paisAlt = img.alt;
+    const paisCodigo = mapeamentoPaises[paisAlt];
+    
+    if (!paisCodigo || paisAlt === "outros") return;
+    
+    botao.addEventListener("click", () => {
+      if (botao.classList.contains("active")) {
+        botao.classList.remove("active");
+        filtroCountryAtivo = null;
+        renderMusicList(callbackSelectMusic, null, null, filtroDificuldadeAtivo, filtroGrammarAtivo);
+      } else {
+        botoesPais.forEach(btn => btn.classList.remove("active"));
+        botao.classList.add("active");
+        filtroCountryAtivo = paisCodigo;
+        filtroExcludeCountriesAtivo = null;
+        renderMusicList(callbackSelectMusic, paisCodigo, null, filtroDificuldadeAtivo, filtroGrammarAtivo);
+      }
+    });
+  });
+}
+
+function configurarBotoesDificuldade(callbackSelectMusic) {
+  const botoesDificuldade = document.querySelectorAll(".dificult-btn");
+  
+  if (botoesDificuldade.length === 0) return;
+  
+  // Mapeamento dos textos dos botões para os valores que podem estar no Firebase
+  const mapeamentoDificuldades = {
+    "Fácil": "Fácil",
+    "Médio": "Médio",
+    "Difícil": "Difícil",
+    "Muito Difícil": "Muito Difícil"
+  };
+  
+  botoesDificuldade.forEach(botao => {
+    const textoDificuldade = botao.textContent.trim();
+    const valorDificuldade = mapeamentoDificuldades[textoDificuldade] || textoDificuldade.toLowerCase();
+    
+    botao.addEventListener("click", () => {
+      if (botao.classList.contains("active")) {
+        botao.classList.remove("active");
+        filtroDificuldadeAtivo = null;
+        renderMusicList(callbackSelectMusic, filtroCountryAtivo, filtroExcludeCountriesAtivo, null, filtroGrammarAtivo);
+      } else {
+        botoesDificuldade.forEach(btn => btn.classList.remove("active"));
+        botao.classList.add("active");
+        filtroDificuldadeAtivo = valorDificuldade;
+        renderMusicList(callbackSelectMusic, filtroCountryAtivo, filtroExcludeCountriesAtivo, valorDificuldade, filtroGrammarAtivo);
+      }
+    });
+  });
+}
+
+// Modificar a função para aceitar as gramáticas disponíveis
+function configurarBotoesGrammar(callbackSelectMusic, gramaticasDisponiveis) {
+  const botoesGrammar = document.querySelectorAll(".grammar-btn");
+  
+  if (botoesGrammar.length === 0) return;
+  
+  console.log("Configurando botões de gramática:", botoesGrammar.length, "botões encontrados");
+
+  botoesGrammar.forEach(botao => {
+    const textoGrammar = botao.textContent.trim();
+    const gramaticaExiste = Array.from(gramaticasDisponiveis || []).some(
+      g => g.toLowerCase() === textoGrammar.toLowerCase()
+    );
+    
+    // Adicionar classe visual para botões sem músicas correspondentes
+    if (!gramaticaExiste) {
+      botao.classList.add("no-matches");
+      botao.title = "Não há músicas com esta gramática";
+    }
+    
+    botao.addEventListener("click", () => {
+      console.log(`Botão de gramática "${textoGrammar}" clicado`);
+      
+      if (botao.classList.contains("active")) {
+        // Desativar o filtro atual
+        botao.classList.remove("active");
+        filtroGrammarAtivo = null;
+        console.log("Removendo filtro de gramática");
+        renderMusicList(callbackSelectMusic, filtroCountryAtivo, filtroExcludeCountriesAtivo, filtroDificuldadeAtivo, null);
+      } else {
+        // Ativar um novo filtro
+        botoesGrammar.forEach(btn => btn.classList.remove("active"));
+        botao.classList.add("active");
+        filtroGrammarAtivo = textoGrammar;
+        console.log(`Aplicando filtro de gramática: "${textoGrammar}"`);
+        renderMusicList(callbackSelectMusic, filtroCountryAtivo, filtroExcludeCountriesAtivo, filtroDificuldadeAtivo, textoGrammar);
+      }
+    });
+  });
+}
+
+// Função renderMusicList corrigida para lidar com arrays de gramática
+export function renderMusicList(callbackSelectMusic, countryFilter = null, excludeCountries = null, dificuldadeFilter = null, grammarFilter = null) {
+
   const container = document.getElementById("music-list");
-  container.innerHTML = "";
-  const searchTerm = document.getElementById("search-input").value.toLowerCase();
-  const filtered = allMusicas.filter(musica =>
-    musica.titulo.toLowerCase().includes(searchTerm)
-  );
+  if (!container) return;
+  
+  const searchInput = document.getElementById("search-input");
+  const searchTerm = searchInput ? searchInput.value.toLowerCase() : "";
+  
+
+  console.log("Filtros aplicados:", { countryFilter, excludeCountries, dificuldadeFilter, grammarFilter });
+  
+
+  const filtered = allMusicas.filter(musica => {
+    const matchesSearch = musica.titulo.toLowerCase().includes(searchTerm);
+    
+    let matchesCountry = true;
+    if (countryFilter) {
+      matchesCountry = musica.country === countryFilter;
+    } else if (excludeCountries) {
+      matchesCountry = !excludeCountries.includes(musica.country);
+    }
+    
+
+    let matchesDificuldade = true;
+    if (dificuldadeFilter) {
+      matchesDificuldade = (musica.level || "").toLowerCase() === dificuldadeFilter.toLowerCase();
+    }
+    
+    let matchesGrammar = true;
+    if (grammarFilter) {
+      const filtroGrammar = typeof grammarFilter === 'string' ? grammarFilter.toLowerCase() : '';
+      
+      // Verifica se a música tem a gramática no array ou como string
+      if (Array.isArray(musica.grammar)) {
+        matchesGrammar = musica.grammar.some(g => 
+          (typeof g === 'string') && g.toLowerCase().includes(filtroGrammar)
+        );
+        
+        console.log(`Comparando gramática: música=[${musica.grammar.map(g => `"${g}"`).join(', ')}] (${musica.titulo}) com filtro="${filtroGrammar}" = ${matchesGrammar}`);
+      } else {
+        // Proteção contra undefined ou tipos não-string
+        const musicaGrammar = typeof musica.grammar === 'string' ? musica.grammar.toLowerCase() : '';
+        matchesGrammar = musicaGrammar.includes(filtroGrammar);
+        
+        console.log(`Comparando gramática: música="${musicaGrammar}" (${musica.titulo}) com filtro="${filtroGrammar}" = ${matchesGrammar}`);
+      }
+    }
+    
+    return matchesSearch && matchesCountry && matchesDificuldade && matchesGrammar;
+  });
+  
+  console.log(`Filtro aplicado: ${filtered.length} músicas encontradas de ${allMusicas.length}`);
+  
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="no-results">Nenhuma música encontrada</div>';
+    return;
+  }
+  
+  container.innerHTML = '';
+  
   filtered.forEach(musica => {
-    const videoId = extrairVideoId(musica.URL);
+
+    // Construir card da música
+    const result = extrairVideoId(musica.URL) || extrairVideoIdETempo(musica.URL);
+    const videoId = result ? result.videoId : null;
+
     const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "";
+    
     const div = document.createElement("div");
     div.className = "music-thumb";
-    const title = document.createElement("div");
-    title.className = "music-title-thumb";
-    title.textContent = musica.titulo;
-    div.appendChild(title);
+    
+    // Adicionar badge de gramática se existir
+    if (musica.grammar) {
+      // Se for array, mostrar a primeira gramática
+      const grammarText = Array.isArray(musica.grammar) ? 
+        (musica.grammar.length > 0 ? musica.grammar[0] : "") : 
+        musica.grammar;
+      
+      
+    }
+    
+    const textContainer = document.createElement("div");
+    textContainer.className = "text-container";
+    
     if (thumbUrl) {
       const img = document.createElement("img");
       img.src = thumbUrl;
       img.alt = musica.titulo;
       div.appendChild(img);
     }
-    div.onclick = () => callbackSelectMusic(musica);
+    
+    const title = document.createElement("div");
+    title.className = "music-title-thumb";
+    title.textContent = musica.titulo;
+    textContainer.appendChild(title);
+
+    const artist = document.createElement("div");
+    artist.className = "music-artist-thumb";
+    artist.textContent = ((musica.artista || musica.artist || "").trim()) || "Artista Desconhecido";
+    textContainer.appendChild(artist);
+    
+    // Mostrar o nível de dificuldade
+    if (musica.level) {
+      const difficulty = document.createElement("div");
+      difficulty.className = "music-difficulty";
+      difficulty.textContent = musica.level;
+      textContainer.appendChild(difficulty);
+    }
+    
+    // Mostrar a gramática
+    if (musica.grammar) {
+      const grammar = document.createElement("div");
+      grammar.className = "music-grammar";
+      
+      // Formatação do texto da gramática
+      if (Array.isArray(musica.grammar)) {
+        if (musica.grammar.length > 3) {
+          // Cria versão limitada com 3 primeiras gramáticas
+          const limitedGrammars = musica.grammar.slice(0, 3).join(', ');
+          const badgeCount = musica.grammar.length - 3;
+          grammar.innerHTML = `${limitedGrammars} <span class="grammar-badge">+${badgeCount}</span>`;
+          
+          // Adiciona o tooltip com todas as gramáticas
+          grammar.title = musica.grammar.join(', ');
+          
+          // Adiciona evento de mouse over/out para mostrar todas as gramáticas
+          grammar.addEventListener('mouseover', function() {
+            this.dataset.originalHtml = this.innerHTML;
+            this.textContent = musica.grammar.join(', ');
+          });
+          
+          grammar.addEventListener('mouseout', function() {
+            this.innerHTML = this.dataset.originalHtml;
+          });
+        } else {
+          // Se tiver 3 ou menos, mostra normalmente
+          grammar.textContent = musica.grammar.join(', ');
+        }
+      } else {
+        // Se for string, usa diretamente
+        grammar.textContent = musica.grammar;
+      }
+      
+      textContainer.appendChild(grammar);
+    }
+    
+    div.appendChild(textContainer);
+    
+    div.onclick = () => {
+      callbackSelectMusic(musica);
+      
+      if (window.navegarParaMusica) {
+        window.navegarParaMusica(musica);
+      }
+    };
+    
     container.appendChild(div);
+  });
+}
+
+export function encontrarMusicaPorId(id) {
+  if (!id) return null;
+  
+  return allMusicas.find(m => 
+    m.id === id || 
+    (id.includes('-') && id.startsWith(criarSlug(m.titulo)))
+  );
+}
+
+function verificarURLInicial(callbackSelectMusic) {
+  const hash = window.location.hash;
+  if (hash && hash.startsWith('#musica/')) {
+    try {
+      const musicaId = hash.substring(8).split('/')[0];
+      if (musicaId) {
+        const musica = allMusicas.find(m => m.id === musicaId || 
+        musicaId.startsWith(criarSlug(m.titulo)));
+        if (musica) {
+          callbackSelectMusic(musica);
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao processar URL inicial:", error);
+    }
+  }
+}
+
+function configurarNavegacaoHistorico(callbackSelectMusic) {
+  window.addEventListener('popstate', (event) => {
+    if (event.state && event.state.screen) {
+      switch (event.state.screen) {
+        case 'drag':
+          if (event.state.musicaId) {
+            const musica = allMusicas.find(m => 
+              m.id === event.state.musicaId ||
+              event.state.musicaId.startsWith(criarSlug(m.titulo))
+            );
+            if (musica) {
+              callbackSelectMusic(musica);
+            } else {
+              console.warn("Música não encontrada na navegação:", event.state.musicaId);
+              mostrarTelaInicial();
+            }
+          } else {
+            mostrarTelaInicial();
+          }
+          break;
+        case 'home':
+        default:
+          mostrarTelaInicial();
+          break;
+      }
+    } else {
+      mostrarTelaInicial();
+    }
+  });
+  
+  if (!window.location.hash || window.location.hash === '#' || window.location.hash === '#home') {
+    const initialState = { screen: 'home' };
+    history.replaceState(initialState, '', '#home');
+  }
+}
+
+export function mostrarTelaInicial() {
+  document.getElementById("screen-home").style.display = "block";
+  document.getElementById("screen-drag").style.display = "none";
+  
+  const playerContainer = document.getElementById("player-container");
+  if (playerContainer) {
+    playerContainer.innerHTML = "";
+  }
+  
+  if (window.location.hash !== '#home' && navegarParaHomeFunction) {
+    navegarParaHomeFunction();
+  }
+}
+
+export function gerarIdTemporario(musica) {
+  const slug = criarSlug(musica.titulo);
+  const uniqueId = Date.now().toString(36).slice(-4);
+  return `${slug}-${uniqueId}`;
+}
+
+export function criarSlug(texto) {
+  if (!texto || typeof texto !== 'string') {
+    return 'musica';
+  }
+  
+  return texto
+    .toString()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/--+/g, '-')
+    .substring(0, 50);
+}
+
+export function renderCountryFilters(parentElement, callbackSelectMusic) {
+  if (!parentElement) return;
+  
+  parentElement.innerHTML = '';
+  
+  const countries = [...new Set(allMusicas.map(musica => musica.country).filter(Boolean))];
+  
+  const allButton = document.createElement('button');
+  allButton.textContent = 'Todos';
+  allButton.className = 'country-filter active';
+  allButton.onclick = () => {
+    document.querySelectorAll('.country-filter').forEach(btn => btn.classList.remove('active'));
+    allButton.classList.add('active');
+    renderMusicList(callbackSelectMusic);
+  };
+  parentElement.appendChild(allButton);
+  
+  countries.forEach(country => {
+    const button = document.createElement('button');
+    button.textContent = country;
+    button.className = 'country-filter';
+    button.onclick = () => {
+      document.querySelectorAll('.country-filter').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      renderMusicList(callbackSelectMusic, country);
+    };
+    parentElement.appendChild(button);
   });
 }
