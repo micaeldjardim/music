@@ -1,0 +1,38 @@
+function calcularPontuacaoEEstrelas({ acertos, totalPalavras, tempoUsado, duracaoVideo, nivel }) {
+  const pontosPorNivel = {
+    facil: 10,
+    medio: 15,
+    dificil: 20,
+    muito_dificil: 25
+  };
+
+  const percentual = acertos / totalPalavras;
+  const tempoIdeal = duracaoVideo * 0.5;
+  const fatorTempo = tempoUsado / tempoIdeal;
+
+  let multiplicadorTempo = 1.0;
+  if (fatorTempo <= 1.0) {
+    multiplicadorTempo = 1.2;
+  } else if (fatorTempo > 1.5) {
+    multiplicadorTempo = 0.8;
+  }
+
+  const pontosBase = pontosPorNivel[nivel] || 10;
+  const pontuacao = Math.round(acertos * pontosBase * multiplicadorTempo);
+
+  let estrelas = 0;
+  if (percentual >= 0.9 && fatorTempo <= 1.0) {
+    estrelas = 3;
+  } else if (percentual >= 0.9 || percentual >= 0.7) {
+    estrelas = 2;
+  } else if (percentual >= 0.5) {
+    estrelas = 1;
+  }
+
+  return {
+    pontuacao,
+    estrelas,
+    percentual: Math.round(percentual * 100),
+    fatorTempo: parseFloat(fatorTempo.toFixed(2))
+  };
+}
