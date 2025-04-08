@@ -29,6 +29,19 @@ function criarPlayer(videoId, startTime = 0) {
                 onStateChange: onPlayerStateChange,
             },
         });
+        
+        // Adiciona listener para o evento de navegação do histórico (botão voltar)
+        window.addEventListener('popstate', pararPlayerAoVoltar);
+    }
+}
+
+/**
+ * Para a reprodução do vídeo quando o usuário navega para trás.
+ */
+function pararPlayerAoVoltar() {
+    if (player && typeof player.pauseVideo === 'function') {
+        player.pauseVideo();
+        console.log("Vídeo pausado devido à navegação para trás");
     }
 }
 
@@ -105,3 +118,17 @@ export function exibirYoutubePlayer(musica) {
         criarPlayer(videoId, startTime);
     }
 
+}
+
+/**
+ * Limpa o player e remove os event listeners.
+ * Deve ser chamado quando o componente que usa o player for desmontado.
+ */
+export function limparPlayer() {
+    window.removeEventListener('popstate', pararPlayerAoVoltar);
+    
+    if (player && typeof player.destroy === 'function') {
+        player.destroy();
+        player = null;
+    }
+}

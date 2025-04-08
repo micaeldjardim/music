@@ -1,6 +1,15 @@
 import { showResultPopup } from "./modal.js";
 
 export function exibirLetraDrag(musica) {
+  // Armazenar o tempo de início e dados da música
+  localStorage.setItem('startTime', Date.now());
+  localStorage.setItem('musicaAtual', JSON.stringify({
+    id: musica.id || '', // Adicionar o ID da música
+    nivel: musica.nivel || 'medio',
+    duracao: musica.duracao || 180,
+    titulo: musica.titulo || 'Música'
+  }));
+  
   const lyricsContainer = document.getElementById("lyricsDrag");
   const wordBank = document.getElementById("word-bank");
   const frasesDisponiveis = musica.palavras.map(p => p.toLowerCase());
@@ -249,6 +258,9 @@ export function checkAnswersDrag() {
   let totalPreenchidos = 0;
   const totalBlanks = blanks.length;
   
+  const startTime = Number(localStorage.getItem('startTime') || Date.now());
+  const tempoUsado = (Date.now() - startTime) / 1000; // tempo em segundos
+  
   blanks.forEach(blank => {
     const respostaCorreta = blank.dataset.answer;
     const conteudoAtual = blank.textContent.trim();
@@ -281,27 +293,77 @@ export function checkAnswersDrag() {
     }
   });
   
-  // Sistema de pontuação simplificado
-  // A pontuação é calculada com base na proporção de respostas corretas
-  const pontuacao = Math.round((correctCount / totalBlanks) * 100);
+  // Obter dados da música atual
+  const musicaAtual = JSON.parse(localStorage.getItem('musicaAtual') || '{}');
+  const nivel = musicaAtual.nivel || 'medio';
+  const duracaoVideo = musicaAtual.duracao || 180; // Valor padrão de 3 minutos
   
-  // Determinar número de estrelas com base na pontuação
-  let stars = 1;
-  if (pontuacao >= 90) {
-    stars = 3;
+  // Usar o novo sistema de cálculo de pontuação
+  const resultado = calcularPontuacaoEEstrelas({
+    acertos: correctCount,
+    totalPalavras: totalBlanks,
+    tempoUsado: tempoUsado,
+    duracaoVideo: duracaoVideo,
+    nivel: nivel
+  });
+  
+  // Dispara confete para 3 estrelas
+  if (resultado.estrelas === 3) {
     disparaConfete();
-  } else if (pontuacao >= 70) {
-    stars = 2;
   }
   
   // Mostrar popup com resultado
-  showResultPopup(pontuacao, stars, {
+  showResultPopup(resultado.percentual, resultado.estrelas, {
     precisao: Math.round((correctCount / totalPreenchidos) * 100) || 0,
     completude: Math.round((totalPreenchidos / totalBlanks) * 100),
     totalCorretas: correctCount,
     totalRespondidas: totalPreenchidos,
-    totalQuestoes: totalBlanks
+    totalQuestoes: totalBlanks,
+    pontuacao: resultado.pontuacao,
+    fatorTempo: resultado.fatorTempo
   });
+}
+
+/**
+ * Calcula a pontuação e estrelas com base nos parâmetros fornecidos
+ */
+function calcularPontuacaoEEstrelas({ acertos, totalPalavras, tempoUsado, duracaoVideo, nivel }) {
+  const pontosPorNivel = {
+    facil: 10,
+    medio: 15,
+    dificil: 20,
+    muito_dificil: 25
+  };
+
+  const percentual = acertos / totalPalavras;
+  const tempoIdeal = duracaoVideo * 0.5;
+  const fatorTempo = tempoUsado / tempoIdeal;
+
+  let multiplicadorTempo = 1.0;
+  if (fatorTempo <= 1.0) {
+    multiplicadorTempo = 1.2;
+  } else if (fatorTempo > 1.5) {
+    multiplicadorTempo = 0.8;
+  }
+
+  const pontosBase = pontosPorNivel[nivel] || 10;
+  const pontuacao = Math.round(acertos * pontosBase * multiplicadorTempo);
+
+  let estrelas = 0;
+  if (percentual >= 0.9 && fatorTempo <= 1.0) {
+    estrelas = 3;
+  } else if (percentual >= 0.9 || percentual >= 0.7) {
+    estrelas = 2;
+  } else if (percentual >= 0.5) {
+    estrelas = 1;
+  }
+
+  return {
+    pontuacao,
+    estrelas,
+    percentual: Math.round(percentual * 100),
+    fatorTempo: parseFloat(fatorTempo.toFixed(2))
+  };
 }
 
 function disparaConfete() {

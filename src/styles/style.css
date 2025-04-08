@@ -18,6 +18,67 @@ body {
   box-sizing: border-box;
 }
 
+/* Estilos para o novo navbar Bootstrap */
+.navbar-fillthesong {
+  background: linear-gradient(90deg, #064D7A 0%, #519ECF 100%);
+  padding: 10px 15px;
+  position: static;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navbar-fillthesong .navbar-brand,
+.navbar-fillthesong .nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar-fillthesong .nav-link:hover {
+  color: #A52916 !important; /* vermelho da paleta no hover */
+}
+
+.navbar-logo {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.profile-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Ajustes para responsividade do menu */
+@media (max-width: 992px) {
+  .navbar-fillthesong .navbar-collapse {
+    margin-top: 10px;
+  }
+  
+  .navbar-fillthesong .nav-item {
+    margin-bottom: 5px;
+  }
+}
+
+/* Estilo para o botão do menu mobile */
+.navbar-fillthesong .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-fillthesong .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+/* Fim dos estilos do navbar */
+
 /*html, body {
   margin: 0;
   padding: 0;
@@ -38,7 +99,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url('/src/assets/preloader/Preloader\ 3.gif') 50% 50% no-repeat rgb(0,0,0);
+  background: url('/src/assets/preloader/Preloader\ 2.gif') 50% 50% no-repeat rgb(0,0,0);
 }
 
 .container {
@@ -56,25 +117,13 @@ body {
   color:#333;
 }
 
+/* Ocultar o header antigo já que estamos usando o novo navbar */
 .header-conteiner {
-  background-color:white;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  width: 100%;
-  height: 45px;
-  z-index: 1000;
-  margin-top: -100px;
-  position: sticky;
-  border-bottom-right-radius: 20px;
-  border-bottom-left-radius: 20px;
+  display: none;
 }
 
 .header-left {
-  display: flex;
-  align-items: flex-end;
+  display: none;
 }
 
 .logo {
@@ -125,7 +174,7 @@ body {
   align-items: center;
 }
 
-
+.search-input-container input {
   width: 100%;
   padding: 10px;
   padding-right: 40px; /* Espaço para o botão */
@@ -174,7 +223,6 @@ body {
   overflow: hidden;
   margin-top: 10px;
   border: 1px solid #ddd;
-
   border-radius: 20px;
   padding: 15px;
   background-color: #f9f9f9;
@@ -189,7 +237,6 @@ body {
   padding-bottom: 0;
   border: none;
   pointer-events: none;
-
 }
 
 .music-container {
@@ -906,6 +953,3 @@ body {
   margin-bottom: 0;
   pointer-events: none;
 }
-
-
-
