@@ -200,9 +200,10 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null, exclu
   
 
   const filtered = allMusicas.filter(musica => {
-    // Busca por título ou estilo musical
+    // Busca por título, estilo musical ou artista
     const matchesSearch = musica.titulo.toLowerCase().includes(searchTerm) || 
-                         (musica.style && musica.style.toLowerCase().includes(searchTerm));
+                         (musica.style && musica.style.toLowerCase().includes(searchTerm)) ||
+                         ((musica.artist || musica.artista || "").toLowerCase().includes(searchTerm));
     
     let matchesCountry = true;
     if (countryFilter) {
