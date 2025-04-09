@@ -23,15 +23,15 @@
 
       <nav class="nav">
         <ul>
-          <li><a href="#" id="login-button">Login</a></li>
           <li><a href="#">Baixe o App</a></li>
           <li><a href="pages/addMusic.html">Adicione uma Música</a></li>
           <li><a href="pages/planoseprecos.html">Preços</a></li>
           <li><a href="pages/blog.html">Blog</a></li>
-          <a href="pages/dashboard.html">
+          <a href="#" id="dashboard-link">
             <li><img
                 src="./img/profile.webp"
-                alt="profile" class="profile"></li>
+                alt="profile" class="profile">
+            </li>
           </a>
         </ul>
       </nav>
@@ -150,7 +150,7 @@
 
     <script src="services/firebase.js" type="module"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="auth/modalLogin.js"></script>
+    <script src="auth/modalLogin.js" type="module"></script>
     <script src="index.js" type="module"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>

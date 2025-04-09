@@ -58,6 +58,7 @@ body {
   width: 200px;
   height: auto;
   margin: 0;
+  background-color: transparent;
 }
 
 .profile{
@@ -102,7 +103,7 @@ body {
   align-items: center;
 }
 
-
+.search-input{
   width: 100%;
   padding: 10px;
   padding-right: 40px; /* Espaço para o botão */

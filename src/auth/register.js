@@ -1,41 +1,35 @@
 console.log("register.js carregado com sucesso!");
 
 import { auth } from "./firebase2.js";
-import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
 // Selecionando elementos
 const registerButton = document.getElementById("register-button");
-const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
 
-// Habilitar botão de registro apenas quando os campos estiverem preenchidos
-function toggleRegisterButton() {
-  registerButton.disabled = !nameInput.value || !emailInput.value || !passwordInput.value;
-}
-
-nameInput.addEventListener("input", toggleRegisterButton);
-emailInput.addEventListener("input", toggleRegisterButton);
-passwordInput.addEventListener("input", toggleRegisterButton);
+// Habilitar botão quando email estiver preenchido
+emailInput.addEventListener("input", () => {
+  registerButton.disabled = !emailInput.value;
+});
 
 // Evento de registro
 registerButton.addEventListener("click", async () => {
-  const name = nameInput.value;
   const email = emailInput.value;
-  const password = passwordInput.value;
 
-  console.log("Tentando registrar com:", { name, email, password });
+  console.log("Tentando registrar com:", { email });
 
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    // Gerar uma senha temporária
+    const tempPassword = Math.random().toString(36).slice(-8);
 
-    console.log("Usuário criado:", user);
+    // Criar usuário
+    await createUserWithEmailAndPassword(auth, email, tempPassword);
 
-    await updateProfile(user, { displayName: name });
-    await sendEmailVerification(user);
+    // Enviar email de redefinição de senha
+    await sendPasswordResetEmail(auth, email);
 
-    alert("Conta criada com sucesso! Verifique seu e-mail antes de fazer login.");
+    alert("Conta criada! Por favor, verifique seu email para definir sua senha.");
+    window.location.href = "login.html";
   } catch (error) {
     console.error("Erro ao registrar:", error);
     handleRegisterError(error);
@@ -49,9 +43,6 @@ function handleRegisterError(error) {
   switch (error.code) {
     case "auth/email-already-in-use":
       message = "Este e-mail já está cadastrado.";
-      break;
-    case "auth/weak-password":
-      message = "A senha deve ter pelo menos 6 caracteres.";
       break;
     case "auth/invalid-email":
       message = "O e-mail fornecido é inválido.";
