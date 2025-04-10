@@ -3,41 +3,88 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete the Lyrics</title>
-    <link rel="icon"
-      href="img/logo-microphone.webp"
-      type="image/png">
+
+    <title>Fill the Song | Aprenda Inglês com Música de Forma Divertida e Interativa</title>
+    <meta name="description" content="Aprenda inglês com música jogando! Complete letras de músicas famosas, melhore vocabulário e compreensão com o Fill the Song.">
+    <link rel="icon" href="./img/logo-microphone.webp" type="image/webp">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/login.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
   </head>
   <body>
 
-    <header class="header-conteiner">
-      <div class="header-left">
-        <a href="index.html">
-          <img
-            src="img/logo-microphone.webp"
-            alt="Logo" class="logo_index">
-        </a>
-      </div>
-
-      <nav class="nav">
-        <ul>
-          <li><a href="#">Baixe o App</a></li>
-          <li><a href="pages/addMusic.html">Adicione uma Música</a></li>
-          <li><a href="pages/planoseprecos.html">Preços</a></li>
-          <li><a href="pages/blog.html">Blog</a></li>
-          <a href="#" id="dashboard-link">
-            <li><img
-                src="./img/profile.webp"
-                alt="profile" class="profile">
-            </li>
+    <header class=header-conteiner>
+      <nav class="navbar navbar-expand-lg navbar-fillthesong fixed-top">
+        <div class="container-fluid">
+          <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img 
+            src="img/logo.webp" 
+            alt="Fill the Song Logo" 
+            class="navbar-logo me-2">
+        
           </a>
-        </ul>
-      </nav>
-    </header>
+        <button 
+          class="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarNav" 
+          aria-controls="navbarNav" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation"
+          style="border-color: #fff;">
+          <span class="navbar-toggler-icon" style="color: #fff;"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="login-button">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Baixe o App</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/addMusic.html">Adicione uma Música</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/planoseprecos.html">Preços</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/blog.html">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages/dashboard.html">
+                <img src="./img/profile.webp" alt="profile" class="profile-icon">
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
 
-    <main>
+    <!-- Nova seção hero com fundo animado e vídeo de apresentação -->
+    <section class="hero-section">
+      <h1>Fill the Song</h1>
+      <p class="lead">Aprenda inglês completando letras de músicas</p>
+      
+      <div class="video-presentation">
+        <!-- Vídeo de apresentação aqui (pode ser um iframe do YouTube ou um vídeo hospedado) -->
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/SEU_VÍDEO_ID" 
+          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen></iframe>
+      </div>
+    </section>
+
+
+    <!-- Seção principal com fundo estático -->
+    <section class="main-content">
       <div id="screen-home">
         <div id="modal-container"></div>
         <div class="search-filters">
@@ -50,9 +97,7 @@
             </button>
           </div>
           
-          <!-- Container que agrupa todos os filtros -->
-          <div id="filtros-content" class="filtros-content">
-            <h3>Country</h3>          
+          <div id="filtros-content" class="filtros-content">         
             <div class="country-filter">
               <button class="country-btn">
                 <img src="./img/EUA.webp" alt="EUA">
@@ -70,20 +115,16 @@
                 <img src="./img/world.webp" alt="outros">  
               </button>
             </div>
-            
-            <h3>Level</h3>
+          
             <div class="dificult-filter">
-
               <button class="dificult-btn">Fácil</button>
               <button class="dificult-btn">Médio</button>
               <button class="dificult-btn">Difícil</button>
               <button class="dificult-btn">Muito Difícil</button>
-
             </div>
             
-            <h3>Grammar</h3>
+            
             <div class="grammar-filter">
-
               <button class="grammar-btn">Imperative</button>
               <button class="grammar-btn">Simple Past</button>
               <button class="grammar-btn">Simple Present</button>
@@ -108,26 +149,24 @@
           <div id="music-list" class="music-list"></div>
         </div>
       </div>  
+    </section>
 
-      <div id="screen-drag" style="display: none;">
-        <div class="header">
-          <div id="music-title" class="music-title"></div>
-        </div>
-        <div class="content">
-          <div class="video-area" id="player-container"></div>
-          <div class="game-area">
-            <div class="lyrics-area">
-              <div class="lyrics" id="lyricsDrag"></div>
-            </div>
-            <div class="word-bank-area" id="word-bank"></div>
+    <div id="screen-drag" style="display: none;">
+      <div class="header">
+        <div id="music-title" class="music-title"></div>
+      </div>
+      <div class="content">
+        <div class="video-area" id="player-container"></div>
+        <div class="game-area">
+          <div class="lyrics-area">
+            <div class="lyrics" id="lyricsDrag"></div>
           </div>
-        </div>
-        <div class="nav-buttons">
+          <div class="word-bank-area" id="word-bank"></div>
 
-          
         </div>
       </div>
-    </main>
+      <div class="nav-buttons"></div>
+    </div>
 
     <div id="resultModal" class="modal"></div>
     <script type="module">
@@ -135,6 +174,7 @@
     import { getFirestore } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 
     const firebaseConfig = {
+      apiKey: "AIzaSyDpK_Aw49OFg9mS6aEDz5FjpK2OlV9-wvA",
       authDomain: "fill-the-song.firebaseapp.com",
       projectId: "fill-the-song",
       storageBucket: "fill-the-song.firebasestorage.app",
@@ -150,6 +190,7 @@
 
     <script src="services/firebase.js" type="module"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
+
     <script src="auth/modalLogin.js" type="module"></script>
     <script src="index.js" type="module"></script>
     <script
@@ -162,7 +203,18 @@
 
       gtag('config', 'G-8087DFE69T');
     </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
+    <script type="text/javascript">
+      $(window).load(function() {
+          $(".loader").fadeOut("slow");
+      });
+    </script>
+    
   </body>
+
+  <div class="loader"></div>
+
 </html>

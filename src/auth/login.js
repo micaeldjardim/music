@@ -110,11 +110,13 @@ document.getElementById("google-login-button").addEventListener("click", async (
   }
 });
 
+
 // Login com Facebook
 document.getElementById("facebook-login-button").addEventListener("click", async () => {
   const provider = new FacebookAuthProvider();
   try {
     const result = await signInWithPopup(auth, provider);
+
     console.log("Usuário logado com Facebook:", result.user);
     window.location.href = "/src/index.html"; // Caminho absoluto
   } catch (error) {

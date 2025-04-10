@@ -1,6 +1,7 @@
 console.log("register.js carregado com sucesso!");
 
 import { auth } from "./firebase2.js";
+
 import { createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
 // Selecionando elementos
@@ -30,6 +31,7 @@ registerButton.addEventListener("click", async () => {
 
     alert("Conta criada! Por favor, verifique seu email para definir sua senha.");
     window.location.href = "login.html";
+
   } catch (error) {
     console.error("Erro ao registrar:", error);
     handleRegisterError(error);
@@ -44,6 +46,7 @@ function handleRegisterError(error) {
     case "auth/email-already-in-use":
       message = "Este e-mail já está cadastrado.";
       break;
+
     case "auth/invalid-email":
       message = "O e-mail fornecido é inválido.";
       break;

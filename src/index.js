@@ -81,6 +81,16 @@ document.addEventListener('DOMContentLoaded', () => {
     backButton.onclick = goBack;
   }
 
+  // Verificar se devemos navegar para a próxima música
+  const navegarParaProxima = localStorage.getItem('navegarParaProxima');
+  if (navegarParaProxima === 'true') {
+    // Limpar a flag
+    localStorage.removeItem('navegarParaProxima');
+    
+    // Buscar a próxima música na lista
+    buscarProximaMusica();
+  }
+
 
   // Configurar toggle dos filtros
   const toggleButton = document.getElementById('toggle-filtros-btn');
@@ -106,4 +116,36 @@ document.addEventListener('DOMContentLoaded', () => {
     event.stopPropagation();
   });
 
+
 });
+
+// Função para buscar a próxima música
+function buscarProximaMusica() {
+  // Recuperar a lista de músicas do localStorage ou do banco de dados
+  const musicaAtual = JSON.parse(localStorage.getItem('musicaAtual') || '{}');
+  const idAtual = musicaAtual.id;
+  
+  // Aqui você precisa implementar a lógica para selecionar a próxima música
+  // Por exemplo, você pode ter uma lista ordenada de IDs de músicas
+  // e selecionar a música que vem depois da atual
+  
+  // Exemplo simplificado:
+  const todasMusicas = JSON.parse(localStorage.getItem('musicList') || '[]');
+  if (todasMusicas.length > 0) {
+    let indexAtual = -1;
+    
+    // Encontrar o índice da música atual na lista
+    if (idAtual) {
+      indexAtual = todasMusicas.findIndex(musica => musica.id === idAtual);
+    }
+    
+    // Calcular o índice da próxima música
+    const proximoIndex = (indexAtual + 1) % todasMusicas.length;
+    const proximaMusica = todasMusicas[proximoIndex];
+    
+    // Navegar para a próxima música
+    if (proximaMusica && proximaMusica.id) {
+      window.location.href = `jogo.html?id=${proximaMusica.id}`;
+    }
+  }
+}

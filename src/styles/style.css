@@ -1,21 +1,111 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 
+/* Ajustes para o body e navbar fixo */
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background: radial-gradient(circle, rgba(161,40,22,1) 0%, rgba(78,158,207,1) 100%);
-  background-attachment: fixed; /* Mantém o gradiente fixo durante a rolagem */
+  background-color: #f8f9fa; /* Cor de fundo estática para o conteúdo ao rolar */
   color: #333;
   text-align: center;
-  padding-top: 100px;
+   /* Aumentado o espaço para o navbar fixo */
   box-sizing: border-box;
   overflow-x: hidden;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
 }
 
 /* Adiciona box-sizing para todos os elementos */
 *, *:before, *:after {
   box-sizing: border-box;
+}
+
+/* Estilos para o novo navbar Bootstrap - agora fixo */
+.navbar-fillthesong {
+  background: transparent;
+  position:sticky !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navbar-fillthesong .navbar-brand,
+.navbar-fillthesong .nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar-fillthesong .nav-link:hover {
+  color: #A52916 !important; /* vermelho da paleta no hover */
+}
+
+.navbar-logo {
+  width: 50px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.profile-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Ajustes para responsividade do menu */
+@media (max-width: 992px) {
+  .navbar-fillthesong .navbar-collapse {
+    margin-top: 10px;
+  }
+  
+  .navbar-fillthesong .nav-item {
+    margin-bottom: 5px;
+  }
+}
+
+/* Estilo para o botão do menu mobile */
+.navbar-fillthesong .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-fillthesong .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+/* Fim dos estilos do navbar */
+
+/*html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden; 
+}*/
+
+/*----------------preloader------------------*/
+.loader {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: white; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('/src/assets/preloader/Preloader\ 2.gif') 50% 50% no-repeat rgb(0,0,0);
 }
 
 .container {
@@ -33,25 +123,19 @@ body {
   color:#333;
 }
 
+/* Ocultar o header antigo já que estamos usando o novo navbar */
 .header-conteiner {
-  background-color:white;
+  position: absolute;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  width: 100%;
+  width: 100%; 
   height: 45px;
   z-index: 1000;
-  margin-top: -100px;
-  position: sticky;
-  border-bottom-right-radius: 20px;
-  border-bottom-left-radius: 20px;
-}
 
-.header-left {
-  display: flex;
-  align-items: flex-end;
+
 }
 
 .logo {
@@ -103,7 +187,7 @@ body {
   align-items: center;
 }
 
-.search-input{
+.search-input-container input {
   width: 100%;
   padding: 10px;
   padding-right: 40px; /* Espaço para o botão */
@@ -152,7 +236,6 @@ body {
   overflow: hidden;
   margin-top: 10px;
   border: 1px solid #ddd;
-
   border-radius: 20px;
   padding: 15px;
   background-color: #f9f9f9;
@@ -167,7 +250,56 @@ body {
   padding-bottom: 0;
   border: none;
   pointer-events: none;
+}
 
+/* Área de apresentação com fundo animado */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh; 
+  background-color: #0e4d7a;
+  background-image: 
+    linear-gradient(135deg, #0e4d7a 0%, #1a6098 25%, #52a5d9 50%, #9a3a29 75%, #b22913 100%);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  padding-top: 80px;
+  overflow: hidden;
+  font-family: Orbitron, sans-serif;
+  color: white;
+}
+
+/* Área do vídeo de apresentação */
+.video-presentation {
+  width: 80%;
+  max-width: 800px;
+  height: 500px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 30px;
+  overflow: hidden;
+  margin: 20px 0;
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Conteúdo principal (fundo estático) */
+.main-content {
+  background-color: #f8f9fa;
+  position: relative;
+  padding: 40px 0;
+  box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.1);
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  margin-top: -30px; /* Sobrepõe levemente a seção hero */
+  z-index: 2;
 }
 
 .music-container {
@@ -412,6 +544,7 @@ body {
 }
 
 .music-thumb {
+  position: relative; /* Necessário para posicionar o badge corretamente */
   width: 250px;
   height: 340px;
   display: flex;
@@ -432,6 +565,22 @@ body {
 .music-thumb:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Badge de estilo musical na thumbnail */
+.music-style {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-transform: capitalize;
 }
 
 /* Ícone musical */
@@ -884,6 +1033,4 @@ body {
   margin-bottom: 0;
   pointer-events: none;
 }
-
-
 

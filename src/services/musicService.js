@@ -200,7 +200,10 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null, exclu
   
 
   const filtered = allMusicas.filter(musica => {
-    const matchesSearch = musica.titulo.toLowerCase().includes(searchTerm);
+    // Busca por título, estilo musical ou artista
+    const matchesSearch = musica.titulo.toLowerCase().includes(searchTerm) || 
+                         (musica.style && musica.style.toLowerCase().includes(searchTerm)) ||
+                         ((musica.artist || musica.artista || "").toLowerCase().includes(searchTerm));
     
     let matchesCountry = true;
     if (countryFilter) {
@@ -288,6 +291,14 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null, exclu
     artist.className = "music-artist-thumb";
     artist.textContent = ((musica.artista || musica.artist || "").trim()) || "Artista Desconhecido";
     textContainer.appendChild(artist);
+    
+    // Mostrar o estilo musical se existir
+    if (musica.style) {
+      const style = document.createElement("div");
+      style.className = "music-style";
+      style.textContent = musica.style;
+      textContainer.appendChild(style);
+    }
     
     // Mostrar o nível de dificuldade
     if (musica.level) {

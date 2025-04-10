@@ -1,3 +1,4 @@
+
 import { auth } from "./firebase2.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
@@ -77,11 +78,14 @@ function loadLoginModal() {
           closeModalButton.addEventListener('click', closeModal2);
         }
 
+
         // Configurar eventos do formulário de login
         setupLoginEvents();
+
       })
       .catch(error => console.error('Erro ao carregar o modal de login:', error));
 }
+
 
 // Nova função para configurar eventos do login
 async function setupLoginEvents() {

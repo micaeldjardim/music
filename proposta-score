@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resultado</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --azul-escuro: #064D7A;
+      --azul-claro: #519ECF;
+      --vermelho: #A52916;
+      --amarelo: #CF9A4F;
+      --roxo: #762379;
+      --font-base: 16px;
+    }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, var(--azul-claro) 0%, #f0f4f8 100%);
+      font-family: 'Inter', sans-serif;
+      text-align: center;
+      color: var(--azul-escuro);
+      padding: 40px 20px;
+    }
+    header, main {
+      max-width: 800px;
+      margin: auto;
+    }
+    .logo {
+      max-width: 300px;
+      display: block;
+      margin: 0 auto 1rem;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--azul-escuro);
+    }
+    .estrelas-container {
+      margin-top: 2rem;
+    }
+    .estrela {
+      width: 70px;
+      margin: 10px;
+      opacity: 0;
+      transform: scale(0);
+      display: inline-block;
+      filter: drop-shadow(0 0 6px rgba(0,0,0,0.2));
+    }
+    #pontos {
+      font-size: 2.625rem;
+      margin: 2.5rem 0 1.875rem;
+      color: var(--roxo);
+      font-weight: 700;
+    }
+    .icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+    .left-icons, .center-icon, .right-icons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .right-icons {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .icon-btn {
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      background-color: var(--azul-escuro);
+      color: #fff;
+      border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .icon-btn:hover {
+      transform: scale(1.15);
+    }
+    .icon-btn.small {
+      font-size: 1.5rem;
+      width: 60px;
+      height: 60px;
+    }
+    .icon-btn.big {
+      font-size: 2rem;
+      width: 80px;
+      height: 80px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo-fill-the-song.png" alt="Fill the Song" class="logo"/>
+    <h1>Você mandou muito bem!</h1>
+  </header>
+  <main>
+    <section class="estrelas-container">
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" class="estrela" id="estrela1" alt="Estrela 1" />
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" class="estrela" id="estrela2" alt="Estrela 2" />
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" class="estrela" id="estrela3" alt="Estrela 3" />
+    </section>
+    <section id="pontos">+0 pontos</section>
+    <section class="icon-container">
+      <div class="left-icons">
+        <button class="icon-btn small" onclick="jogarNovamente()" title="Jogar novamente">↺</button>
+      </div>
+      <div class="center-icon">
+        <button class="icon-btn big" onclick="proximaMusica()" title="Próxima música">▶</button>
+      </div>
+      <div class="right-icons">
+        <button class="icon-btn small" onclick="verExplicacao()" title="Explicação gramatical">📘</button>
+        <button class="icon-btn small" onclick="verDashboard()" title="Meu progresso">📊</button>
+      </div>
+    </section>
+  </main>
+  <script>
+    const somVitoria = new Howl({
+      src: ['https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3'],
+      volume: 0.7
+    });
+    somVitoria.play();
+
+    const tl = gsap.timeline();
+    tl.to("#estrela1", { delay: 0.2, scale: 1, opacity: 1, duration: 0.5, ease: "bounce.out" })
+      .to("#estrela2", { delay: 0.1, scale: 1, opacity: 1, duration: 0.5, ease: "bounce.out" }, "-=0.3")
+      .to("#estrela3", { delay: 0.1, scale: 1, opacity: 1, duration: 0.5, ease: "bounce.out" }, "-=0.3");
+
+    let pontos = { val: 0 };
+    gsap.to(pontos, {
+      duration: 1.5,
+      val: 250,
+      onUpdate: () => {
+        document.getElementById("pontos").innerText = "+" + Math.floor(pontos.val) + " pontos";
+      },
+      onComplete: () => {
+        if (Math.floor(pontos.val) === 250) {
+          confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+        }
+      }
+    });
+
+    function proximaMusica() {
+      window.location.href = "/jogo.html?musica=proxima";
+    }
+    function jogarNovamente() {
+      window.location.href = "/jogo.html?musica=reiniciar";
+    }
+    function verExplicacao() {
+      window.location.href = "/explicacao.html?musica=atual";
+    }
+    function verDashboard() {
+      window.location.href = "/dashboard.html";
+    }
+  </script>
+</body>
+</html>
