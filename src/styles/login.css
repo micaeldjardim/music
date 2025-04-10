@@ -44,9 +44,9 @@
 .container-login button {
     width: 100%;
     padding: 12px;
-    font-size: 16px;
+    font-size: 15px;
     text-transform: uppercase;
-    border-radius: 8px;
+    border-radius: 15px;
     cursor: pointer;
     transition: background 0.3s;
     border: none;
@@ -144,6 +144,7 @@
     justify-content: center;
     gap: 20px;
     margin-top: 10px;
+
 }
 
 .modal-buttons .modal-confirm {
@@ -175,24 +176,49 @@
 .social-login {
     margin-top: 20px;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    justify-content: center;
+    gap: 20px;
 }
 
 .social-button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    width: 50px !important; /* Sobrescreve a largura 100% dos botões */
+    height: 50px;
+    border-radius: 50% !important; /* Faz os botões circulares */
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 3px solid #ddd !important;
+}
+
+.social-button:hover {
+    background-color: #b7b0b0;
+}
+
+.social-button i {
+    margin: 0;
+    font-size: 20px;
+}
+
+.google i {
+    color: #DB4437;
+}
+
+.facebook i {
+    color: #4267B2;
+}
+
+.forgot-password {
+    display: block;
+    color: #519ECF;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 10px 0 20px;
     cursor: pointer;
 }
 
-.social-button.google {
-    background-color: #4285F4;
-    color: white;
-}
-
-.social-button.facebook {
-    background-color: #1877F2;
-    color: white;
+.forgot-password:hover {
+    color: #064D7A;
+    text-decoration: underline;
 }

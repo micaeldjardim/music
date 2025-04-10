@@ -1,23 +1,89 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Dashboard - Complete the lyrics</title>
-    <link rel="icon" href= "../img/logo-microphone.webp" type="image/png">
+
+    <title>Dashboard - Complete the lyrics</title>
+    <link rel="icon" href="../img/logo-microphone.webp" type="image/png">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-    <h1>Dashboard</h1>
-    <p>Welcome to your future dashboard!</p>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../img/logo-microphone.webp" alt="Logo" class="logo_dashboard">
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active">
+                        <a href="../index.html"><i class="fas fa-home"></i> Início</a>
+                    </li>
+                    <li>
+                        <a href="../pages/addMusic.html"><i class="fas fa-music"></i> Adicionar Música</a>
+                    </li>
+                    <li>
+                        <a href="../pages/planoseprecos.html"><i class="fas fa-crown"></i> Planos</a>
+                    </li>
+                    <li>
+                        <a href="../pages/blog.html"><i class="fas fa-blog"></i> Blog</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
 
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-  
-        gtag('config', 'G-8087DFE69T');
-      </script>
-  
-    
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar música...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="user-menu">
+                    <span id="user-email"></span>
+                    <button id="logout-button" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </div>
+            </header>
+
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <i class="fas fa-music"></i>
+                    <div class="stat-info">
+                        <h3>Total de Músicas</h3>
+                        <p id="total-songs">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <div class="stat-info">
+                        <h3>Pontuação</h3>
+                        <p id="user-score">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-trophy"></i>
+                    <div class="stat-info">
+                        <h3>Ranking</h3>
+                        <p id="user-rank">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-activities">
+                <h2>Atividades Recentes</h2>
+                <div class="music-list" id="music-list">
+                    <!-- Músicas serão carregadas aqui -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="../auth/dashboard.js"></script>
+
 </body>
 </html>

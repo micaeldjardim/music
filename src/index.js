@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     buscarProximaMusica();
   }
 
+
   // Configurar toggle dos filtros
   const toggleButton = document.getElementById('toggle-filtros-btn');
   const filtrosContent = document.getElementById('filtros-content');
@@ -114,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('search-input').addEventListener('click', (event) => {
     event.stopPropagation();
   });
+
 
 });
 

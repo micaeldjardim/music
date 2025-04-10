@@ -207,6 +207,7 @@ function verificarBancoVazio() {
   }
 }
 
+
 function devolverAoBanco(palavra) {
   const wordBank = document.getElementById("word-bank");
   
@@ -260,6 +261,7 @@ export function checkAnswersDrag() {
   
   const startTime = Number(localStorage.getItem('startTime') || Date.now());
   const tempoUsado = (Date.now() - startTime) / 1000; // tempo em segundos
+
   
   blanks.forEach(blank => {
     const respostaCorreta = blank.dataset.answer;
@@ -293,6 +295,7 @@ export function checkAnswersDrag() {
     }
   });
   
+
   // Obter dados da música atual
   const musicaAtual = JSON.parse(localStorage.getItem('musicaAtual') || '{}');
   const nivel = musicaAtual.nivel || 'medio';
@@ -318,6 +321,8 @@ export function checkAnswersDrag() {
     completude: Math.round((totalPreenchidos / totalBlanks) * 100),
     totalCorretas: correctCount,
     totalRespondidas: totalPreenchidos,
+
+
     totalQuestoes: totalBlanks,
     pontuacao: resultado.pontuacao,
     fatorTempo: resultado.fatorTempo

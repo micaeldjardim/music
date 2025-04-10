@@ -1,5 +1,7 @@
+
 // Armazena referências para navegação após o fechamento do modal
 let navActions = null;
+
 
 /**
  * Exibe o modal com o resultado baseado na porcentagem de acertos e número de estrelas.
