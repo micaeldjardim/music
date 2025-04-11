@@ -153,7 +153,6 @@ body {
   width: 200px;
   height: auto;
   margin: 0;
-  background-color: transparent;
 }
 
 .profile{
@@ -1188,4 +1187,3 @@ body {
   margin-bottom: 0;
   pointer-events: none;
 }
-
