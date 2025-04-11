@@ -91,6 +91,18 @@
 }
 
 /* 🔹 Modal */
+.auth-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.4);
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -104,21 +116,30 @@
     z-index: 1000;
 }
 
-.modal-content {
+.auth-modal-content {
     background: white;
     padding: 20px;
     border-radius: 10px;
     position: relative;
+    width: 80%;
+    max-width: 400px;
+    margin: 10% auto;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
-.close-modal {
+.auth-modal-close {
     position: absolute;
     top: 10px;
     right: 15px;
     font-size: 24px;
     cursor: pointer;
+    color: #aaa;
 }
 
+.auth-modal-close:hover {
+    color: #000;
+}
 
 /* 🔹 Título do Modal */
 .modal-title {
@@ -219,6 +240,122 @@
 }
 
 .forgot-password:hover {
+    color: #064D7A;
+    text-decoration: underline;
+}
+
+/* Regras específicas quando o conteúdo está dentro de um modal */
+.auth-modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    margin: 10% auto;
+}
+
+.auth-modal-content .logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.auth-modal-content .form-field input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.auth-modal-content .form-field input:focus {
+    border-color: #519ECF;
+    outline: none;
+}
+
+.auth-modal-content .error {
+    color: red;
+    font-size: 14px;
+    display: none;
+    margin-bottom: 10px;
+}
+
+.auth-modal-content button {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    text-transform: uppercase;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.auth-modal-content .solid {
+    background-color: #519ECF;
+    color: white;
+}
+
+.auth-modal-content .solid:hover {
+    background-color: #064D7A;
+}
+
+.auth-modal-content .outline {
+    background: transparent;
+    color: #064D7A;
+    border: 2px solid #064D7A;
+}
+
+.auth-modal-content .outline:hover {
+    background: #064D7A;
+    color: white;
+}
+
+.auth-modal-content .social-login {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.auth-modal-content .social-button {
+    width: 50px !important;
+    height: 50px;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 3px solid #ddd !important;
+}
+
+.auth-modal-content .social-button i {
+    margin: 0;
+    font-size: 20px;
+}
+
+.auth-modal-content .google i {
+    color: #DB4437;
+}
+
+.auth-modal-content .facebook i {
+    color: #4267B2;
+}
+
+.auth-modal-content .forgot-password {
+    display: block;
+    color: #519ECF;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 10px 0 20px;
+    cursor: pointer;
+}
+
+.auth-modal-content .forgot-password:hover {
     color: #064D7A;
     text-decoration: underline;
 }
