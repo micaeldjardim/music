@@ -123,6 +123,15 @@
               <button class="dificult-btn">Muito Difícil</button>
             </div>
             
+            <div class="style-filter filter-section">
+              <div class="style-buttons">
+                <button class="style-btn">Pop</button>
+                <button class="style-btn">Rock</button>
+                <button class="style-btn">Gospel</button>
+                <button class="style-btn">Rap And Hip-Hop</button>
+                <button class="style-btn">Country</button>
+              </div>
+            </div>
             
             <div class="grammar-filter">
               <button class="grammar-btn">Imperative</button>
@@ -208,8 +217,15 @@
 
 
     <script type="text/javascript">
-      $(window).load(function() {
-          $(".loader").fadeOut("slow");
+      $(document).ready(function() {
+        // Adicionando uma pequena espera para garantir que os recursos sejam carregados
+        setTimeout(function() {
+          $(".loader").addClass("fade-out");
+          // Remover completamente após a transição
+          setTimeout(function() {
+            $(".loader").hide();
+          }, 500);
+        }, 800);
       });
     </script>
     
