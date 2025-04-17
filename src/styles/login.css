@@ -92,7 +92,10 @@
 
 /* 🔹 Modal */
 .auth-modal {
-    display: none;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     z-index: 2000;
     left: 0;
@@ -101,6 +104,7 @@
     height: 100%;
     overflow: hidden;
     background-color: rgba(0,0,0,0.4);
+    animation: fadeIn 0.3s ease-out;
 }
 
 .modal-overlay {
@@ -126,6 +130,9 @@
     margin: 10% auto;
     text-align: center;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    animation: slideDown 0.3s ease-out;
+    overflow-y: auto;
+    max-height: 90vh;
 }
 
 .auth-modal-close {
@@ -254,6 +261,8 @@
     width: 90%;
     max-width: 400px;
     margin: 10% auto;
+    overflow-y: auto;
+    max-height: 90vh;
 }
 
 .auth-modal-content .logo {
@@ -358,4 +367,150 @@
 .auth-modal-content .forgot-password:hover {
     color: #064D7A;
     text-decoration: underline;
+}
+
+/* Responsividade para o modal de login/cadastro */
+@media (max-width: 768px) {
+  /* Modal em telas pequenas ocupa mais espaço */
+  .auth-modal-content {
+    width: 95%;
+    max-width: 450px;
+    margin: 5% auto;
+    padding: 20px 15px;
+  }
+  
+  /* Botões mais adaptados para toque em dispositivos móveis */
+  .auth-modal-content button,
+  .container-login button {
+    padding: 14px;
+    font-size: 14px;
+  }
+  
+  /* Botões sociais ligeiramente maiores em mobile */
+  .social-button {
+    width: 60px !important;
+    height: 60px;
+  }
+  
+  .social-button i {
+    font-size: 24px;
+  }
+  
+  /* Botão fechar mais fácil de tocar */
+  .auth-modal-close {
+    font-size: 28px;
+    top: 8px;
+    right: 12px;
+    padding: 5px;
+  }
+}
+
+/* Melhorias para suporte a zoom */
+@media (min-width: 320px) and (max-width: 767px) {
+  html {
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  .auth-modal-content {
+    width: min(90%, 450px);
+    margin: auto;
+    transform: none;
+  }
+  
+  /* Ajustar posição do botão de fechar em zoom */
+  .auth-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+}
+
+/* Para telas muito pequenas (smartphones compactos) */
+@media (max-width: 380px) {
+  .auth-modal-content {
+    width: 98%;
+    padding: 15px 10px;
+    margin: 2% auto;
+  }
+  
+  /* Reduzir tamanho do logo em telas muito pequenas */
+  .auth-modal-content .logo,
+  .container-login .logo {
+    width: 120px;
+  }
+  
+  /* Ajuste para dispositivos em orientação paisagem com pouca altura */
+  @media (max-height: 500px) {
+    .auth-modal-content {
+      margin: 0 auto;
+      max-height: 95vh;
+      overflow-y: auto;
+    }
+    
+    .auth-modal-content .logo,
+    .container-login .logo {
+      width: 100px;
+      margin-bottom: 10px;
+    }
+    
+    .social-button {
+      width: 45px !important;
+      height: 45px;
+    }
+  }
+}
+
+/* Assegurar que o conteúdo não ultrapasse os limites da tela */
+@media screen and (max-height: 600px) {
+  .auth-modal-content {
+    margin: 10px auto;
+    max-height: calc(100vh - 20px);
+  }
+  
+  .auth-modal-content .logo {
+    width: 80px;
+    margin-bottom: 10px;
+  }
+  
+  .auth-modal-content .form-field input,
+  .auth-modal-content button {
+    margin-bottom: 5px;
+    padding: 8px;
+  }
+}
+
+/* Ajuste para tela centralizada em dispositivos maiores */
+@media (min-width: 992px) {
+  .auth-modal-content {
+    margin: 10vh auto;
+  }
+}
+
+/* Melhoria de acessibilidade para foco nos elementos interativos */
+.auth-modal-content button:focus,
+.auth-modal-content input:focus,
+.auth-modal-close:focus {
+  outline: 2px solid #519ECF;
+  outline-offset: 2px;
+}
+
+/* Animação suave para abertura do modal */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
