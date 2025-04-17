@@ -2,7 +2,7 @@
   "dependencies": {
     "@sanity/vision": "^3.80.1",
     "canvas-confetti": "^1.9.3",
-    "sanity": "^3.80.1"
+    "sanity": "^3.80.1",
     "@portabletext/to-html": "^2.0.14"
 
   }

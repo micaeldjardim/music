@@ -17,6 +17,56 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+    <style>
+      .content .video-buttons {
+        width: 100%;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+      /*
+      .content .video-buttons .btn {
+        font-size: 18px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        background-color: #ece1c3; 
+        color: #063940;            
+        border: 2px solid #063940;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content .video-buttons .btn:hover {
+        background-color: #063940;
+        color: #ece1c3;
+      }*/
+      .content .video-buttons .btn {
+        font-size: 18px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        background-color: #f2f2f2; /* Gris claro */
+        color: #6e6e6e;            /* Gris oscuro casi negro */
+        border: 1px solid #e5e4e4;    /* Borde sutil */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombrita suave */
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .content .video-buttons .btn:hover {
+        background-color: #e6e6e6; /* Un poquito más oscuro al pasar el mouse */
+        color: #000;
+      }
+      
+
+
+    </style>
+    
   </head>
   <body>
 
@@ -79,7 +129,7 @@
         <iframe width="100%" height="100%" src="https://www.youtube.com/embed/SEU_VÍDEO_ID" 
           frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
           allowfullscreen></iframe>
-      </div>
+      </div>    
     </section>
 
 
@@ -166,6 +216,13 @@
       </div>
       <div class="content">
         <div class="video-area" id="player-container"></div>
+        <div class="video-buttons">
+          <button class="btn btn-outline-light" id="btn-back-home"><ion-icon name="home-outline"></ion-icon></button>
+          <button class="btn btn-outline-light" id="btn-back-5s"><ion-icon name="play-skip-back-outline"></ion-icon></button>
+          <button class="btn btn-outline-light" id="btn-play-pause"><ion-icon name="play-outline"></ion-icon></button>
+          <button class="btn btn-outline-light" id="btn-next"><ion-icon name="play-skip-forward-outline"></ion-icon></button>
+          <button class="btn btn-outline-light" id="btn-share"><ion-icon name="share-outline"></ion-icon></button>
+        </div>
         <div class="game-area">
           <div class="lyrics-area">
             <div class="lyrics" id="lyricsDrag"></div>
@@ -174,7 +231,9 @@
 
         </div>
       </div>
-      <div class="nav-buttons"></div>
+      <div class="nav-buttons">
+      </div>
+      
     </div>
 
     <div id="resultModal" class="modal"></div>
@@ -214,8 +273,6 @@
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
     <script type="text/javascript">
       $(document).ready(function() {
         // Adicionando uma pequena espera para garantir que os recursos sejam carregados
@@ -228,7 +285,9 @@
         }, 800);
       });
     </script>
-    
+    <!-- Ionicons CDN -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   </body>
 
   <div class="loader"></div>
