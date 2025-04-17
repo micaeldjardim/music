@@ -172,7 +172,7 @@ function configurarBotoesDificuldade(callbackSelectMusic) {
   
   if (botoesDificuldade.length === 0) return;
   
-  // Mapeamento dos textos dos botões para os valores que podem estar no Firebase
+  // Mapeamento dos títulos dos botões para os valores que podem estar no Firebase
   const mapeamentoDificuldades = {
     "Fácil": "Fácil",
     "Médio": "Médio",
@@ -181,8 +181,8 @@ function configurarBotoesDificuldade(callbackSelectMusic) {
   };
   
   botoesDificuldade.forEach(botao => {
-    const textoDificuldade = botao.textContent.trim();
-    const valorDificuldade = mapeamentoDificuldades[textoDificuldade] || textoDificuldade.toLowerCase();
+    const tituloDificuldade = botao.getAttribute('title') || '';
+    const valorDificuldade = mapeamentoDificuldades[tituloDificuldade] || tituloDificuldade.toLowerCase();
     
     botao.addEventListener("click", () => {
       if (botao.classList.contains("active")) {

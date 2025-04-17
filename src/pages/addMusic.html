@@ -3,43 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adicione uma Música - Complete the Lyrics</title>
-  <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/fill-the-song.firebasestorage.app/o/image%2Ffavicon.png?alt=media&token=c275bf59-f4af-425f-80b0-e9826675ee67" type="image/png">
+  <title>Adicione uma Música - Fill the Song</title>
+  <meta name="description" content="Contribua para o Fill the Song adicionando suas músicas favoritas para praticar inglês.">
+  <link rel="icon" href="../img/logo-microphone.webp" type="image/webp">
+  
+  <!-- Estilos -->
   <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/login.css">
+  <link rel="stylesheet" href="../styles/navbar.css">
+  
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Fontes -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* Estilos específicos para a página de adicionar música */
+    .form-container {
+      padding-top: 120px;
+      padding-bottom: 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .page-title {
+      margin-bottom: 30px;
+      color: #0e4d7a;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+    }
+    
+    .form-description {
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .form-iframe-container {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 140%; /* Proporção do iframe */
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      margin: 0 auto;
+      max-width: 800px;
+    }
+    
+    .form-iframe-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    /* Media queries para responsividade */
+    @media (min-width: 768px) {
+      .form-iframe-container {
+        padding-bottom: 120%;
+      }
+    }
+    
+    @media (min-width: 992px) {
+      .form-iframe-container {
+        padding-bottom: 100%;
+      }
+    }
+    
+    /* Cria espaço para menu fixo */
+    body {
+      padding-top: 76px;
+    }
+  </style>
 </head>
 <body>
-    <header class="header-conteiner">
-        <div>
-            <a href="../index.html">
-                <img
-                  src="../img/logo-microphone.webp"
-                  alt="Logo" class="logo_index">
-            </a>
+  <!-- Navbar consistente com a página principal -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-fillthesong fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="../index.html">
+          <img 
+            src="../img/logo.webp" 
+            alt="Fill the Song Logo" 
+            class="navbar-logo me-2">
+        </a>
+        <button 
+          class="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarNav" 
+          aria-controls="navbarNav" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation"
+          style="border-color: #fff;">
+          <span class="navbar-toggler-icon" style="color: #fff;"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="login-button">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Baixe o App</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="addMusic.html">Adicione uma Música</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="planoseprecos.html">Preços</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="blog.html">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="dashboard-link">
+                <img src="../img/profile.webp" alt="profile" class="profile-icon">
+              </a>
+            </li>
+          </ul>
         </div>
-        
-        <nav class="nav">
-            <ul>
-                <li><a href="#" id="login-button">Login</a></li>
-                <li><a href="#">Baixe o App</a></li>
-                <li><a href="addMusic.html">Adicione uma Música</a></li>
-                <li><a href="pages/planoseprecos.html">Preços</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <a href="dashboard.html">
-                    <li><img
-                        src="../img/profile.webp"
-                        alt="profile" class="profile"></li>
-                </a>
-            </ul>
-        </nav>
-    </header>       
+      </div>
+    </nav>
+  </header>
     
-    <main>
-
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSefX5vZqbZpYOVzHlnlc6L6jmTwfsBZ55ThhUpMnm9SK70rkA/viewform?embedded=true" 
-        width="640" height="2799" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-
-
-    </main>
+  <main class="form-container">
+    <h1 class="page-title">Adicione sua Música Favorita</h1>
+    <p class="form-description">
+      Contribua com a comunidade Fill the Song sugerindo músicas para nosso catálogo. 
+      Preencha o formulário abaixo com todos os detalhes e nossa equipe irá revisar sua sugestão.
+    </p>
+    
+    <div class="form-iframe-container">
+      <iframe 
+        src="https://docs.google.com/forms/d/e/1FAIpQLSefX5vZqbZpYOVzHlnlc6L6jmTwfsBZ55ThhUpMnm9SK70rkA/viewform?embedded=true" 
+        frameborder="0" 
+        marginheight="0" 
+        marginwidth="0">
+        Carregando...
+      </iframe>
+    </div>
+  </main>
   
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  
+  <!-- Script para o modal de login (supondo que seja um módulo) -->
+  <script src="../auth/modalLogin.js" type="module"></script>
+  
+  <!-- Script do analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8087DFE69T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8087DFE69T');
+  </script>
 </body>
 </html>

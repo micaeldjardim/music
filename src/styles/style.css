@@ -385,7 +385,6 @@ body {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-
 .dificult-filter {
   display: flex;
   gap: 10px;
@@ -394,46 +393,39 @@ body {
   justify-content: center;
   border-radius: 18px;
   width: 100%;
-  padding: 5px;
 }
 
 .dificult-btn {
+  width: 70px;
+  height: 70px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5px 8px;
-  border-radius: 18px;
-  cursor: pointer;
-  color: #333;
-  font-weight: 500;
-  background-color: rgba(255, 255, 255, 0.7);
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  min-width: 100px;
-  margin: 5px;
-  border-radius: 25px !important;
-  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Cores diferentes para cada botão de dificuldade */
-.dificult-btn:nth-child(1) { border-color: #4CAF50; } /* Verde para Fácil */
-.dificult-btn:nth-child(2) { border-color: #2196F3; } /* Azul para Médio */
-.dificult-btn:nth-child(3) { border-color: #FFC107; } /* Amarelo para Difícil */
-.dificult-btn:nth-child(4) { border-color: #F44336; } /* Vermelho para Muito Difícil */
+.dificult-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
 
 .dificult-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* Estilo para botão ativo */
 .dificult-btn.active {
-  background-color: rgba(255, 255, 255, 0.95);
   transform: translateY(1px);
   box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset;
-  font-weight: bold;
+  border: 2px solid #0e4d79;
 }
 
 .grammar-btn{
@@ -1005,6 +997,64 @@ body {
   user-select: none;
   transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
+}
+
+/* Cores para os elementos draggable - 20 cores seguindo o gradiente do site */
+.draggable:nth-of-type(20n+1) { background-color: #0e4d7a; }
+.draggable:nth-of-type(20n+2) { background-color: #12537f; }
+.draggable:nth-of-type(20n+3) { background-color: #155885; }
+.draggable:nth-of-type(20n+4) { background-color: #195e8a; }
+.draggable:nth-of-type(20n+5) { background-color: #1c6490; }
+.draggable:nth-of-type(20n+6) { background-color: #2a74a0; }
+.draggable:nth-of-type(20n+7) { background-color: #3884b0; }
+.draggable:nth-of-type(20n+8) { background-color: #4694c0; }
+.draggable:nth-of-type(20n+9) { background-color: #52a5d9; }
+.draggable:nth-of-type(20n+10) { background-color: #619dcb; }
+.draggable:nth-of-type(20n+11) { background-color: #7095be; }
+.draggable:nth-of-type(20n+12) { background-color: #7f8db1; }
+.draggable:nth-of-type(20n+13) { background-color: #8e85a3; }
+.draggable:nth-of-type(20n+14) { background-color: #9d7d96; }
+.draggable:nth-of-type(20n+15) { background-color: #ac7589; }
+.draggable:nth-of-type(20n+16) { background-color: #bb6d7b; }
+.draggable:nth-of-type(20n+17) { background-color: #ca656e; }
+.draggable:nth-of-type(20n+18) { background-color: #d95d61; }
+.draggable:nth-of-type(20n+19) { background-color: #e03f3a; }
+.draggable:nth-of-type(20n+20) { background-color: #b22913; }
+
+/* Garantir que o texto fique legível nas diferentes cores de fundo */
+.draggable {
+  color: white;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Manter a consistência de estilos para interação */
+.draggable:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  filter: brightness(110%);
+}
+
+.draggable.dragging {
+  opacity: 0.8;
+  transform: scale(1.05);
+  z-index: 1000;
+}
+
+/* Aplicar as mesmas cores para palavras já colocadas */
+.dropped-word {
+  background-color: inherit;
+}
+
+/* Manter a mesma transição para uma experiência fluida */
+.draggable, .dropped-word {
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 12px;
 }
 
 .draggable:active {

@@ -1,5 +1,6 @@
 import { carregarMusicas, renderMusicList, mostrarTelaInicial, encontrarMusicaPorId, setHomeNavigation } from "./services/musicService.js";
 import { exibirYoutubePlayer } from "./components/player.js";
+import { voltar5s } from "./components/player.js";
 import { 
   exibirLetraDrag,
   dragWord,

@@ -126,7 +126,7 @@
       
       <div class="video-presentation">
         <!-- Vídeo de apresentação aqui (pode ser um iframe do YouTube ou um vídeo hospedado) -->
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/SEU_VÍDEO_ID" 
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/wAuKngS5UCo" 
           frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
           allowfullscreen></iframe>
       </div>    
@@ -146,32 +146,9 @@
               </svg>
             </button>
           </div>
-          
-          <div id="filtros-content" class="filtros-content">         
-            <div class="country-filter">
-              <button class="country-btn">
-                <img src="./img/EUA.webp" alt="EUA">
-              </button>
-              <button class="country-btn">
-                <img src="./img/CAN.webp" alt="CAN">
-              </button>
-              <button class="country-btn">
-                <img src="./img/UK.webp" alt="UK">
-              </button>
-              <button class="country-btn">
-                <img src="./img/AU.webp" alt="AU">
-              </button>
-              <button class="country-btn">
-                <img src="./img/world.webp" alt="outros">  
-              </button>
-            </div>
-          
-            <div class="dificult-filter">
-              <button class="dificult-btn">Fácil</button>
-              <button class="dificult-btn">Médio</button>
-              <button class="dificult-btn">Difícil</button>
-              <button class="dificult-btn">Muito Difícil</button>
-            </div>
+
+
+          <div id="filtros-content" class="filtros-content">    
             
             <div class="style-filter filter-section">
               <div class="style-buttons">
@@ -182,7 +159,22 @@
                 <button class="style-btn">Country</button>
               </div>
             </div>
-            
+
+            <div class="dificult-filter">
+              <button class="dificult-btn" title="Fácil">
+                <img src="./img/Fácil.webp" alt="Fácil">
+              </button>
+              <button class="dificult-btn" title="Médio">
+                <img src="./img/Médio.webp" alt="Médio">
+              </button>
+              <button class="dificult-btn" title="Difícil">
+                <img src="./img/Difícil.webp" alt="Difícil">
+              </button>
+              <button class="dificult-btn" title="Muito Difícil">
+                <img src="./img/Muito Difícil.webp" alt="Muito Difícil">
+              </button>
+            </div>
+
             <div class="grammar-filter">
               <button class="grammar-btn">Imperative</button>
               <button class="grammar-btn">Simple Past</button>
@@ -201,6 +193,24 @@
               <button class="grammar-btn">Can't</button>
               <button class="grammar-btn">Passive Voice</button>
             </div>
+
+            <div class="country-filter">
+              <button class="country-btn">
+                <img src="./img/EUA.webp" alt="EUA">
+              </button>
+              <button class="country-btn">
+                <img src="./img/CAN.webp" alt="CAN">
+              </button>
+              <button class="country-btn">
+                <img src="./img/UK.webp" alt="UK">
+              </button>
+              <button class="country-btn">
+                <img src="./img/AU.webp" alt="AU">
+              </button>
+              <button class="country-btn">
+                <img src="./img/world.webp" alt="outros">  
+              </button>
+            </div>
           </div>
         </div>
 
@@ -217,8 +227,10 @@
       <div class="content">
         <div class="video-area" id="player-container"></div>
         <div class="video-buttons">
-          <button class="btn btn-outline-light" id="btn-back-home"><ion-icon name="home-outline"></ion-icon></button>
-          <button class="btn btn-outline-light" id="btn-back-5s"><ion-icon name="play-skip-back-outline"></ion-icon></button>
+          <a href="index.html">
+            <button class="btn btn-outline-light" id="btn-back-home"><ion-icon name="home-outline"></ion-icon></button>
+          </a>
+          <button class="btn btn-outline-light" id="btn-back-5s"><ion-icon name="play-skip-back-outline" onclick="voltar5s()"></ion-icon></button>
           <button class="btn btn-outline-light" id="btn-play-pause"><ion-icon name="play-outline"></ion-icon></button>
           <button class="btn btn-outline-light" id="btn-next"><ion-icon name="play-skip-forward-outline"></ion-icon></button>
           <button class="btn btn-outline-light" id="btn-share"><ion-icon name="share-outline"></ion-icon></button>
@@ -256,6 +268,7 @@
     window.firebaseDB = db;
     </script>
 
+    <script>import { voltar5s } from "./components/player.js";</script>
     <script src="services/firebase.js" type="module"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
 
@@ -292,4 +305,4 @@
 
   <div class="loader"></div>
 
-</html> 
+</html>

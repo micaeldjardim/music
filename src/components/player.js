@@ -61,6 +61,13 @@ function onPlayerStateChange(event) {
     }
 }
 
+ export function voltar5s() {
+    if (player && typeof player.getCurrentTime === 'function') {
+        let currentTime = player.getCurrentTime();
+        player.seekTo(currentTime - 5, true);
+    }
+}
+
 /**
  * Extrai o ID do vídeo e o tempo de início da URL do YouTube.
  * @param {string} url - URL do vídeo.
