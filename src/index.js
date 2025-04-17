@@ -1,5 +1,6 @@
 import { carregarMusicas, renderMusicList, mostrarTelaInicial, encontrarMusicaPorId, setHomeNavigation } from "./services/musicService.js";
 import { exibirYoutubePlayer } from "./components/player.js";
+import { voltar5s } from "./components/player.js";
 import { 
   exibirLetraDrag,
   dragWord,
@@ -16,7 +17,10 @@ let currentMusic = null;
 function carregarMusica(musica) {
   currentMusic = musica;
   document.getElementById("music-title").textContent = musica.titulo;
+  // Oculta a home e a seção com o vídeo
   document.getElementById("screen-home").style.display = "none";
+  document.querySelector('.hero-section').style.display = "none";
+  // Mostra a tela do jogo
   document.getElementById("screen-drag").style.display = "block";
   exibirLetraDrag(musica);
   exibirYoutubePlayer(musica);
@@ -49,6 +53,7 @@ window.closeModal = closeModal;
 
 export function goBack() {
   mostrarTelaInicial();
+  document.querySelector('.hero-section').style.display = "block";
   navegarParaHome();
 }
 
@@ -59,10 +64,37 @@ window.addEventListener('popstate', (event) => {
       carregarMusica(musica);
     } else {
       mostrarTelaInicial();
-
+      const heroSection = document.querySelector('.hero-section');
+      // Aplicar os mesmos estilos que na função goBack
+      heroSection.style.display = "block";
+      heroSection.style.textAlign = "center";
+      heroSection.style.width = "100%";
+      heroSection.style.margin = "0 auto";
+      heroSection.style.position = "relative";
+      
+      // Garantir que o vídeo também seja centralizado
+      const videoPresentation = document.querySelector('.video-presentation');
+      if (videoPresentation) {
+        videoPresentation.style.margin = "0 auto";
+        videoPresentation.style.textAlign = "center";
+      }
     }
   } else {
     mostrarTelaInicial();
+    const heroSection = document.querySelector('.hero-section');
+    // Aplicar os mesmos estilos que na função goBack
+    heroSection.style.display = "block";
+    heroSection.style.textAlign = "center";
+    heroSection.style.width = "100%";
+    heroSection.style.margin = "0 auto";
+    heroSection.style.position = "relative";
+    
+    // Garantir que o vídeo também seja centralizado
+    const videoPresentation = document.querySelector('.video-presentation');
+    if (videoPresentation) {
+      videoPresentation.style.margin = "0 auto";
+      videoPresentation.style.textAlign = "center";
+    }
   }
 });
 

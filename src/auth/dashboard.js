@@ -29,7 +29,9 @@ onAuthStateChanged(auth, (user) => {
 document.getElementById("logout-button").addEventListener("click", async () => {
   try {
     await signOut(auth);
+    
     window.location.href = getAppUrl("/index.html");
+
   } catch (error) {
     console.error("Erro ao fazer logout:", error);
     alert("Erro ao fazer logout");

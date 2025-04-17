@@ -17,6 +17,56 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+    <style>
+      .content .video-buttons {
+        width: 100%;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+      /*
+      .content .video-buttons .btn {
+        font-size: 18px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        background-color: #ece1c3; 
+        color: #063940;            
+        border: 2px solid #063940;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .content .video-buttons .btn:hover {
+        background-color: #063940;
+        color: #ece1c3;
+      }*/
+      .content .video-buttons .btn {
+        font-size: 18px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        background-color: #f2f2f2; /* Gris claro */
+        color: #6e6e6e;            /* Gris oscuro casi negro */
+        border: 1px solid #e5e4e4;    /* Borde sutil */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombrita suave */
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .content .video-buttons .btn:hover {
+        background-color: #e6e6e6; /* Un poquito más oscuro al pasar el mouse */
+        color: #000;
+      }
+      
+
+
+    </style>
+    
   </head>
   <body>
 
@@ -76,10 +126,10 @@
       
       <div class="video-presentation">
         <!-- Vídeo de apresentação aqui (pode ser um iframe do YouTube ou um vídeo hospedado) -->
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/SEU_VÍDEO_ID" 
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/wAuKngS5UCo" 
           frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
           allowfullscreen></iframe>
-      </div>
+      </div>    
     </section>
 
 
@@ -96,34 +146,35 @@
               </svg>
             </button>
           </div>
-          
-          <div id="filtros-content" class="filtros-content">         
-            <div class="country-filter">
-              <button class="country-btn">
-                <img src="./img/EUA.webp" alt="EUA">
-              </button>
-              <button class="country-btn">
-                <img src="./img/CAN.webp" alt="CAN">
-              </button>
-              <button class="country-btn">
-                <img src="./img/UK.webp" alt="UK">
-              </button>
-              <button class="country-btn">
-                <img src="./img/AU.webp" alt="AU">
-              </button>
-              <button class="country-btn">
-                <img src="./img/world.webp" alt="outros">  
-              </button>
+
+
+          <div id="filtros-content" class="filtros-content">    
+            
+            <div class="style-filter filter-section">
+              <div class="style-buttons">
+                <button class="style-btn">Pop</button>
+                <button class="style-btn">Rock</button>
+                <button class="style-btn">Gospel</button>
+                <button class="style-btn">Rap And Hip-Hop</button>
+                <button class="style-btn">Country</button>
+              </div>
             </div>
-          
+
             <div class="dificult-filter">
-              <button class="dificult-btn">Fácil</button>
-              <button class="dificult-btn">Médio</button>
-              <button class="dificult-btn">Difícil</button>
-              <button class="dificult-btn">Muito Difícil</button>
+              <button class="dificult-btn" title="Fácil">
+                <img src="./img/Fácil.webp" alt="Fácil">
+              </button>
+              <button class="dificult-btn" title="Médio">
+                <img src="./img/Médio.webp" alt="Médio">
+              </button>
+              <button class="dificult-btn" title="Difícil">
+                <img src="./img/Difícil.webp" alt="Difícil">
+              </button>
+              <button class="dificult-btn" title="Muito Difícil">
+                <img src="./img/Muito Difícil.webp" alt="Muito Difícil">
+              </button>
             </div>
-            
-            
+
             <div class="grammar-filter">
               <button class="grammar-btn">Imperative</button>
               <button class="grammar-btn">Simple Past</button>
@@ -142,6 +193,24 @@
               <button class="grammar-btn">Can't</button>
               <button class="grammar-btn">Passive Voice</button>
             </div>
+
+            <div class="country-filter">
+              <button class="country-btn">
+                <img src="./img/EUA.webp" alt="EUA">
+              </button>
+              <button class="country-btn">
+                <img src="./img/CAN.webp" alt="CAN">
+              </button>
+              <button class="country-btn">
+                <img src="./img/UK.webp" alt="UK">
+              </button>
+              <button class="country-btn">
+                <img src="./img/AU.webp" alt="AU">
+              </button>
+              <button class="country-btn">
+                <img src="./img/world.webp" alt="outros">  
+              </button>
+            </div>
           </div>
         </div>
 
@@ -157,6 +226,15 @@
       </div>
       <div class="content">
         <div class="video-area" id="player-container"></div>
+        <div class="video-buttons">
+          <a href="index.html">
+            <button class="btn btn-outline-light" id="btn-back-home"><ion-icon name="home-outline"></ion-icon></button>
+          </a>
+          <button class="btn btn-outline-light" id="btn-back-5s"><ion-icon name="play-skip-back-outline" onclick="voltar5s()"></ion-icon></button>
+          <button class="btn btn-outline-light" id="btn-play-pause"><ion-icon name="play-outline"></ion-icon></button>
+          <button class="btn btn-outline-light" id="btn-next"><ion-icon name="play-skip-forward-outline"></ion-icon></button>
+          <button class="btn btn-outline-light" id="btn-share"><ion-icon name="share-outline"></ion-icon></button>
+        </div>
         <div class="game-area">
           <div class="lyrics-area">
             <div class="lyrics" id="lyricsDrag"></div>
@@ -165,7 +243,9 @@
 
         </div>
       </div>
-      <div class="nav-buttons"></div>
+      <div class="nav-buttons">
+      </div>
+      
     </div>
 
     <div id="resultModal" class="modal"></div>
@@ -188,6 +268,7 @@
     window.firebaseDB = db;
     </script>
 
+    <script>import { voltar5s } from "./components/player.js";</script>
     <script src="services/firebase.js" type="module"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
 
@@ -205,14 +286,21 @@
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
     <script type="text/javascript">
-      $(window).load(function() {
-          $(".loader").fadeOut("slow");
+      $(document).ready(function() {
+        // Adicionando uma pequena espera para garantir que os recursos sejam carregados
+        setTimeout(function() {
+          $(".loader").addClass("fade-out");
+          // Remover completamente após a transição
+          setTimeout(function() {
+            $(".loader").hide();
+          }, 500);
+        }, 800);
       });
     </script>
-    
+    <!-- Ionicons CDN -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   </body>
 
   <div class="loader"></div>
