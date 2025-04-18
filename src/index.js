@@ -1,6 +1,7 @@
 import { carregarMusicas, renderMusicList, mostrarTelaInicial, encontrarMusicaPorId, setHomeNavigation } from "./services/musicService.js";
 import { exibirYoutubePlayer } from "./components/player.js";
 import { voltar5s } from "./components/player.js";
+import { playpause } from "./components/player.js";
 import { 
   exibirLetraDrag,
   dragWord,
@@ -50,11 +51,30 @@ window.checkAnswersDrag = checkAnswersDrag;
 window.goBack = goBack;
 window.tryAgain = tryAgain;
 window.closeModal = closeModal;
+window.voltar5seg = voltar5seg;
+window.playPause = playPause;
 
 export function goBack() {
   mostrarTelaInicial();
   document.querySelector('.hero-section').style.display = "block";
   navegarParaHome();
+}
+
+export function voltar5seg() {
+  if (currentMusic) {
+    voltar5s();
+  } else {
+    console.error("Nenhuma música atual definida.");
+  }
+}
+
+export function playPause() {
+  if (currentMusic) {
+    playpause();
+  }
+  else {
+    console.error("Nenhuma música atual definida.");
+  }
 }
 
 window.addEventListener('popstate', (event) => {

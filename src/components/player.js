@@ -67,6 +67,16 @@ function onPlayerStateChange(event) {
         player.seekTo(currentTime - 5, true);
     }
 }
+export function playpause() {
+    if (player && typeof player.getPlayerState === 'function') {
+        let state = player.getPlayerState();
+        if (state === YT.PlayerState.PLAYING) {
+            player.pauseVideo();
+        } else {
+            player.playVideo();
+        }
+    }
+}
 
 /**
  * Extrai o ID do vídeo e o tempo de início da URL do YouTube.

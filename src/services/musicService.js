@@ -385,11 +385,31 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null, exclu
       textContainer.appendChild(style);
     }
     
-    // Mostrar o nível de dificuldade
+    // Mostrar o nível de dificuldade com ícone em vez de texto
     if (musica.level) {
       const difficulty = document.createElement("div");
       difficulty.className = "music-difficulty";
-      difficulty.textContent = musica.level;
+      
+      // Criar imagem para o nível de dificuldade
+      const difficultyImg = document.createElement("img");
+      
+      // Mapear o nível de dificuldade para o caminho da imagem correspondente
+      const levelMapping = {
+        "Fácil": "./img/Fácil.webp",
+        "Médio": "./img/Médio.webp",
+        "Difícil": "./img/Difícil.webp",
+        "Muito Difícil": "./img/Muito Difícil.webp"
+      };
+      
+      difficultyImg.src = levelMapping[musica.level] || "./img/Fácil.webp"; // Fallback para Fácil se não encontrar
+      difficultyImg.alt = musica.level;
+      difficultyImg.title = `Dificuldade: ${musica.level}`;
+      
+      // Definir tamanho apropriado para o ícone
+      difficultyImg.style.width = "20px"; 
+      difficultyImg.style.height = "20px";
+      
+      difficulty.appendChild(difficultyImg);
       textContainer.appendChild(difficulty);
     }
     

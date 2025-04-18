@@ -681,32 +681,54 @@ body {
   z-index: 2;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
 }
 
-/* Redesign para badges de país - versão que preenche completamente */
+/* Redesign para badges de país - versão redonda como o ícone de dificuldade */
 .music-country {
   position: absolute;
-  bottom: 210px;
-  right: 10px;
+  bottom: 200px;
+  right: 15px;
   background: none;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 50%; /* Alterado para ficar redondo */
   z-index: 2;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  width: 36px;
-  height: 22px;
+  width: 30px; /* Mesmo tamanho do ícone de dificuldade */
+  height: 30px; /* Mesmo tamanho do ícone de dificuldade */
   padding: 0;
 }
 
 .music-country img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important; /* Alterado para cover para preencher completamente */
-  border-radius: 6px;
+  object-fit: cover !important;
+  border-radius: 50%; /* Correspondendo ao container */
   margin: 0 !important;
   display: block;
   position: static !important;
   transform: none !important;
+}
+
+/* Nível de dificuldade - mantendo consistência de estilo */
+.music-difficulty {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+
+.music-difficulty img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  border-radius: 50%;
+  margin-right: 0; /* Removendo margem desnecessária */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
 /* Ícone musical */
@@ -742,27 +764,34 @@ body {
 
 /* Nível de dificuldade */
 .music-difficulty {
-  display: inline-block;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 5px 10px;
-  border-radius: 18px;
-  color: white;
-  font-weight: bold;
-  margin: 5px 0;
-  font-size: 14px;
-  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+
+.music-difficulty img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  border-radius: 50%;
+  margin-right: 0; /* Removendo margem desnecessária */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
 /* Gramática (se aplicável) */
 .music-grammar {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   background: linear-gradient(94deg, rgba(161,40,22,1) 0%, rgba(78,158,207,1) 100%);
   padding: 5px 10px;
   border-radius: 18px;
   font-weight: bold;
   margin-top: 10px;
   color: white;
-  font-size: 14px;
+  font-size: 10px;
   align-self: flex-start;
   transition: all 0.3s ease;
   max-width: 100%;
@@ -770,6 +799,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
+  margin-top: 4px;
 }
 
 .music-grammar:hover {
@@ -824,6 +854,7 @@ body {
   padding: 0;
   flex-grow: 1;
   align-items: flex-start;
+  gap: 2px;
 }
 
 .music-title {
@@ -1179,6 +1210,50 @@ body {
     flex-direction: column;
     gap: 10px;
   }
+}
+.content .video-buttons {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+/*
+.content .video-buttons .btn {
+  font-size: 18px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background-color: #ece1c3; 
+  color: #063940;            
+  border: 2px solid #063940;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.content .video-buttons .btn:hover {
+  background-color: #063940;
+  color: #ece1c3;
+}*/
+.content .video-buttons .btn {
+  font-size: 18px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #f2f2f2; /* Gris claro */
+  color: #6e6e6e;            /* Gris oscuro casi negro */
+  border: 1px solid #e5e4e4;    /* Borde sutil */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombrita suave */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.content .video-buttons .btn:hover {
+  background-color: #e6e6e6; /* Un poquito más oscuro al pasar el mouse */
+  color: #000;
 }
 
 @media (max-width: 768px) {
