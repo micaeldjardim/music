@@ -76,7 +76,7 @@ function configurarBotoesEstilo(callbackSelectMusic) {
   console.log("Estilos disponíveis:", Array.from(estilosDisponiveis));
   
   botoesEstilo.forEach(botao => {
-    const textoEstilo = botao.textContent.trim();
+    const textoEstilo = botao.getAttribute('title') || '';
     const estiloExiste = Array.from(estilosDisponiveis).some(
       estilo => estilo.toLowerCase() === textoEstilo.toLowerCase()
     );
@@ -406,8 +406,8 @@ export function renderMusicList(callbackSelectMusic, countryFilter = null, exclu
       difficultyImg.title = `Dificuldade: ${musica.level}`;
       
       // Definir tamanho apropriado para o ícone
-      difficultyImg.style.width = "20px"; 
-      difficultyImg.style.height = "20px";
+      difficultyImg.style.width = "30px"; 
+      difficultyImg.style.height = "30px";
       
       difficulty.appendChild(difficultyImg);
       textContainer.appendChild(difficulty);
