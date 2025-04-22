@@ -14,6 +14,7 @@ import * as routerService from "./services/routerService.js";
 
 const { extrairMusicaIdDaURL, navegarParaMusica, navegarParaHome } = routerService;
 let currentMusic = null;
+let currentIndex = 0;  // Declare apenas uma vez no escopo global
 
 function carregarMusica(musica) {
   currentMusic = musica;
@@ -143,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
     buscarProximaMusica();
   }
 
-
   // Configurar toggle dos filtros
   const toggleButton = document.getElementById('toggle-filtros-btn');
   const filtrosContent = document.getElementById('filtros-content');
@@ -168,7 +168,47 @@ document.addEventListener('DOMContentLoaded', () => {
     event.stopPropagation();
   });
 
-
+  // Nova implementação do carrossel
+  const welcomeItems = document.querySelectorAll('.welcome-item');
+  let welcomeIndex = 0;
+  
+  function rotateWelcomeItems() {
+    // Remove a classe active de todos os itens
+    welcomeItems.forEach(item => item.classList.remove('active'));
+    
+    // Adiciona a classe active apenas no item atual
+    welcomeItems[welcomeIndex].classList.add('active');
+    
+    // Incrementa o índice e reinicia se necessário
+    welcomeIndex = (welcomeIndex + 1) % welcomeItems.length;
+  }
+  
+  // Inicia o carrossel com o primeiro item
+  if (welcomeItems.length > 0) {
+    rotateWelcomeItems();
+    // Define o intervalo para troca automática (4 segundos)
+    setInterval(rotateWelcomeItems, 4000);
+  }
+  
+  // Efeito de scroll suave para o botão "Começar Agora"
+  const startButton = document.querySelector('a[href="#music-list"]');
+  if (startButton) {
+    startButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const target = document.getElementById('music-list');
+      if (target) {
+        const headerOffset = 80;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    });
+  }
 });
 
 // Função para buscar a próxima música

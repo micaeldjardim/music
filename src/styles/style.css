@@ -33,7 +33,7 @@ body {
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 990; /* Alto o suficiente para ficar sobre o conteúdo, mas abaixo do modal */
 }
 
 .navbar-fillthesong .navbar-brand,
@@ -262,42 +262,334 @@ body {
   pointer-events: none;
 }
 
-/* Área de apresentação com fundo animado */
+/* Estilos modernizados para o hero section */
 .hero-section {
   position: relative;
-  width: 100%;
-  height: 100vh; 
-  background-color: #0e4d7a;
-  background-image: 
-    linear-gradient(135deg, #0e4d7a 0%, #1a6098 25%, #52a5d9 50%, #9a3a29 75%, #b22913 100%);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-  background-attachment: fixed;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0e4d7a 0%, #1a6098 25%, #52a5d9 50%, #9a3a29 75%, #b22913 100%);
+  background-size: 300% 300%;
+  animation: gradient-shift 15s ease infinite;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  padding-top: 80px;
-  overflow: hidden;
-  font-family: Orbitron, sans-serif;
+  padding: 120px 20px 100px;
   color: white;
+  overflow: hidden;
+  text-align: center;
+  z-index: 1; /* Valor baixo para ficar atrás do modal */
 }
 
-/* Área do vídeo de apresentação */
-.video-presentation {
-  width: 80%;
+@keyframes gradient-shift {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+/* Conteúdo central do hero */
+.hero-content {
   max-width: 800px;
-  height: 500px;
-  background-color: rgba(255, 255, 255, 0.15);
-  border-radius: 30px;
+  width: 100%;
+  position: relative;
+  z-index: 2; /* Valor baixo para ficar atrás do modal */
+  margin-bottom: 40px;
+}
+
+/* Título principal com efeito de texto */
+.hero-section h1 {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 800;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  letter-spacing: -1px;
+  background: linear-gradient(90deg, #ffffff, #f0f0f0, #ffffff);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -text-fill-color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
+/* Carrossel de mensagens de boas-vindas */
+.welcome-carousel {
+  position: relative;
+  height: 100px;
   overflow: hidden;
-  margin: 20px 0;
-  backdrop-filter: blur(5px);
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.welcome-item {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s, transform 0.8s;
+  left: 0;
+  right: 0;
+}
+
+.welcome-item.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.welcome-message {
+  font-size: 1.6rem;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  margin-bottom: 8px;
+}
+
+.welcome-lead {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  font-weight: 300;
+  margin-top: 0;
+}
+
+/* Botões de call-to-action */
+.hero-buttons {
   display: flex;
+  gap: 20px;
   justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.primary-button, .secondary-button {
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-flex;
   align-items: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+}
+
+.primary-button {
+  background: #fff;
+  color: #0e4d7a;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.secondary-button {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.primary-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  background: #f8f8f8;
+}
+
+.secondary-button:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-3px);
+}
+
+/* Área do vídeo de apresentação com design moderno */
+.video-presentation {
+  width: 90%;
+  max-width: 850px;
+  height: auto;
+  aspect-ratio: 16/9;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2; /* Valor baixo para ficar atrás do modal */
+}
+
+.video-presentation:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+}
+
+.video-presentation iframe {
+  border-radius: 12px;
+}
+
+/* Notas musicais animadas caindo */
+.musical-notes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.musical-notes span {
+  position: absolute;
+  top: -50px;
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.4);
+  animation: falling-notes 10s linear infinite;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.musical-notes span:nth-child(1) {
+  left: 5%;
+  animation-delay: 0s;
+  animation-duration: 12s;
+  font-size: 30px;
+}
+
+.musical-notes span:nth-child(2) {
+  left: 15%;
+  animation-delay: 1.2s;
+  animation-duration: 7.5s;
+  font-size: 22px;
+}
+
+.musical-notes span:nth-child(3) {
+  left: 25%;
+  animation-delay: 2.5s;
+  animation-duration: 10s;
+  font-size: 26px;
+}
+
+.musical-notes span:nth-child(4) {
+  left: 40%;
+  animation-delay: 0.7s;
+  animation-duration: 8s;
+  font-size: 28px;
+}
+
+.musical-notes span:nth-child(5) {
+  left: 55%;
+  animation-delay: 1.8s;
+  animation-duration: 11s;
+  font-size: 24px;
+}
+
+.musical-notes span:nth-child(6) {
+  left: 65%;
+  animation-delay: 4.5s;
+  animation-duration: 9s;
+  font-size: 20px;
+}
+
+.musical-notes span:nth-child(7) {
+  left: 75%;
+  animation-delay: 2s;
+  animation-duration: 6.5s;
+  font-size: 32px;
+}
+
+.musical-notes span:nth-child(8) {
+  left: 85%;
+  animation-delay: 0.3s;
+  animation-duration: 10.5s;
+  font-size: 26px;
+}
+
+.musical-notes span:nth-child(9) {
+  left: 10%;
+  animation-delay: 6s;
+  animation-duration: 8.5s;
+  font-size: 22px;
+}
+
+.musical-notes span:nth-child(10) {
+  left: 30%;
+  animation-delay: 3.5s;
+  animation-duration: 9.5s;
+  font-size: 28px;
+}
+
+.musical-notes span:nth-child(11) {
+  left: 50%;
+  animation-delay: 5.2s;
+  animation-duration: 7s;
+  font-size: 24px;
+}
+
+.musical-notes span:nth-child(12) {
+  left: 70%;
+  animation-delay: 4s;
+  animation-duration: 10.5s;
+  font-size: 32px;
+}
+
+@keyframes falling-notes {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(calc(100vh + 50px)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.hero-separator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  z-index: 4;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 100px 15px 60px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .primary-button, .secondary-button {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .welcome-message {
+    font-size: 1.3rem;
+  }
+  
+  .welcome-lead {
+    font-size: 1rem;
+  }
+  
+  .video-presentation {
+    width: 95%;
+  }
+  
+  .musical-notes span {
+    font-size: 20px;
+  }
 }
 
 /* Conteúdo principal (fundo estático) */
@@ -1256,24 +1548,7 @@ body {
   justify-content: center;
   gap: 10px;
 }
-/*
-.content .video-buttons .btn {
-  font-size: 18px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  background-color: #ece1c3; 
-  color: #063940;            
-  border: 2px solid #063940;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.content .video-buttons .btn:hover {
-  background-color: #063940;
-  color: #ece1c3;
-}*/
+
 .content .video-buttons .btn {
   font-size: 18px;
   padding: 10px 20px;
@@ -1349,4 +1624,36 @@ body {
   margin-top: 0;
   margin-bottom: 0;
   pointer-events: none;
+}
+
+/* Estilos para garantir que o modal fique na frente de tudo */
+
+/* Modal de login deve ter o maior z-index possível */
+.auth-modal {
+  display: block;
+  position: fixed;
+  z-index: 9999 !important;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Conteúdo do modal também precisa de um z-index alto */
+.auth-modal-content {
+  position: relative;
+  z-index: 10000 !important;
+}
+
+/* Garantir que o overlay do modal cubra tudo */
+.auth-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9998 !important;
 }
