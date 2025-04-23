@@ -1,15 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 
-/* Ajustes para o body e navbar fixo */
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f8f9fa; /* Cor de fundo estática para o conteúdo ao rolar */
+  background-color: #f8f9fa;
   color: #333;
   text-align: center;
-   /* Aumentado o espaço para o navbar fixo */
   box-sizing: border-box;
   overflow-x: hidden;
 }
@@ -20,20 +18,18 @@ body {
   100% { background-position: 0% 50% }
 }
 
-/* Adiciona box-sizing para todos os elementos */
 *, *:before, *:after {
   box-sizing: border-box;
 }
 
-/* Estilos para o novo navbar Bootstrap - agora fixo */
 .navbar-fillthesong {
   background: transparent;
-  position:sticky !important;
+  position: sticky !important;
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 990; /* Alto o suficiente para ficar sobre o conteúdo, mas abaixo do modal */
+  z-index: 990;
 }
 
 .navbar-fillthesong .navbar-brand,
@@ -44,7 +40,7 @@ body {
 }
 
 .navbar-fillthesong .nav-link:hover {
-  color: #A52916 !important; /* vermelho da paleta no hover */
+  color: #A52916 !important;
 }
 
 .navbar-logo {
@@ -64,7 +60,6 @@ body {
   transform: scale(1.1);
 }
 
-/* Ajustes para responsividade do menu */
 @media (max-width: 992px) {
   .navbar-fillthesong .navbar-collapse {
     margin-top: 10px;
@@ -75,7 +70,6 @@ body {
   }
 }
 
-/* Estilo para o botão do menu mobile */
 .navbar-fillthesong .navbar-toggler {
   border-color: rgba(255, 255, 255, 0.5);
 }
@@ -83,18 +77,7 @@ body {
 .navbar-fillthesong .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
-/* Fim dos estilos do navbar */
 
-/*html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow: hidden; 
-}*/
-
-/*----------------preloader------------------*/
-/* Correção do preloader */
 .loader {
   position: fixed;
   left: 0px;
@@ -131,10 +114,9 @@ body {
   font-weight: bold;
   margin-top: 80px;
   margin-bottom: 20px;
-  color:#333;
+  color: #333;
 }
 
-/* Ocultar o header antigo já que estamos usando o novo navbar */
 .header-conteiner {
   position: absolute;
   display: flex;
@@ -145,8 +127,6 @@ body {
   width: 100%; 
   height: 45px;
   z-index: 1000;
-
-
 }
 
 .logo {
@@ -155,13 +135,12 @@ body {
   margin: 0;
 }
 
-.profile{
+.profile {
   width: 35px;
   height: 35px;
-  
 }
 
-.logo_index{
+.logo_index {
   width: 30px;
   height: auto;
   margin: 0;
@@ -200,7 +179,7 @@ body {
 .search-input-container input {
   width: 100%;
   padding: 10px;
-  padding-right: 40px; /* Espaço para o botão */
+  padding-right: 40px;
   border: 1px solid #ddd;
   border-radius: 20px;
   font-size: 16px;
@@ -262,7 +241,6 @@ body {
   pointer-events: none;
 }
 
-/* Estilos modernizados para o hero section */
 .hero-section {
   position: relative;
   min-height: 100vh;
@@ -271,13 +249,13 @@ body {
   animation: gradient-shift 15s ease infinite;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: center !important;
+  align-items: center !important;
   padding: 120px 20px 100px;
   color: white;
   overflow: hidden;
-  text-align: center;
-  z-index: 1; /* Valor baixo para ficar atrás do modal */
+  text-align: center !important;
+  z-index: 1;
 }
 
 @keyframes gradient-shift {
@@ -286,18 +264,19 @@ body {
   100% { background-position: 0% 50% }
 }
 
-/* Conteúdo central do hero */
 .hero-content {
   max-width: 800px;
   width: 100%;
   position: relative;
-  z-index: 2; /* Valor baixo para ficar atrás do modal */
+  z-index: 2;
   margin-bottom: 40px;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;;
 }
 
-/* Título principal com efeito de texto */
 .hero-section h1 {
-  font-size: clamp(3rem, 8vw, 5rem);
+  font-size: clamp(3rem, 7vw, 5rem);
   font-weight: 800;
   margin-bottom: 30px;
   text-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -315,7 +294,6 @@ body {
   to { background-position: 200% center; }
 }
 
-/* Carrossel de mensagens de boas-vindas */
 .welcome-carousel {
   position: relative;
   height: 100px;
@@ -355,7 +333,6 @@ body {
   margin-top: 0;
 }
 
-/* Botões de call-to-action */
 .hero-buttons {
   display: flex;
   gap: 20px;
@@ -401,7 +378,6 @@ body {
   transform: translateY(-3px);
 }
 
-/* Área do vídeo de apresentação com design moderno */
 .video-presentation {
   width: 90%;
   max-width: 850px;
@@ -417,7 +393,7 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin: 0 auto;
   position: relative;
-  z-index: 2; /* Valor baixo para ficar atrás do modal */
+  z-index: 2;
 }
 
 .video-presentation:hover {
@@ -429,7 +405,6 @@ body {
   border-radius: 12px;
 }
 
-/* Notas musicais animadas caindo */
 .musical-notes {
   position: absolute;
   top: 0;
@@ -592,7 +567,6 @@ body {
   }
 }
 
-/* Conteúdo principal (fundo estático) */
 .main-content {
   background-color: #f8f9fa;
   position: relative;
@@ -600,7 +574,7 @@ body {
   box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.1);
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
-  margin-top: -30px; /* Sobrepõe levemente a seção hero */
+  margin-top: -30px;
   z-index: 2;
 }
 
@@ -635,9 +609,9 @@ body {
   margin-bottom: 20px;
 }
 
-.country-filter, .dificult-filter{
-  display:flex;
-  gap:10px;
+.country-filter, .dificult-filter {
+  display: flex;
+  gap: 10px;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
@@ -655,19 +629,19 @@ body {
   border-color: #0069d9;
 }
 
-.country-btn{
+.country-btn {
   width: 40px;
-  height: 40px; /* Aumentado para 50px para maior visibilidade */
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0px;
   overflow: hidden;
-  border-radius: 50% !important; /* Alterado para circular como na thumbnail */
+  border-radius: 50% !important;
   cursor: pointer;
   border: none;
   margin: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adicionando sombra como na thumbnail */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease;
 }
 
@@ -677,6 +651,8 @@ body {
 
 .country-btn:active {
   transform: scale(0.95);
+  border: 2px solid #0e4d79;
+  box-shadow: #222 0px 0px 2px;
 }
 
 .country-btn.active {
@@ -688,26 +664,16 @@ body {
   width: 100%;
   height: 100%; 
   object-fit: cover;
-  border-radius: 50%; /* Garantindo que a imagem seja circular */
-}
-
-.dificult-filter {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-
+  border-radius: 50%;
 }
 
 .dificult-btn {
-  
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0px;
   overflow: hidden;
-  border-radius: 50% !important; /* Circular como os botões de país */
+  border-radius: 50% !important;
   cursor: pointer;
   border: none !important;
   margin: 5px;
@@ -725,37 +691,15 @@ body {
 }
 
 .dificult-btn.active {
-  border: 3px solid #007bff; /* Mesma borda azul quando ativo */
+  border: 3px solid #007bff;
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.7);
 }
 
 .dificult-btn img {
   width: 40px;
   height: 40px; 
-  object-fit: contain; /* Mantém a proporção da imagem */
-  padding: 0px; /* Removendo o padding para eliminar o fundo branco */
-  
-  
-}
-
-.grammar-btn{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px 8px;
-  border-radius: 25px !important;
-  border: 1px solid #ddd;
-  cursor: pointer;
-}
-
-.grammar-filter{
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  border: 3px solid transparent;
-  border-radius: 18px;
+  object-fit: contain;
+  padding: 0px;
 }
 
 .grammar-filter {
@@ -768,7 +712,6 @@ body {
   width: 100%;
   padding: 5px;
 }
-
 
 .grammar-btn {
   display: flex;
@@ -786,8 +729,8 @@ body {
   min-width: 100px;
   margin: 5px;
   position: relative;
+  padding: 5px 8px;
 }
-
 
 .grammar-btn:nth-child(7n+1) { border-color: rgba(161, 40, 22, 1); }
 .grammar-btn:nth-child(7n+2) { border-color: rgba(179, 58, 41, 1); }
@@ -797,14 +740,12 @@ body {
 .grammar-btn:nth-child(7n+6) { border-color: rgba(84, 137, 177, 1); }
 .grammar-btn:nth-child(7n+7) { border-color: rgba(78, 158, 207, 1); }
 
-
 .grammar-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   background-color: rgba(255, 255, 255, 0.9);
 }
 
-/* Estilo para botão ativo */
 .grammar-btn.active {
   background-color: rgba(255, 255, 255, 0.95);
   transform: translateY(1px);
@@ -812,38 +753,11 @@ body {
   font-weight: bold;
 }
 
-/* Texto dentro dos botões */
 .grammar-btn span {
   font-size: 14px;
   white-space: nowrap;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-  .grammar-btn {
-    padding: 8px 12px;
-    min-width: 90px;
-    font-size: 13px;
-  }
-  
-  .grammar-filter {
-    gap: 6px;
-  }
-}
-
-.country-btn:active{
-  border: 2px solid #0e4d79;
-  box-shadow: #222 0px 0px 2px;
-}
-
-
-.country-btn img{
-  width: 100%;
-  height: 100%; 
-  object-fit: cover;
-}
-
-/* Estilização para os botões de filtro de estilo musical */
 .style-filter {
   display: flex;
   flex-wrap: wrap;
@@ -867,7 +781,6 @@ body {
   align-items: center;
   justify-content: center;
   padding: 5px 8px;
-  border-radius: 18px;
   border-radius: 25px !important;
   cursor: pointer;
   color: #333;
@@ -887,7 +800,6 @@ body {
   background-color: rgba(255, 255, 255, 0.9);
 }
 
-/* Estilo para botão ativo */
 .style-btn.active {
   background-color: rgba(255, 255, 255, 0.95);
   transform: translateY(1px);
@@ -895,7 +807,6 @@ body {
   font-weight: bold;
 }
 
-/* Estilo para botões sem correspondências */
 .style-btn.no-matches {
   opacity: 0.5;
   cursor: not-allowed;
@@ -906,20 +817,6 @@ body {
   transform: none;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
-/* Responsividade para telas menores */
-@media (max-width: 768px) {
-  .style-btn {
-    padding: 8px 12px;
-    min-width: 90px;
-    font-size: 13px;
-  }
-  
-  .style-filter {
-    gap: 6px;
-  }
-}
-
 
 .style-img-btn {
   width: 50px;
@@ -960,7 +857,6 @@ body {
   scale: 1.3;
 }
 
-/* Remover pseudo-elementos que adicionam ícones aos botões de texto */
 .style-img-btn::before {
   content: none !important;
 }
@@ -974,13 +870,13 @@ body {
 }
 
 .music-thumb {
-  position: relative; /* Necessário para posicionar o badge corretamente */
+  position: relative;
   width: 250px;
   height: 340px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Alinhamento à esquerda para seguir o novo design */
-  border: none; /* Removendo a borda */
+  align-items: flex-start;
+  border: none;
   border-radius: 20px;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -989,7 +885,6 @@ body {
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 15px;
-  position: relative; /* Para posicionamento absoluto dos elementos internos */
 }
 
 .music-thumb:hover {
@@ -997,7 +892,6 @@ body {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Badge de estilo musical na thumbnail */
 .music-style {
   position: absolute;
   top: 10px;
@@ -1016,18 +910,17 @@ body {
   margin-top: 4px;
 }
 
-/* Redesign para badges de país - versão redonda como o ícone de dificuldade */
 .music-country {
   position: absolute;
   bottom: 200px;
   right: 15px;
   background: none;
   overflow: hidden;
-  border-radius: 50%; /* Alterado para ficar redondo */
+  border-radius: 50%;
   z-index: 2;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  width: 30px; /* Mesmo tamanho do ícone de dificuldade */
-  height: 30px; /* Mesmo tamanho do ícone de dificuldade */
+  width: 30px;
+  height: 30px;
   padding: 0;
 }
 
@@ -1035,14 +928,13 @@ body {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  border-radius: 50%; /* Correspondendo ao container */
+  border-radius: 50%;
   margin: 0 !important;
   display: block;
   position: static !important;
   transform: none !important;
 }
 
-/* Nível de dificuldade - mantendo consistência de estilo */
 .music-difficulty {
   display: flex;
   align-items: center;
@@ -1057,11 +949,10 @@ body {
   height: 30px;
   object-fit: contain;
   border-radius: 50%;
-  margin-right: 0; /* Removendo margem desnecessária */
+  margin-right: 0;
   box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
-/* Ícone musical */
 .music-icon {
   font-size: 40px;
   color: #888;
@@ -1069,49 +960,27 @@ body {
   align-self: flex-start;
 }
 
-/* Título da música */
 .music-title-thumb {
   font-size: 18px;
   font-weight: 600;
   color: #064D7A;
   text-align: left;
-  padding-left: 0; /* Remover padding */
+  padding-left: 0;
   min-height: 30px;
   margin: 10px 0;
   align-self: flex-start;
 }
 
-/* Artista */
 .music-artist-thumb {
   font-size: 1em;
   color: #519ECF;
   text-align: left;
-  padding-left: 0; /* Remover padding */
+  padding-left: 0;
   min-height: 20px;
   margin-bottom: 15px;
   align-self: flex-start;
 }
 
-/* Nível de dificuldade */
-.music-difficulty {
-  display: flex;
-  align-items: center;
-  margin-top: 4px;
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-}
-
-.music-difficulty img {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-  border-radius: 50%;
-  margin-right: 0; /* Removendo margem desnecessária */
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-}
-
-/* Gramática (se aplicável) */
 .music-grammar {
   display: flex;
   align-items: center;
@@ -1145,7 +1014,6 @@ body {
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* Adicionar no seu style.css */
 .grammar-badge {
   display: inline-block;
   background-color: rgba(255, 255, 255, 0.25);
@@ -1165,18 +1033,16 @@ body {
   display: none;
 }
 
-/* Ajuste na estrutura da imagem para o novo layout */
 .music-thumb img {
-  width: calc(100% + 30px); /* Estender a imagem além das bordas do card */
+  width: calc(100% + 30px);
   height: 135px;
   object-fit: cover;
   display: block;
-  margin: -15px 0 10px -15px; /* Compensar o padding */
+  margin: -15px 0 10px -15px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
-/* Ajuste no container de texto */
 .text-container {
   display: flex;
   flex-direction: column;
@@ -1254,49 +1120,6 @@ body {
   width: 100%;
 }
 
-/* Media query para telas de desktop */
-@media (min-width: 992px) {
-  .game-area {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    flex-wrap: nowrap;
-    gap: 30px;
-  }
-  
-  .lyrics-area {
-    order: 1; /* Letra no meio */
-  }
-  
-  .video-area {
-    order: 0; /* Vídeo à esquerda */
-  }
-  
-  .word-bank-area {
-    order: 2; /* Word bank à direita */
-  }
-}
-
-/* Media query para dispositivos móveis */
-@media (max-width: 991px) {
-  .game-area {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .video-area, 
-  .lyrics-area,
-  .word-bank-area {
-    width: 100%;
-    max-width: 560px;
-  }
-  
-  .word-bank-area {
-    position: static;
-    margin-top: 20px;
-  }
-}
-
 .blank {
   display: inline-flex;
   justify-content: center;
@@ -1332,13 +1155,6 @@ body {
   opacity: 0.7;
 }
 
-.word-bank-area {
-  width: 150px;
-  position: sticky;
-  top: 20px;
-  z-index: 100;
-}
-
 .draggable {
   display: flex;
   align-items: center;
@@ -1353,14 +1169,11 @@ body {
   font-weight: bold;
   box-sizing: border-box;
   margin: 5px;
-  cursor: grab;
-  -webkit-cursor: grab;
   user-select: none;
   transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
 }
 
-/* Cores para os elementos draggable - 20 cores seguindo o gradiente do site */
 .draggable:nth-of-type(20n+1) { background-color: #0e4d7a; }
 .draggable:nth-of-type(20n+2) { background-color: #12537f; }
 .draggable:nth-of-type(20n+3) { background-color: #155885; }
@@ -1382,7 +1195,6 @@ body {
 .draggable:nth-of-type(20n+19) { background-color: #e03f3a; }
 .draggable:nth-of-type(20n+20) { background-color: #b22913; }
 
-/* Garantir que o texto fique legível nas diferentes cores de fundo */
 .draggable {
   color: white;
   text-shadow: 0 1px 1px rgba(0,0,0,0.2);
@@ -1390,7 +1202,6 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* Manter a consistência de estilos para interação */
 .draggable:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -1403,12 +1214,10 @@ body {
   z-index: 1000;
 }
 
-/* Aplicar as mesmas cores para palavras já colocadas */
 .dropped-word {
   background-color: inherit;
 }
 
-/* Manter a mesma transição para uma experiência fluida */
 .draggable, .dropped-word {
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
   display: flex;
@@ -1419,8 +1228,8 @@ body {
 }
 
 .draggable:active {
-  cursor: grabbing !important; /* Cursor de mão fechada */
-  -webkit-cursor: grabbing !important; /* Para compatibilidade com Safari */
+  cursor: grabbing !important;
+  -webkit-cursor: grabbing !important;
   transform: scale(0.98);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
@@ -1438,19 +1247,13 @@ body {
   box-sizing: border-box;
   position: relative;
   z-index: 10;
-  cursor: grab; /* Cursor de mão fechada */
 }
 
-.dropped-word:active{
-  cursor: grabbing !important; /* Cursor de mão fechada */
-  -webkit-cursor: grabbing !important; /* Para compatibilidade com Safari */
+.dropped-word:active {
+  cursor: grabbing !important;
+  -webkit-cursor: grabbing !important;
   transform: scale(0.98);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.draggable:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .nav-buttons {
@@ -1526,21 +1329,6 @@ body {
   display: none;
 }
 
-/* Correção para dispositivos móveis */
-@media (max-width: 768px) {
-  #search-input {
-    width: 90%;
-  }
-  
-  .country-filter, .dificult-filter {
-    justify-content: center;
-  }
-  
-  .nav ul {
-    flex-direction: column;
-    gap: 10px;
-  }
-}
 .content .video-buttons {
   width: 100%;
   margin-top: 10px;
@@ -1553,10 +1341,10 @@ body {
   font-size: 18px;
   padding: 10px 20px;
   border-radius: 5px;
-  background-color: #f2f2f2; /* Gris claro */
-  color: #6e6e6e;            /* Gris oscuro casi negro */
-  border: 1px solid #e5e4e4;    /* Borde sutil */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombrita suave */
+  background-color: #f2f2f2;
+  color: #6e6e6e;
+  border: 1px solid #e5e4e4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   transition: all 0.3s ease;
   display: inline-flex;
@@ -1565,23 +1353,9 @@ body {
 }
 
 .content .video-buttons .btn:hover {
-  background-color: #e6e6e6; /* Un poquito más oscuro al pasar el mouse */
+  background-color: #e6e6e6;
   color: #000;
 }
-
-@media (max-width: 768px) {
-  .dificult-btn {
-    padding: 8px 12px;
-    min-width: 90px;
-    font-size: 13px;
-  }
-  
-  .dificult-filter {
-    gap: 6px;
-  }
-}
-
-/* Adicione estes estilos ao seu arquivo CSS */
 
 .toggle-filtros-btn {
   display: flex;
@@ -1611,24 +1385,6 @@ body {
   font-style: normal;
 }
 
-.filtros-content {
-  transition: max-height 0.3s ease-out, opacity 0.3s ease-out, margin 0.3s ease-out;
-  max-height: 1000px;
-  opacity: 1;
-  overflow: hidden;
-}
-
-.filtros-content.hidden {
-  max-height: 0;
-  opacity: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  pointer-events: none;
-}
-
-/* Estilos para garantir que o modal fique na frente de tudo */
-
-/* Modal de login deve ter o maior z-index possível */
 .auth-modal {
   display: block;
   position: fixed;
@@ -1641,13 +1397,11 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* Conteúdo do modal também precisa de um z-index alto */
 .auth-modal-content {
   position: relative;
   z-index: 10000 !important;
 }
 
-/* Garantir que o overlay do modal cubra tudo */
 .auth-modal-overlay {
   position: fixed;
   top: 0;
@@ -1656,4 +1410,70 @@ body {
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 9998 !important;
+}
+
+@media (max-width: 768px) {
+  #search-input {
+    width: 90%;
+  }
+  
+  .country-filter, .dificult-filter {
+    justify-content: center;
+  }
+  
+  .nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .dificult-btn, .style-btn, .grammar-btn {
+    padding: 8px 12px;
+    min-width: 90px;
+    font-size: 13px;
+  }
+  
+  .dificult-filter, .style-filter, .grammar-filter {
+    gap: 6px;
+  }
+}
+
+@media (min-width: 992px) {
+  .game-area {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 30px;
+  }
+  
+  .lyrics-area {
+    order: 1;
+  }
+  
+  .video-area {
+    order: 0;
+  }
+  
+  .word-bank-area {
+    order: 2;
+  }
+}
+
+@media (max-width: 991px) {
+  .game-area {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .video-area, 
+  .lyrics-area,
+  .word-bank-area {
+    width: 100%;
+    max-width: 560px;
+  }
+  
+  .word-bank-area {
+    position: static;
+    margin-top: 20px;
+  }
 }
