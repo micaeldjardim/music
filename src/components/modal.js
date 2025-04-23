@@ -1,4 +1,3 @@
-
 // Armazena referências para navegação após o fechamento do modal
 let navActions = null;
 
@@ -96,7 +95,7 @@ export function showResultPopup(percentage, stars, detalhes = {}) {
                     </a>
                 </div>
                 <div class="right-icons">
-                    <a href="${pathExplicacao}?id=${musicaAtual.id || ''}" class="icon-btn small" title="Explicação gramatical">
+                    <a href="https://www.lingualize.com.br/product-page/desbloqueie-o-segredo-do-ingles-22-dias-e-22-minutos-por-dia?id=${musicaAtual.id || ''}" class="icon-btn small" title="Explicação gramatical">
                         <img src="${window.location.pathname.includes('/pages/') ? '../img/writing.png' : 'img/writing.png'}" alt="Explicação gramatical" style="width: 24px; height: 24px;">
                     </a>
                     <a href="${pathDashboard}" class="icon-btn small" title="Meu progresso">
@@ -133,18 +132,26 @@ export function showResultPopup(percentage, stars, detalhes = {}) {
         
         .modal-content {
             background: radial-gradient(circle at top, #519ECF 0%, #f0f4f8 100%);
-            padding: 2rem;
+            padding: clamp(0.75rem, 3vw, 1.5rem);
             border-radius: 20px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
             position: relative;
-            max-width: 500px;
+            max-width: 450px;
             width: 90%;
-            max-height: 90%;
-            overflow-y: auto;
+            max-height: 80vh;
+            overflow: hidden;
             text-align: center;
             color: #064D7A;
             font-family: 'Inter', sans-serif;
             z-index: 1001;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-content h1 {
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
         }
         
         .close-button {
@@ -171,12 +178,15 @@ export function showResultPopup(percentage, stars, detalhes = {}) {
         }
         
         .estrelas-container {
-            margin-top: 2rem;
+            margin-top: clamp(0.3rem, 2vw, 1.5rem);
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         
         .estrela {
-            width: 70px;
-            margin: 10px;
+            width: clamp(35px, 8vw, 60px);
+            margin: clamp(3px, 1.5vw, 8px);
             opacity: 1;
             transform: scale(1);
             display: inline-block;
@@ -184,25 +194,27 @@ export function showResultPopup(percentage, stars, detalhes = {}) {
         }
         
         #pontos {
-            font-size: 2.625rem;
-            margin: 2.5rem 0 1.875rem;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            margin: clamp(0.5rem, 2vw, 1.5rem) 0;
             color: #762379;
             font-weight: 700;
         }
         
         .detalhes {
-            margin: 2rem auto;
-            padding: 1rem;
+            margin: clamp(0.5rem, 2vw, 1.5rem) auto;
+            padding: clamp(0.5rem, 2vw, 1rem);
             background: rgba(255,255,255,0.7);
             border-radius: 10px;
             max-width: 400px;
+            width: 100%;
         }
         
         .detalhes p {
-            margin: 0.5rem 0;
+            margin: 0.3rem 0;
             display: flex;
             justify-content: space-between;
-            padding: 0 1rem;
+            padding: 0 clamp(0.5rem, 2vw, 1rem);
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
         }
         
         .detalhes p span:first-child {
@@ -214,8 +226,8 @@ export function showResultPopup(percentage, stars, detalhes = {}) {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
+            gap: clamp(0.5rem, 2.5vw, 1.5rem);
+            margin-top: clamp(0.5rem, 2vw, 1.5rem);
             flex-wrap: wrap;
             z-index: 1002;
         }
@@ -228,7 +240,7 @@ export function showResultPopup(percentage, stars, detalhes = {}) {
         
         .left-icons, .right-icons {
             flex-direction: column;
-            gap: 1rem;
+            gap: clamp(0.3rem, 1.5vw, 0.8rem);
         }
         
         .icon-btn {
@@ -255,21 +267,90 @@ export function showResultPopup(percentage, stars, detalhes = {}) {
         }
         
         .icon-btn.small {
-            font-size: 1.5rem;
-            width: 60px;
-            height: 60px;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            width: clamp(40px, 10vw, 55px);
+            height: clamp(40px, 10vw, 55px);
         }
         
         .icon-btn.big {
-            font-size: 2rem;
-            width: 80px;
-            height: 80px;
+            font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+            width: clamp(55px, 12vw, 70px);
+            height: clamp(55px, 12vw, 70px);
+        }
+        
+        .icon-btn img {
+            width: clamp(16px, 4vw, 22px) !important;
+            height: clamp(16px, 4vw, 22px) !important;
+        }
+        
+        .icon-btn.big img {
+            width: clamp(22px, 5vw, 30px) !important;
+            height: clamp(22px, 5vw, 30px) !important;
         }
         
         /* Garantir que links não herdem estilos não desejados */
         .icon-btn:link, .icon-btn:visited, .icon-btn:hover, .icon-btn:active {
             color: #fff !important;
             text-decoration: none !important;
+        }
+        
+        /* Media queries para telas muito pequenas */
+        @media (max-width: 360px) {
+            .icon-container {
+                gap: 1rem;
+            }
+            
+            .left-icons, .right-icons {
+                flex-direction: row;
+                gap: 0.8rem;
+            }
+            
+            .icon-container {
+                flex-direction: column;
+            }
+            
+            .center-icon {
+                order: 1;
+                margin: 1rem 0;
+            }
+            
+            .left-icons {
+                order: 2;
+            }
+            
+            .right-icons {
+                order: 3;
+            }
+        }
+        
+        /* Media query para melhor ajuste em diferentes níveis de zoom */
+        @media (min-height: 700px) {
+            .modal-content {
+                max-height: 600px;
+            }
+        }
+        
+        @media (max-height: 600px) {
+            .modal-content {
+                max-height: 90vh;
+                padding: clamp(0.5rem, 2vw, 1rem);
+            }
+            
+            .estrelas-container {
+                margin-top: 0.3rem;
+            }
+            
+            #pontos {
+                margin: 0.3rem 0;
+            }
+            
+            .detalhes {
+                margin: 0.3rem auto;
+            }
+            
+            .icon-container {
+                margin-top: 0.3rem;
+            }
         }
     `;
     document.head.appendChild(style);

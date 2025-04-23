@@ -143,7 +143,8 @@ async function setupLoginEvents() {
         sendPasswordResetEmail,
         GoogleAuthProvider,
         FacebookAuthProvider,
-        signInWithPopup 
+        signInWithPopup,
+        fetchSignInMethodsForEmail
     } = await import("https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js");
 
     // Habilitar botão de login quando email estiver preenchido
@@ -155,23 +156,63 @@ async function setupLoginEvents() {
 
     // Login com email/senha
     if (loginForm) {
-        loginForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
             const email = emailInput.value;
-            const password = prompt("Digite sua senha:");
-
-            if (!password) {
-                alert("Por favor, digite sua senha.");
-                return;
-            }
-
+            
+            // Armazenar o email para uso posterior
+            window.lastEmailInput = email;
+            
             try {
-                await signInWithEmailAndPassword(auth, email, password);
-                alert("Login realizado com sucesso!");
-                closeModal2();
-                window.location.reload();
+                console.log("Verificando email:", email);
+                
+                // Usar a nova função de verificação
+                const emailExists = await checkEmailExists(email, signInWithEmailAndPassword);
+                
+                console.log("Resultado da verificação:", { emailExists });
+                
+                if (!emailExists) {
+                    alert("Este e-mail não está registrado. Por favor, registre-se primeiro.");
+                    
+                    // Perguntar se deseja registrar
+                    const wantToRegister = confirm("Deseja registrar este e-mail?");
+                    if (wantToRegister) {
+                        closeModal2();
+                        loadRegisterModal();
+                    }
+                    return;
+                }
+                
+                // Se chegou aqui, o email existe, então podemos pedir a senha
+                const password = prompt("Digite sua senha:");
+                if (!password) {
+                    alert("É necessário digitar uma senha para fazer login.");
+                    return;
+                }
+
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    alert("Login realizado com sucesso!");
+                    closeModal2();
+                    window.location.reload();
+                } catch (error) {
+                    handleLoginError(error);
+                }
             } catch (error) {
-                handleLoginError(error);
+                console.error("Erro ao verificar email:", error);
+                
+                // Se não conseguiu verificar, pedir senha diretamente
+                const password = prompt("Digite sua senha para tentar fazer login:");
+                if (password) {
+                    try {
+                        await signInWithEmailAndPassword(auth, email, password);
+                        alert("Login realizado com sucesso!");
+                        closeModal2();
+                        window.location.reload();
+                    } catch (loginError) {
+                        handleLoginError(loginError);
+                    }
+                }
             }
         });
     }
@@ -227,18 +268,56 @@ async function setupLoginEvents() {
     }
 }
 
+// Nova função para verificar se o email existe de forma mais confiável
+async function checkEmailExists(email, signInMethod) {
+  try {
+    // Tentativa de login com senha propositalmente incorreta
+    await signInWithEmailAndPassword(auth, email, "senha_incorreta_para_verificacao");
+    return true; // Nunca deve chegar aqui
+  } catch (error) {
+    // Se o erro for de senha incorreta, o email existe
+    if (error.code === "auth/wrong-password" || 
+        error.code === "auth/invalid-credential" ||
+        error.code === "auth/invalid-login-credentials") {
+      return true; // Email existe, senha está errada
+    }
+    
+    // Se o erro for de usuário não encontrado, o email não existe
+    if (error.code === "auth/user-not-found") {
+      return false;
+    }
+    
+    // Para outros erros, assumimos que não conseguimos verificar
+    console.error("Erro ao verificar email:", error);
+    throw error;
+  }
+}
+
 function handleLoginError(error) {
     let message = "Erro ao fazer login.";
+    console.log("Código de erro:", error.code);
+    
     switch (error.code) {
         case "auth/wrong-password":
+        case "auth/invalid-credential":
+        case "auth/invalid-login-credentials":
             message = "Senha incorreta.";
             break;
         case "auth/user-not-found":
-            message = "Usuário não encontrado.";
+            message = "Este email não está registrado.";
+            const wantToRegister = confirm("Deseja registrar este e-mail?");
+            if (wantToRegister) {
+                setTimeout(() => {
+                    closeModal2();
+                    loadRegisterModal();
+                }, 500);
+            }
             break;
         case "auth/invalid-email":
             message = "Email inválido.";
             break;
+        default:
+            message = `Erro: ${error.message}`;
     }
     alert(message);
 }
@@ -304,6 +383,16 @@ function loadRegisterModal() {
 
         // Em vez de carregar o script, configuramos os eventos diretamente aqui
         setupRegisterEvents();
+
+        // Preencher o email se estiver disponível da tentativa de login
+        if (window.lastEmailInput) {
+            setTimeout(() => {
+                const registerEmailInput = document.getElementById("email");
+                if (registerEmailInput) {
+                    registerEmailInput.value = window.lastEmailInput;
+                }
+            }, 200);
+        }
       })
       .catch(error => console.error('Erro ao carregar o modal de registro:', error));
 }
@@ -321,7 +410,8 @@ async function setupRegisterEvents() {
     // Importar funções do Firebase necessárias
     const { 
         createUserWithEmailAndPassword, 
-        sendPasswordResetEmail 
+        sendPasswordResetEmail,
+        fetchSignInMethodsForEmail
     } = await import("https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js");
 
     // Habilitar botão quando email estiver preenchido
@@ -336,6 +426,18 @@ async function setupRegisterEvents() {
         console.log("Tentando registrar com:", { email });
 
         try {
+            // Primeiro, verificar se o email já está em uso
+            try {
+                const methods = await fetchSignInMethodsForEmail(auth, email);
+                if (methods && methods.length > 0) {
+                    alert("Este e-mail já está cadastrado. Por favor, use outro e-mail ou faça login.");
+                    return;
+                }
+            } catch (methodError) {
+                // Se ocorrer erro ao verificar métodos, prosseguimos com o registro
+                console.warn("Erro ao verificar métodos de login:", methodError);
+            }
+
             // Gerar uma senha temporária
             const tempPassword = Math.random().toString(36).slice(-8);
 
@@ -351,7 +453,13 @@ async function setupRegisterEvents() {
 
         } catch (error) {
             console.error("Erro ao registrar:", error);
-            handleRegisterError(error);
+            
+            // Verificação explícita para email já em uso
+            if (error.code === "auth/email-already-in-use") {
+                alert("Este e-mail já está cadastrado. Por favor, use outro e-mail ou faça login.");
+            } else {
+                handleRegisterError(error);
+            }
         }
     });
 }

@@ -33,7 +33,7 @@ body {
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 990; /* Alto o suficiente para ficar sobre o conteúdo, mas abaixo do modal */
 }
 
 .navbar-fillthesong .navbar-brand,
@@ -92,32 +92,6 @@ body {
   width: 100%;
   overflow: hidden; 
 }*/
-
-/*----------------preloader------------------*/
-/* Correção do preloader */
-.loader {
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  width: 100vw;
-  height: 100vh;
-  z-index: 9999;
-  background: url('/src/assets/preloader/Preloader\ 2.gif') 50% 50% no-repeat rgb(0,0,0);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: opacity 0.5s ease;
-}
-
-.loader img {
-  width: 100px;
-  height: 100px;
-}
-
-.loader.fade-out {
-  opacity: 0;
-  pointer-events: none;
-}
 
 .container {
   max-width: 1000px;
@@ -836,6 +810,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 20px;
 }
 
 .game-area {

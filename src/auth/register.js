@@ -4,53 +4,61 @@ import { auth } from "./firebase2.js";
 
 import { createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
-// Selecionando elementos
-const registerButton = document.getElementById("register-button");
-const emailInput = document.getElementById("email");
+// Verificar se já está sendo processado em um modal
+if (window.isModal) {
+  console.log("Register.js: Detectado carregamento em modal, ignorando inicialização");
+  // Não executar o resto do código  
+} else {
+  console.log("Register.js carregado no modo standalone");
 
-// Habilitar botão quando email estiver preenchido
-emailInput.addEventListener("input", () => {
-  registerButton.disabled = !emailInput.value;
-});
+  // Selecionando elementos
+  const registerButton = document.getElementById("register-button");
+  const emailInput = document.getElementById("email");
 
-// Evento de registro
-registerButton.addEventListener("click", async () => {
-  const email = emailInput.value;
+  // Habilitar botão quando email estiver preenchido
+  emailInput.addEventListener("input", () => {
+    registerButton.disabled = !emailInput.value;
+  });
 
-  console.log("Tentando registrar com:", { email });
+  // Evento de registro
+  registerButton.addEventListener("click", async () => {
+    const email = emailInput.value;
 
-  try {
-    // Gerar uma senha temporária
-    const tempPassword = Math.random().toString(36).slice(-8);
+    console.log("Tentando registrar com:", { email });
 
-    // Criar usuário
-    await createUserWithEmailAndPassword(auth, email, tempPassword);
+    try {
+      // Gerar uma senha temporária
+      const tempPassword = Math.random().toString(36).slice(-8);
 
-    // Enviar email de redefinição de senha
-    await sendPasswordResetEmail(auth, email);
+      // Criar usuário
+      await createUserWithEmailAndPassword(auth, email, tempPassword);
 
-    alert("Conta criada! Por favor, verifique seu email para definir sua senha.");
-    window.location.href = "login.html";
+      // Enviar email de redefinição de senha
+      await sendPasswordResetEmail(auth, email);
 
-  } catch (error) {
-    console.error("Erro ao registrar:", error);
-    handleRegisterError(error);
+      alert("Conta criada! Por favor, verifique seu email para definir sua senha.");
+      window.location.href = "login.html";
+
+    } catch (error) {
+      console.error("Erro ao registrar:", error);
+      handleRegisterError(error);
+    }
+  });
+
+  // Função para tratar erros de registro
+  function handleRegisterError(error) {
+    let message = "Erro ao criar conta.";
+
+    switch (error.code) {
+      case "auth/email-already-in-use":
+        message = "Este e-mail já está cadastrado.";
+        break;
+
+      case "auth/invalid-email":
+        message = "O e-mail fornecido é inválido.";
+        break;
+    }
+
+    alert(message);
   }
-});
-
-// Função para tratar erros de registro
-function handleRegisterError(error) {
-  let message = "Erro ao criar conta.";
-
-  switch (error.code) {
-    case "auth/email-already-in-use":
-      message = "Este e-mail já está cadastrado.";
-      break;
-
-    case "auth/invalid-email":
-      message = "O e-mail fornecido é inválido.";
-      break;
-  }
-
-  alert(message);
 }
