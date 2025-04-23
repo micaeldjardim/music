@@ -72,9 +72,11 @@ export async function carregarMusicas(callbackSelectMusic) {
   configurarBotoesDificuldade(callbackSelectMusic);
   configurarBotoesGrammar(callbackSelectMusic, gramaticas);
   configurarBotoesEstilo(callbackSelectMusic);
+
   
   return allMusicas;
 }
+
 
 function configurarCampoBusca(callbackSelectMusic) {
   const searchInput = document.getElementById("search-input");
@@ -86,6 +88,7 @@ function configurarCampoBusca(callbackSelectMusic) {
     renderMusicList(callbackSelectMusic);
   });
 }
+
 
 function configurarBotoesEstilo(callbackSelectMusic) {
   const botoesEstilo = document.querySelectorAll(".style-btn");
@@ -104,6 +107,7 @@ function configurarBotoesEstilo(callbackSelectMusic) {
     const textoEstilo = botao.getAttribute('title') || '';
     const estiloExiste = Array.from(estilosDisponiveis).some(
       estilo => estilo === normalizeText(textoEstilo)
+
     );
     
     // Marca botões sem músicas correspondentes
@@ -113,17 +117,20 @@ function configurarBotoesEstilo(callbackSelectMusic) {
     }
     
     botao.addEventListener("click", () => {
+
       if (botao.classList.contains("active")) {
         // Desativa o filtro
         botao.classList.remove("active");
         filtroEstiloAtivo = null;
         renderMusicList(callbackSelectMusic);
+
       } else {
         // Ativa o novo filtro
         botoesEstilo.forEach(btn => btn.classList.remove("active"));
         botao.classList.add("active");
         filtroEstiloAtivo = textoEstilo;
         renderMusicList(callbackSelectMusic);
+
       }
     });
   });
@@ -201,6 +208,7 @@ function configurarBotoesDificuldade(callbackSelectMusic) {
   botoesDificuldade.forEach(botao => {
     const tituloDificuldade = botao.getAttribute('title') || '';
     const valorDificuldade = mapeamentoDificuldades[tituloDificuldade] || tituloDificuldade;
+
     
     botao.addEventListener("click", () => {
       if (botao.classList.contains("active")) {
@@ -251,6 +259,7 @@ function configurarBotoesGrammar(callbackSelectMusic, gramaticasDisponiveis) {
   });
 }
 
+
 // Função para aplicar todos os filtros simultâneamente
 export function renderMusicList(callbackSelectMusic) {
   const container = document.getElementById("music-list");
@@ -295,6 +304,7 @@ export function renderMusicList(callbackSelectMusic) {
       );
     }
     
+
     // Filtro de dificuldade - com case insensitive e sem acentos
     let matchesDificuldade = true;
     if (filtroDificuldadeAtivo) {
@@ -370,6 +380,7 @@ function renderMusicCard(musica, container, callbackSelectMusic) {
   if (musica.country) {
     const countryDiv = document.createElement("div");
     countryDiv.className = "music-country";
+
     
     const countryImg = document.createElement("img");
     let countryCode = "world"; // Padrão para países não mapeados
@@ -379,6 +390,7 @@ function renderMusicCard(musica, container, callbackSelectMusic) {
     else if (countryNormalized === "canada") countryCode = "CAN";
     else if (countryNormalized === "uk") countryCode = "UK";
     else if (countryNormalized === "australia") countryCode = "AU";
+
     
     countryImg.src = `./img/${countryCode}.webp`;
     countryImg.alt = musica.country;

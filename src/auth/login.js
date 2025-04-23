@@ -1,13 +1,42 @@
 console.log("login.js carregado com sucesso!");
 
 import { auth } from "./firebase2.js";
-import { signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, fetchSignInMethodsForEmail } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { 
+    signInWithEmailAndPassword, 
+    sendPasswordResetEmail, 
+    GoogleAuthProvider, 
+    FacebookAuthProvider, 
+    signInWithPopup, 
+    fetchSignInMethodsForEmail 
+} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
 // Selecionando elementos
 const emailInput = document.getElementById("email");
 const loginButton = document.getElementById("submit-login");
 const recoveryButton = document.getElementById("recovery-password-button");
 const loginForm = document.getElementById("login-form");
+
+// Variável global para armazenar o email digitado
+window.lastEmailInput = "";
+
+// Função para verificar se o email existe
+async function checkEmailExists(email) {
+  try {
+    await signInWithEmailAndPassword(auth, email, "senha_teste_incorreta");
+    // Se não disparar erro (improvável), retorna true
+    return true;
+  } catch (error) {
+    if (error.code === "auth/wrong-password" ||
+        error.code === "auth/invalid-credential") {
+      return true; // E-mail existe, mas senha está errada
+    } else if (error.code === "auth/user-not-found") {
+      return false; // E-mail não cadastrado
+    } else {
+      console.error("Erro ao verificar e-mail:", error);
+      return false;
+    }
+  }
+}
 
 // Habilitar botão de login apenas quando o email estiver preenchido
 function toggleLoginButton() {
@@ -16,46 +45,32 @@ function toggleLoginButton() {
 
 emailInput.addEventListener("input", toggleLoginButton);
 
-// Evento de login
-loginForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  
+// Evento de submit do formulário
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
   const email = emailInput.value;
+  window.lastEmailInput = email; // Armazena para possivelmente preencher no registro
 
-  if (!email) {
-    alert("Por favor, digite um email.");
+  const emailExists = await checkEmailExists(email);
+  
+  if (!emailExists) {
+    alert("Esse e-mail não está registrado. Por favor, registre-se ou verifique o e-mail digitado.");
     return;
   }
-
+  
+  // Se o e-mail existe, continua com o processo de login...
+  let password = prompt("Digite sua senha:");
+  if (!password) {
+    alert("Por favor, digite sua senha.");
+    return;
+  }
+  
   try {
-    // Primeiro verifica se o email existe
-    const methods = await fetchSignInMethodsForEmail(auth, email);
-    
-    // Verifica se o email existe no Firebase
-    if (!methods || methods.length === 0) {
-      alert("Este email não está registrado. Por favor, registre-se primeiro.");
-      return;
-    }
-
-    // IMPORTANTE: Remova o prompt de senha se o email não existir
-    let password = null;
-    
-    // Apenas peça a senha se o email existir
-    if (methods && methods.length > 0) {
-      password = prompt("Digite sua senha:");
-      
-      if (!password) {
-        alert("Por favor, digite sua senha.");
-        return;
-      }
-
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      alert("Login realizado com sucesso!");
-      closeModal2();
-      window.location.href = "/src/index.html";
-    }
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("Login realizado com sucesso!");
+    closeModal2();
+    window.location.reload();
   } catch (error) {
-    console.error("Erro:", error);
     handleLoginError(error);
   }
 });
@@ -109,7 +124,6 @@ document.getElementById("google-login-button").addEventListener("click", async (
     alert("Erro ao fazer login com Google.");
   }
 });
-
 
 // Login com Facebook
 document.getElementById("facebook-login-button").addEventListener("click", async () => {

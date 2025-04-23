@@ -78,6 +78,7 @@ export function playpause() {
     }
 }
 
+
 /**
  * Extrai o ID do vídeo e o tempo de início da URL do YouTube.
  * @param {string} url - URL do vídeo.

@@ -88,6 +88,20 @@ window.addEventListener('popstate', (event) => {
     }
   } else {
     mostrarTelaInicial();
+    const heroSection = document.querySelector('.hero-section');
+    // Aplicar os mesmos estilos que na função goBack
+    heroSection.style.display = "block";
+    heroSection.style.textAlign = "center";
+    heroSection.style.width = "100%";
+    heroSection.style.margin = "0 auto";
+    heroSection.style.position = "relative";
+    
+    // Garantir que o vídeo também seja centralizado
+    const videoPresentation = document.querySelector('.video-presentation');
+    if (videoPresentation) {
+      videoPresentation.style.margin = "0 auto";
+      videoPresentation.style.textAlign = "center";
+    }
   }
 });
 

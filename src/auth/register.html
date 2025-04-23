@@ -41,7 +41,12 @@
   
   </div>
   
-  <script type="module" src="register.js"></script>
+  <script type="module">
+    // Verificar se está sendo carregado em um modal
+    if (!window.isModal) {
+      import('./register.js');
+    }
+  </script>
 
 </body>
 </html>
