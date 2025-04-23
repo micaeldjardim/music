@@ -1,6 +1,7 @@
 import { carregarMusicas, renderMusicList, mostrarTelaInicial, encontrarMusicaPorId, setHomeNavigation } from "./services/musicService.js";
 import { exibirYoutubePlayer } from "./components/player.js";
 import { voltar5s } from "./components/player.js";
+import { playpause } from "./components/player.js";
 import { 
   exibirLetraDrag,
   dragWord,
@@ -13,6 +14,7 @@ import * as routerService from "./services/routerService.js";
 
 const { extrairMusicaIdDaURL, navegarParaMusica, navegarParaHome } = routerService;
 let currentMusic = null;
+let currentIndex = 0;  // Declare apenas uma vez no escopo global
 
 function carregarMusica(musica) {
   currentMusic = musica;
@@ -50,11 +52,30 @@ window.checkAnswersDrag = checkAnswersDrag;
 window.goBack = goBack;
 window.tryAgain = tryAgain;
 window.closeModal = closeModal;
+window.voltar5seg = voltar5seg;
+window.playPause = playPause;
 
 export function goBack() {
   mostrarTelaInicial();
   document.querySelector('.hero-section').style.display = "block";
   navegarParaHome();
+}
+
+export function voltar5seg() {
+  if (currentMusic) {
+    voltar5s();
+  } else {
+    console.error("Nenhuma música atual definida.");
+  }
+}
+
+export function playPause() {
+  if (currentMusic) {
+    playpause();
+  }
+  else {
+    console.error("Nenhuma música atual definida.");
+  }
 }
 
 window.addEventListener('popstate', (event) => {
@@ -64,20 +85,6 @@ window.addEventListener('popstate', (event) => {
       carregarMusica(musica);
     } else {
       mostrarTelaInicial();
-      const heroSection = document.querySelector('.hero-section');
-      // Aplicar os mesmos estilos que na função goBack
-      heroSection.style.display = "block";
-      heroSection.style.textAlign = "center";
-      heroSection.style.width = "100%";
-      heroSection.style.margin = "0 auto";
-      heroSection.style.position = "relative";
-      
-      // Garantir que o vídeo também seja centralizado
-      const videoPresentation = document.querySelector('.video-presentation');
-      if (videoPresentation) {
-        videoPresentation.style.margin = "0 auto";
-        videoPresentation.style.textAlign = "center";
-      }
     }
   } else {
     mostrarTelaInicial();
@@ -123,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
     buscarProximaMusica();
   }
 
-
   // Configurar toggle dos filtros
   const toggleButton = document.getElementById('toggle-filtros-btn');
   const filtrosContent = document.getElementById('filtros-content');
@@ -148,7 +154,47 @@ document.addEventListener('DOMContentLoaded', () => {
     event.stopPropagation();
   });
 
-
+  // Nova implementação do carrossel
+  const welcomeItems = document.querySelectorAll('.welcome-item');
+  let welcomeIndex = 0;
+  
+  function rotateWelcomeItems() {
+    // Remove a classe active de todos os itens
+    welcomeItems.forEach(item => item.classList.remove('active'));
+    
+    // Adiciona a classe active apenas no item atual
+    welcomeItems[welcomeIndex].classList.add('active');
+    
+    // Incrementa o índice e reinicia se necessário
+    welcomeIndex = (welcomeIndex + 1) % welcomeItems.length;
+  }
+  
+  // Inicia o carrossel com o primeiro item
+  if (welcomeItems.length > 0) {
+    rotateWelcomeItems();
+    // Define o intervalo para troca automática (4 segundos)
+    setInterval(rotateWelcomeItems, 4000);
+  }
+  
+  // Efeito de scroll suave para o botão "Começar Agora"
+  const startButton = document.querySelector('a[href="#music-list"]');
+  if (startButton) {
+    startButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const target = document.getElementById('music-list');
+      if (target) {
+        const headerOffset = 80;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    });
+  }
 });
 
 // Função para buscar a próxima música

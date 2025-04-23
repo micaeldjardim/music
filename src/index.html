@@ -3,19 +3,13 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Fill the Song | Aprenda Inglês com Música de Forma Divertida e Interativa</title>
     <meta name="description" content="Aprenda inglês com música jogando! Complete letras de músicas famosas, melhore vocabulário e compreensão com o Fill the Song.">
     <link rel="icon" href="./img/logo-microphone.webp" type="image/webp">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/login.css">
-    <link rel="stylesheet" href="styles/navbar.css">
-   
+    <link rel="stylesheet" href="styles/buttons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
     <style>
       .content .video-buttons {
@@ -68,95 +62,165 @@
     </style>
     
   </head>
+  
   <body>
-
-    <header class=header-conteiner>
+    <header class="header-conteiner">
       <nav class="navbar navbar-expand-lg navbar-fillthesong fixed-top">
         <div class="container-fluid">
           <a class="navbar-brand d-flex align-items-center" href="index.html">
-            <img 
-            src="img/logo.webp" 
-            alt="Fill the Song Logo" 
-            class="navbar-logo me-2">
-        
+            <img src="img/logo.webp" alt="Fill the Song Logo" class="navbar-logo me-2">
           </a>
-        <button 
-          class="navbar-toggler" 
-          type="button" 
-          data-bs-toggle="collapse" 
-          data-bs-target="#navbarNav" 
-          aria-controls="navbarNav" 
-          aria-expanded="false" 
-          aria-label="Toggle navigation"
-          style="border-color: #fff;">
-          <span class="navbar-toggler-icon" style="color: #fff;"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#" id="login-button">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Baixe o App</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pages/addMusic.html">Adicione uma Música</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pages/planoseprecos.html">Preços</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pages/blog.html">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" id="dashboard-link"><!--Luiz modificação-->
-                <img src="./img/profile.webp" alt="profile" class="profile-icon">
-              </a>
-            </li>
-          </ul>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="border-color: #fff;">
+            <span class="navbar-toggler-icon" style="color: #fff;"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="login-button">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Baixe o App</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pages/addMusic.html">Adicione uma Música</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pages/planoseprecos.html">Preços</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pages/blog.html">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="dashboard-link">
+                  <img src="./img/profile.webp" alt="profile" class="profile-icon">
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <section class="hero-section">
+      <div class="welcome-carousel">
+        <div class="welcome-item active" lang="pt-br">
+          <div class="welcome-message">Bem-vindo ao Fill the Song</div>
+          <p class="welcome-lead">Aprenda inglês completando letras de músicas</p>
+        </div>
+        <div class="welcome-item" lang="en">
+          <div class="welcome-message">Welcome to Fill the Song</div>
+          <p class="welcome-lead">Learn English by completing song lyrics</p>
+        </div>
+        <div class="welcome-item" lang="es">
+          <div class="welcome-message">Bienvenido a Fill the Song</div>
+          <p class="welcome-lead">Aprende inglés completando letras de canciones</p>
+        </div>
+        <div class="welcome-item" lang="fr">
+          <div class="welcome-message">Bienvenue à Fill the Song</div>
+          <p class="welcome-lead">Apprenez l'anglais en complétant les paroles</p>
+        </div>
+        <div class="welcome-item" lang="de">
+          <div class="welcome-message">Willkommen bei Fill the Song</div>
+          <p class="welcome-lead">Englisch lernen durch Vervollständigen von Liedtexten</p>
+        </div>
+        <div class="welcome-item" lang="it">
+          <div class="welcome-message">Benvenuto a Fill the Song</div>
+          <p class="welcome-lead">Impara l'inglese completando i testi delle canzoni</p>
+        </div>
+        <div class="welcome-item" lang="ja">
+          <div class="welcome-message">Fill the Song へようこそ</div>
+          <p class="welcome-lead">歌詞を完成させて英語を学ぶ</p>
         </div>
       </div>
-    </nav>
-  </header>
-
-    <!-- Nova seção hero com fundo animado e vídeo de apresentação -->
-    <section class="hero-section">
-      <h1>Fill the Song</h1>
-      <p class="lead">Aprenda inglês completando letras de músicas</p>
+      
+      <div class="hero-content">
+        <h1>Fill the Song</h1>
+        
+        <div class="hero-buttons">
+          <a href="#music-list" class="primary-button">start now</a>
+          <a href="https://www.catarse.me/aprenda_ingles_com_musica_ajude_a_lancar_o_fill_the_song?ref=fill-the-song-site" class="secondary-button">support us</a>
+        </div>
+        
+        <a href="#music-list" class="play-button">
+          <div class="play-icon">
+            <div class="triangle"></div>
+          </div>
+          <div class="sound-waves">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+          </div>
+        </a>
+      </div>
       
       <div class="video-presentation">
-        <!-- Vídeo de apresentação aqui (pode ser um iframe do YouTube ou um vídeo hospedado) -->
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/wAuKngS5UCo" 
-          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen></iframe>
-      </div>    
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/wAuKngS5UCo"
+                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+      </div>
+      
+      <div class="musical-notes">
+        <span>&#9835;</span>
+        <span>&#9833;</span>
+        <span>&#9834;</span>
+        <span>&#9836;</span>
+        <span>&#9835;</span>
+        <span>&#9833;</span>
+        <span>&#9834;</span>
+        <span>&#9836;</span>
+        <span>&#9835;</span>
+        <span>&#9833;</span>
+        <span>&#9834;</span>
+        <span>&#9836;</span>
+      </div>
+      
+      <div class="hero-separator"></div>
     </section>
 
-
-    <!-- Seção principal com fundo estático -->
     <section class="main-content">
       <div id="screen-home">
         <div id="modal-container"></div>
         <div class="search-filters">
           <div class="search-input-container">
-            <input type="text" id="search-input" placeholder="Buscar música...">
+            <input type="text" id="search-input">
             <button id="toggle-filtros-btn" class="toggle-filtros-btn-inline" aria-label="Filtros">
               <svg class="filter-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 6H20M7 12H17M9 18H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 6H20M7 12H17M9 18H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </button>
           </div>
 
-
-          <div id="filtros-content" class="filtros-content">    
-            
+          <div id="filtros-content" class="filtros-content">
             <div class="style-filter filter-section">
-              <div class="style-buttons">
-                <button class="style-btn">Pop</button>
-                <button class="style-btn">Rock</button>
-                <button class="style-btn">Gospel</button>
-                <button class="style-btn">Rap And Hip-Hop</button>
-                <button class="style-btn">Country</button>
+              <div class="style-buttons" id="style-buttons-container">
+                <button class="style-btn style-img-btn" title="Pop">
+                  <img src="./img/icons_style/pop.webp" alt="Pop">
+                </button>
+
+                <button class="style-btn style-img-btn" title="Rock">
+                  <img src="./img/icons_style/rock.webp" alt="Rock">
+                </button>
+              
+                <button class="style-btn style-img-btn" title="Rap And Hip-Hop">
+                  <img src="./img/icons_style/rap.webp" alt="Rap And Hip-Hop">
+                </button>
+              
+                <button class="style-btn style-img-btn" title="Country">
+                  <img src="./img/icons_style/country.webp" alt="Country">
+                </button>
+               
+                <button class="style-btn style-img-btn" title="Metal And Punk">
+                  <img src="./img/icons_style/metal.webp" alt="Metal And Punk">
+                </button>
+
+                <button class="style-btn style-img-btn" title="Gospel">
+                  <img src="./img/icons_style/gospel.webp" alt="Gospel">
+                </button>
+
+                <button class="style-btn style-img-btn" title="Reggae">
+                  <img src="./img/icons_style/reggae.webp" alt="Reggae">
+                </button>
               </div>
             </div>
 
@@ -208,7 +272,7 @@
                 <img src="./img/AU.webp" alt="AU">
               </button>
               <button class="country-btn">
-                <img src="./img/world.webp" alt="outros">  
+                <img src="./img/world.webp" alt="outros">
               </button>
             </div>
           </div>
@@ -217,7 +281,7 @@
         <div class="music-container">
           <div id="music-list" class="music-list"></div>
         </div>
-      </div>  
+      </div>
     </section>
 
     <div id="screen-drag" style="display: none;">
@@ -227,20 +291,42 @@
       <div class="content">
         <div class="video-area" id="player-container"></div>
         <div class="video-buttons">
+
           <a href="index.html">
-            <button class="btn btn-outline-light" id="btn-back-home"><ion-icon name="home-outline"></ion-icon></button>
+            <button class="btn-video-interactive" id="btn-back-home">
+              <img src="img/home.webp" alt="Voltar para a página inicial" id="btn-back-home-icon" width="30" height="30">
+            </button>
           </a>
-          <button class="btn btn-outline-light" id="btn-back-5s"><ion-icon name="play-skip-back-outline" onclick="voltar5s()"></ion-icon></button>
-          <button class="btn btn-outline-light" id="btn-play-pause"><ion-icon name="play-outline"></ion-icon></button>
-          <button class="btn btn-outline-light" id="btn-next"><ion-icon name="play-skip-forward-outline"></ion-icon></button>
-          <button class="btn btn-outline-light" id="btn-share"><ion-icon name="share-outline"></ion-icon></button>
+
+          <button class="btn-video-interactive" id="btn-repeat"> 
+            <img src="img/repeat.webp" alt="Repeat" id="btn-repeat-icon" width="35" height="35">
+          </button>
+
+          <button class="btn-video-interactive" id="btn-back-5s" onclick="voltar5seg()">
+            <img src="img/5s.webp" alt="Back 5s" id="btn-back-5s-icon" width="40" height="40">
+          </button>
+
+          <button class="btn-video-interactive" id="btn-play-pause" onclick="playPause()">
+            <img src="img/pause-play.webp" alt="Play/Pause" id="btn-play-pause-icon" width="50" height="50">
+          </button>
+
+          <button class="btn-video-interactive" id="btn-next" onclick="proximaMusica()">
+            <img src="img/next.webp" alt="Next Music" id="btn-next-icon" width="40" height="40">
+          </button>
+
+          <button class="btn-video-interactive" id="btn-submit">
+            <img src="img/submit.webp" alt="Submit" id="btn-submit-icon" width="35" height="35">
+          </button>
+          
+          <button class="btn-video-interactive" id="btn-report">
+            <img src="img/report.webp" alt="Report" id="btn-report-icon" width="20" height="20">
+          </button>
         </div>
         <div class="game-area">
           <div class="lyrics-area">
             <div class="lyrics" id="lyricsDrag"></div>
           </div>
           <div class="word-bank-area" id="word-bank"></div>
-
         </div>
       </div>
       <div class="nav-buttons">
@@ -249,49 +335,52 @@
     </div>
 
     <div id="resultModal" class="modal"></div>
+    
+    <div class="loader"></div>
+    
+    <!-- Firebase -->
     <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+      import { getFirestore } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDpK_Aw49OFg9mS6aEDz5FjpK2OlV9-wvA",
-      authDomain: "fill-the-song.firebaseapp.com",
-      projectId: "fill-the-song",
-      storageBucket: "fill-the-song.firebasestorage.app",
-      messagingSenderId: "597494138856",
-      appId: "1:597494138856:web:029accd51127d1f5ab865d",
-      measurementId: "G-LWCN77NQV5"
-    };
+      const firebaseConfig = {
+        apiKey: "AIzaSyDpK_Aw49OFg9mS6aEDz5FjpK2OlV9-wvA",
+        authDomain: "fill-the-song.firebaseapp.com",
+        projectId: "fill-the-song",
+        storageBucket: "fill-the-song.firebasestorage.app",
+        messagingSenderId: "597494138856",
+        appId: "1:597494138856:web:029accd51127d1f5ab865d",
+        measurementId: "G-LWCN77NQV5"
+      };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    window.firebaseDB = db;
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      window.firebaseDB = db;
     </script>
-
-    <script>import { voltar5s } from "./components/player.js";</script>
+    
+    <!-- Scripts -->
     <script src="services/firebase.js" type="module"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
-
     <script src="auth/modalLogin.js" type="module"></script>
     <script src="index.js" type="module"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-8087DFE69T"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   
+    
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8087DFE69T"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-8087DFE69T');
-    </script>
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Ionicons CDN -->
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   </body>
 
 
 
 </html> 
+
