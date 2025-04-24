@@ -78,6 +78,30 @@ body {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
+.loader {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: url('/src/assets/preloader/Preloader\ 2.gif') 50% 50% no-repeat rgb(0,0,0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease;
+}
+
+.loader img {
+  width: 100px;
+  height: 100px;
+}
+
+.loader.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .container {
   max-width: 1000px;
   margin: 0 auto;
@@ -686,8 +710,8 @@ body {
   justify-content: center;
   border-radius: 18px;
   width: 100%;
+  padding: 5px;
 }
-
 
 .grammar-btn {
   display: flex;
@@ -716,17 +740,17 @@ body {
 .grammar-btn:nth-child(7n+6) { border-color: rgba(84, 137, 177, 1); }
 .grammar-btn:nth-child(7n+7) { border-color: rgba(78, 158, 207, 1); }
 
-
 .grammar-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .grammar-btn.active {
   background-color: rgba(255, 255, 255, 0.95);
   transform: translateY(1px);
   box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset;
-  border: 2px solid #0e4d79;
+  font-weight: bold;
 }
 
 .grammar-btn span {
@@ -765,7 +789,6 @@ body {
   border: 2px solid transparent;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 25px !important;
   min-width: 100px;
   margin: 5px;
   position: relative;
@@ -837,103 +860,6 @@ body {
 .style-img-btn::before {
   content: none !important;
 }
-
-/* Estilização para os botões de filtro de estilo musical */
-.style-filter {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin: 15px 0;
-  width: 100%;
-  padding: 5px;
-}
-
-.style-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  width: 100%;
-}
-
-.style-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px 8px;
-  border-radius: 18px;
-  border-radius: 25px !important;
-  cursor: pointer;
-  color: #333;
-  font-weight: 500;
-  background-color: rgba(255, 255, 255, 0.7);
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  min-width: 100px;
-  margin: 5px;
-  position: relative;
-}
-
-/* Cores diferentes para cada botão de estilo */
-.style-btn:nth-child(1) { border-color: #9C27B0; } /* Purple - Pop */
-.style-btn:nth-child(2) { border-color: #E91E63; } /* Pink - Rock */
-.style-btn:nth-child(3) { border-color: #3F51B5; } /* Indigo - Gospel */
-.style-btn:nth-child(4) { border-color: #FF9800; } /* Orange - Rap And Hip-Hop */
-.style-btn:nth-child(5) { border-color: #8BC34A; } /* Light Green - Country */
-
-.style-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  background-color: rgba(255, 255, 255, 0.9);
-}
-
-/* Estilo para botão ativo */
-.style-btn.active {
-  background-color: rgba(255, 255, 255, 0.95);
-  transform: translateY(1px);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset;
-  font-weight: bold;
-}
-
-/* Estilo para botões sem correspondências */
-.style-btn.no-matches {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: rgba(240, 240, 240, 0.7);
-}
-
-.style-btn.no-matches:hover {
-  transform: none;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-/* Responsividade para telas menores */
-@media (max-width: 768px) {
-  .style-btn {
-    padding: 8px 12px;
-    min-width: 90px;
-    font-size: 13px;
-  }
-  
-  .style-filter {
-    gap: 6px;
-  }
-}
-
-/* Ícones para os botões de estilo (opcional) */
-.style-btn::before {
-  content: "♫";
-  margin-right: 5px;
-  font-size: 14px;
-}
-
-.style-btn:nth-child(1)::before { content: "🎵"; } /* Pop */
-.style-btn:nth-child(2)::before { content: "🎸"; } /* Rock */
-.style-btn:nth-child(3)::before { content: "✝️"; } /* Gospel */
-.style-btn:nth-child(4)::before { content: "🎤"; } /* Rap */
-.style-btn:nth-child(5)::before { content: "🤠"; } /* Country */
 
 .music-list {
   display: flex;
@@ -1137,7 +1063,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 20px;
 }
 
 .game-area {
@@ -1322,14 +1247,6 @@ body {
   box-sizing: border-box;
   position: relative;
   z-index: 10;
-  cursor: grab; /* Cursor de mão fechada */
-}
-
-.dropped-word:active{
-  cursor: grabbing !important; /* Cursor de mão fechada */
-  -webkit-cursor: grabbing !important; /* Para compatibilidade com Safari */
-  transform: scale(0.98);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .dropped-word:active {
