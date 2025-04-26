@@ -24,7 +24,7 @@ body {
 
 .navbar-fillthesong {
   background: transparent;
-  position: fixed !important;
+  position: absolute !important;
   top: 0;
   left: 0;
   right: 0;
@@ -319,63 +319,32 @@ body {
   transform: translateY(0);
 }
 
+/* Aumento do tamanho da mensagem do carrossel de boas-vindas */
 .welcome-message {
-  font-size: 1.6rem;
-  font-weight: 500;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  margin-bottom: 8px;
+  font-size: 2.5rem; /* Tamanho maior para o título de boas-vindas */
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .welcome-lead {
-  font-size: 1.2rem;
-  opacity: 0.9;
-  font-weight: 300;
-  margin-top: 0;
+  font-size: 1.5rem; /* Tamanho maior para o texto de descrição */
+  font-weight: 500;
+  color: #f0f0f0;
+  max-width: 80%;
+  margin: 0 auto;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.hero-buttons {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 30px;
-}
-
-.primary-button, .secondary-button {
-  padding: 15px 30px;
-  border-radius: 50px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.primary-button {
-  background: #fff;
-  color: #0e4d7a;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-}
-
-.secondary-button {
-  background: transparent;
-  color: #fff;
-  border: 2px solid #fff;
-}
-
-.primary-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-  background: #f8f8f8;
-}
-
-.secondary-button:hover {
-  background: rgba(255,255,255,0.1);
-  transform: translateY(-3px);
+/* Para dispositivos móveis, reduzir um pouco o tamanho */
+@media (max-width: 768px) {
+  .welcome-message {
+    font-size: 2rem;
+  }
+  
+  .welcome-lead {
+    font-size: 1.2rem;
+  }
 }
 
 .video-presentation {
@@ -383,22 +352,16 @@ body {
   max-width: 850px;
   height: auto;
   aspect-ratio: 16/9;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 16px;
+  border-radius: 45px;
   overflow: hidden;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 30px rgb(0, 0, 0);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin: 0 auto;
   position: relative;
   z-index: 2;
-}
-
-.video-presentation:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
 }
 
 .video-presentation iframe {
@@ -1067,7 +1030,7 @@ body {
 
 .game-area {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -1088,12 +1051,20 @@ body {
   margin-top: 30px;
 }
 
+.video-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
 .lyrics-area {
   width: 560px;
   flex-shrink: 0;
   display: flex;
   margin-top: 10px;
-  margin-left: 180px;
+  margin-left: 200px;
   flex-direction: column;
   align-items: center;
 }
@@ -1326,13 +1297,13 @@ body {
 }
 
 #screen-drag .header {
-  margin-top: 10px;
+  margin-top: 20px;
   padding: 15px;
   position: relative;
 }
 
 #screen-drag {
-  padding-top: 70px; /* Espaço para o menu fixo */
+  padding-top: 80px; /* Espaço para a navbar */
   position: relative;
 }
 
@@ -1359,18 +1330,68 @@ body {
   }
   
   #screen-drag {
-    padding-top: 60px; /* Menor em dispositivos móveis */
+    padding-top: 70px;
+  }
+  
+  #screen-drag .header {
+    margin-top: 15px;
   }
 }
 
-.video-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin: 15px 0;
+/* Adicione isto no final do seu arquivo CSS */
+
+/* 1. Esconder a navbar principal quando o jogo estiver aberto */
+body:has(#screen-drag:not([style*="display: none"])) header.header-conteiner {
+  display: none !important;
 }
 
-.game-area {
-  margin-top: 10px;
+/* Para browsers que não suportam :has() */
+.hide-header {
+  display: none !important;
 }
+
+/* Estilos básicos para o cabeçalho da música no jogo */
+.music-header {
+  display: flex; /* Permite alinhar itens */
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  padding: 10px 15px; /* Espaçamento interno */
+  margin-bottom: 15px; /* Espaço abaixo do cabeçalho */
+  background-color: #f0f0f0; /* Cor de fundo simples para visualização */
+  border-radius: 8px; /* Bordas arredondadas */
+  max-width: 800px; /* Limita a largura */
+  margin-left: auto; /* Centraliza o bloco */
+  margin-right: auto; /* Centraliza o bloco */
+}
+
+.music-info {
+  text-align: center; /* Centraliza o texto */
+  display: flex;
+  flex-direction: column; /* Coloca título e artista um abaixo do outro */
+  align-items: center; /* Alinha itens no centro */
+}
+
+#music-title-game {
+  font-size: 1.4rem; /* Tamanho da fonte para o título */
+  font-weight: bold; /* Título em negrito */
+  color: #333; /* Cor do texto */
+  margin: 0 0 3px 0; /* Margem inferior pequena */
+  display: block; /* Garante que ocupe a linha */
+  visibility: visible; /* Garante visibilidade */
+}
+
+#music-artist-game {
+  font-size: 1rem; /* Tamanho da fonte para o artista */
+  color: #555; /* Cor do texto mais suave */
+  margin: 0; /* Sem margens extras */
+  display: block; /* Garante que ocupe a linha */
+  visibility: visible; /* Garante visibilidade */
+}
+
+/* Ajuste no padding do container do jogo para acomodar o header */
+#screen-drag {
+  padding-top: 20px; /* Adiciona espaço acima do conteúdo do jogo */
+  position: relative;
+}
+
+

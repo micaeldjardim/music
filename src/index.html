@@ -65,7 +65,7 @@
         </div>
         <div class="welcome-item" lang="es">
           <div class="welcome-message">Bienvenido a Fill the Song</div>
-          <p class="welcome-lead">Aprende inglés completando letras de canciones</p>
+          <p class="welcome-lead">Aprende inglês completando letras de canciones</p>
         </div>
         <div class="welcome-item" lang="fr">
           <div class="welcome-message">Bienvenue à Fill the Song</div>
@@ -115,7 +115,7 @@
         <span>&#9834;</span>
         <span>&#9836;</span>
         <span>&#9835;</span>
-        <span>&#9833;</span>
+        <span>&#9833;</span>  
         <span>&#9834;</span>
         <span>&#9836;</span>
       </div>
@@ -230,13 +230,18 @@
     </section>
 
     <div id="screen-drag" style="display: none;">
-      <div class="header">
-        <div id="music-title" class="music-title"></div>
+      <!-- Header com informações da música -->
+      <div class="music-header">
+    
+        <div class="music-info">
+          <h1 id="music-title-game" class="music-title-game"></h1>
+          <p id="music-artist-game" class="music-artist-game"></p>
+        </div>
       </div>
       <div class="content">
         <div class="video-area" id="player-container"></div>
+        <!-- Mantemos os botões de vídeo existentes -->
         <div class="video-buttons">
-
           <a href="index.html">
             <button class="btn-video-interactive" id="btn-back-home">
               <img src="img/home.webp" alt="Voltar para a página inicial" id="btn-back-home-icon" width="30" height="30">

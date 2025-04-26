@@ -18,12 +18,11 @@ let currentIndex = 0;  // Declare apenas uma vez no escopo global
 
 function carregarMusica(musica) {
   currentMusic = musica;
-  document.getElementById("music-title").textContent = musica.titulo;
-  // Oculta a home e a seção com o vídeo
   document.getElementById("screen-home").style.display = "none";
   document.querySelector('.hero-section').style.display = "none";
-  // Mostra a tela do jogo
   document.getElementById("screen-drag").style.display = "block";
+  document.getElementById("music-title-game").textContent = musica.titulo;
+  document.getElementById("music-artist-game").textContent = musica.artist;
   exibirLetraDrag(musica);
   exibirYoutubePlayer(musica);
 }
@@ -84,24 +83,15 @@ window.addEventListener('popstate', (event) => {
     if (musica) {
       carregarMusica(musica);
     } else {
-      mostrarTelaInicial();
+      mostrarTelaInicial(); // Chama a função que já lida com a exibição da tela inicial
+      renderMusicList(carregarMusica); // Adicione esta linha para recarregar a lista
     }
   } else {
-    mostrarTelaInicial();
-    const heroSection = document.querySelector('.hero-section');
-    // Aplicar os mesmos estilos que na função goBack
-    heroSection.style.display = "block";
-    heroSection.style.textAlign = "center";
-    heroSection.style.width = "100%";
-    heroSection.style.margin = "0 auto";
-    heroSection.style.position = "relative";
+    // A função mostrarTelaInicial já restaura a visibilidade da hero-section corretamente
+    mostrarTelaInicial(); 
+    renderMusicList(carregarMusica); // Adicione esta linha para recarregar a lista
     
-    // Garantir que o vídeo também seja centralizado
-    const videoPresentation = document.querySelector('.video-presentation');
-    if (videoPresentation) {
-      videoPresentation.style.margin = "0 auto";
-      videoPresentation.style.textAlign = "center";
-    }
+    // Não é mais necessário definir estilos inline aqui, pois mostrarTelaInicial já faz isso.
   }
 });
 
