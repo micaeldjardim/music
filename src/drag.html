@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fill the Song | Drag</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/buttons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-fillthesong fixed-top">
+        <div class="container-fluid">
+          <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="img/logo.webp" alt="Fill the Song Logo" class="navbar-logo me-2">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="border-color: #fff;">
+            <span class="navbar-toggler-icon" style="color: #fff;"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="login-button">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Baixe o App</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pages/addMusic.html">Adicione uma Música</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pages/planoseprecos.html">Preços</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pages/blog.html">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="dashboard-link">
+                  <img src="img/profile.webp" alt="profile" class="profile-icon">
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+</header>
+
+
+<div id="screen-drag">
+    <div class="header">
+        <div id="music-title" class="music-title"></div>
+      </div>
+      <div class="content">
+        <div class="video-area" id="player-container"></div>
+        <div class="video-buttons">
+
+          <a href="index.html">
+            <button class="btn-video-interactive" id="btn-back-home">
+              <img src="img/home.webp" alt="Voltar para a página inicial" id="btn-back-home-icon" width="30" height="30">
+            </button>
+          </a>
+
+          <button class="btn-video-interactive" id="btn-repeat"> 
+            <img src="img/repeat.webp" alt="Repeat" id="btn-repeat-icon" width="35" height="35">
+          </button>
+
+          <button class="btn-video-interactive" id="btn-back-5s" onclick="voltar5seg()">
+            <img src="img/5s.webp" alt="Back 5s" id="btn-back-5s-icon" width="40" height="40">
+          </button>
+
+          <button class="btn-video-interactive" id="btn-play-pause" onclick="playPause()">
+            <img src="img/pause-play.webp" alt="Play/Pause" id="btn-play-pause-icon" width="50" height="50">
+          </button>
+
+          <button class="btn-video-interactive" id="btn-next" onclick="proximaMusica()">
+            <img src="img/next.webp" alt="Next Music" id="btn-next-icon" width="40" height="40">
+          </button>
+
+          <button class="btn-video-interactive" id="btn-submit">
+            <img src="img/submit.webp" alt="Submit" id="btn-submit-icon" width="35" height="35">
+          </button>
+          
+          <button class="btn-video-interactive" id="btn-report">
+            <img src="img/report.webp" alt="Report" id="btn-report-icon" width="20" height="20">
+          </button>
+        </div>
+        <div class="game-area">
+          <div class="lyrics-area">
+            <div class="lyrics" id="lyricsDrag"></div>
+          </div>
+          <div class="word-bank-area" id="word-bank"></div>
+        </div>
+      </div>
+      <div class="nav-buttons">
+      </div>
+</div>
+
+<div id="resultModal" class="modal"></div>
+
+<script src="services/firebase.js" type="module"></script>
+<script src="auth/modalLogin.js" type="module"></script>
+<script src="drag.js" type="module"></script> 
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

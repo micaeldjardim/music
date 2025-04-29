@@ -1,6 +1,14 @@
 import { criarSlug, gerarIdTemporario } from "./musicService.js";
 
 export function extrairMusicaIdDaURL() {
+  // Verificar se há um parâmetro musicaId na URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const musicaId = urlParams.get('musicaId');
+  if (musicaId) {
+    return musicaId;
+  }
+  
+  // Verificar se há um hash no formato antigo
   const hash = window.location.hash;
   if (hash && hash.startsWith('#musica/')) {
     try {
@@ -17,21 +25,14 @@ export function extrairMusicaIdDaURL() {
 
 export function navegarParaMusica(musica) {
   if (!musica) return;
-  
+
+  // Se não tiver ID, gera um id temporário
   const musicaId = musica.id || gerarIdTemporario(musica);
-  let url = `#musica/${musicaId}`;
-  
-  if (musica.id && !musica.id.includes('-')) {
-    const slug = criarSlug(musica.titulo);
-    url = `#musica/${musicaId}/${slug}`;
-  }
-  
-  history.pushState({ 
-    screen: 'drag', 
-    musicaId: musicaId 
-  }, '', url);
+
+  // Navegar para drag.html com o ID da música como parâmetro
+  window.location.href = `drag.html?musicaId=${encodeURIComponent(musicaId)}`;
 }
 
 export function navegarParaHome() {
-  history.pushState({ screen: 'home' }, '', '#home');
+  window.location.href = 'index.html';
 }

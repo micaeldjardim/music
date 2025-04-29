@@ -28,6 +28,14 @@ export function setHomeNavigation(fn) {
 export async function carregarMusicas(callbackSelectMusic) {
   allMusicas = await getMusicas();
   window.allMusicas = allMusicas;
+
+  // 🛠 Garante que todas as músicas tenham ID
+  allMusicas = allMusicas.map(musica => {
+    if (!musica.id) {
+      musica.id = gerarIdTemporario(musica);
+    }
+    return musica;
+  });
   
   // Verificação dos valores de gramática disponíveis
   const gramaticas = new Set();
@@ -261,7 +269,7 @@ function configurarBotoesGrammar(callbackSelectMusic, gramaticasDisponiveis) {
 
 
 // Função para aplicar todos os filtros simultâneamente
-export function renderMusicList(callbackSelectMusic) {
+export function renderMusicList(callbackCarregarMusica) {
   const container = document.getElementById("music-list");
   if (!container) return;
   
@@ -362,7 +370,14 @@ export function renderMusicList(callbackSelectMusic) {
   container.innerHTML = '';
   
   filtered.forEach(musica => {
-    renderMusicCard(musica, container, callbackSelectMusic);
+    const musicElement = document.createElement('div');
+    musicElement.className = 'music-item';
+    
+    musicElement.onclick = () => {
+      navegarParaMusica(musica); // Usar diretamente a função de navegação
+    };
+    
+    renderMusicCard(musica, container, callbackCarregarMusica);
   });
 }
 
@@ -501,13 +516,101 @@ function renderMusicCard(musica, container, callbackSelectMusic) {
   container.appendChild(div);
 }
 
+// Melhoria na função para buscar músicas de múltiplas fontes
 export function encontrarMusicaPorId(id) {
-  if (!id) return null;
+  // Log para depuração
+  console.log("Buscando música com ID:", id);
   
-  return allMusicas.find(m => 
-    m.id === id || 
-    (id.includes('-') && id.startsWith(criarSlug(m.titulo)))
-  );
+  // Tentativa 1: Buscar no estado da aplicação (memória)
+  try {
+    const musicasEmMemoria = window.musicasList || [];
+    const musicaMemoria = musicasEmMemoria.find(m => m.id === id);
+    if (musicaMemoria) {
+      console.log("Música encontrada em memória:", musicaMemoria.titulo);
+      return musicaMemoria;
+    }
+  } catch (error) {
+    console.warn("Erro ao buscar em memória:", error);
+  }
+
+  // Tentativa 2: Buscar no localStorage
+  try {
+    // Verificar música única
+    const musicaArmazenada = localStorage.getItem(`musica_${id}`);
+    if (musicaArmazenada) {
+      const musica = JSON.parse(musicaArmazenada);
+      console.log("Música encontrada no localStorage (item único):", musica.titulo);
+      return musica;
+    }
+    
+    // Verificar na lista completa
+    const musicListStr = localStorage.getItem('musicList');
+    if (musicListStr) {
+      const musicList = JSON.parse(musicListStr);
+      const musica = musicList.find(m => m.id === id);
+      if (musica) {
+        console.log("Música encontrada no localStorage (lista):", musica.titulo);
+        return musica;
+      }
+    }
+  } catch (error) {
+    console.warn("Erro ao buscar no localStorage:", error);
+  }
+
+  // Tentativa 3: Buscar no sessionStorage (caso seja usado)
+  try {
+    const sessionData = sessionStorage.getItem(`musica_${id}`);
+    if (sessionData) {
+      const musica = JSON.parse(sessionData);
+      console.log("Música encontrada no sessionStorage:", musica.titulo);
+      return musica;
+    }
+  } catch (error) {
+    console.warn("Erro ao buscar no sessionStorage:", error);
+  }
+
+  // Se nada foi encontrado, tente uma busca assíncrona no Firestore
+  buscarMusicaFirestore(id);
+  
+  console.error("Música não encontrada em nenhuma fonte de dados local:", id);
+  return null;
+}
+
+// Função para buscar músicas no Firestore
+async function buscarMusicaFirestore(id) {
+  try {
+    // Verificar se temos acesso ao Firebase
+    if (!window.firebaseDB) {
+      console.error("Firebase não está inicializado");
+      return null;
+    }
+
+    const { collection, query, where, getDocs } = await import("https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js");
+    
+    // Busca na coleção de músicas
+    const musicasRef = collection(window.firebaseDB, "musicas");
+    const q = query(musicasRef, where("id", "==", id));
+    const querySnapshot = await getDocs(q);
+    
+    if (!querySnapshot.empty) {
+      const musicaDoc = querySnapshot.docs[0];
+      const musicaData = musicaDoc.data();
+      console.log("Música encontrada no Firestore:", musicaData.titulo);
+      
+      // Salvar localmente para futuras consultas
+      localStorage.setItem(`musica_${id}`, JSON.stringify(musicaData));
+      
+      // Redirecionar ou chamar função de carregamento
+      window.location.reload(); // Recarrega a página para usar a música recém-encontrada
+      return musicaData;
+    }
+    
+    console.log("Música não encontrada no Firestore");
+    return null;
+  } catch (error) {
+    console.error("Erro ao buscar no Firestore:", error);
+    return null;
+  }
 }
 
 export function mostrarTelaInicial() {
