@@ -24,12 +24,12 @@ body {
 
 .navbar-fillthesong {
   background: transparent;
-  position: sticky !important;
+  position: absolute !important;
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 990;
+  z-index: 1050 !important; /* Aumentado para ficar acima de todos os elementos */
 }
 
 .navbar-fillthesong .navbar-brand,
@@ -76,6 +76,30 @@ body {
 
 .navbar-fillthesong .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.loader {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: url('/src/assets/preloader/Preloader\ 2.gif') 50% 50% no-repeat rgb(0,0,0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease;
+}
+
+.loader img {
+  width: 100px;
+  height: 100px;
+}
+
+.loader.fade-out {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .container {
@@ -295,63 +319,32 @@ body {
   transform: translateY(0);
 }
 
+/* Aumento do tamanho da mensagem do carrossel de boas-vindas */
 .welcome-message {
-  font-size: 1.6rem;
-  font-weight: 500;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  margin-bottom: 8px;
+  font-size: 2.5rem; /* Tamanho maior para o título de boas-vindas */
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .welcome-lead {
-  font-size: 1.2rem;
-  opacity: 0.9;
-  font-weight: 300;
-  margin-top: 0;
+  font-size: 1.5rem; /* Tamanho maior para o texto de descrição */
+  font-weight: 500;
+  color: #f0f0f0;
+  max-width: 80%;
+  margin: 0 auto;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.hero-buttons {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 30px;
-}
-
-.primary-button, .secondary-button {
-  padding: 15px 30px;
-  border-radius: 50px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.primary-button {
-  background: #fff;
-  color: #0e4d7a;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-}
-
-.secondary-button {
-  background: transparent;
-  color: #fff;
-  border: 2px solid #fff;
-}
-
-.primary-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-  background: #f8f8f8;
-}
-
-.secondary-button:hover {
-  background: rgba(255,255,255,0.1);
-  transform: translateY(-3px);
+/* Para dispositivos móveis, reduzir um pouco o tamanho */
+@media (max-width: 768px) {
+  .welcome-message {
+    font-size: 2rem;
+  }
+  
+  .welcome-lead {
+    font-size: 1.2rem;
+  }
 }
 
 .video-presentation {
@@ -359,22 +352,16 @@ body {
   max-width: 850px;
   height: auto;
   aspect-ratio: 16/9;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 16px;
+  border-radius: 45px;
   overflow: hidden;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 30px rgb(0, 0, 0);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin: 0 auto;
   position: relative;
   z-index: 2;
-}
-
-.video-presentation:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
 }
 
 .video-presentation iframe {
@@ -686,8 +673,8 @@ body {
   justify-content: center;
   border-radius: 18px;
   width: 100%;
+  padding: 5px;
 }
-
 
 .grammar-btn {
   display: flex;
@@ -716,17 +703,17 @@ body {
 .grammar-btn:nth-child(7n+6) { border-color: rgba(84, 137, 177, 1); }
 .grammar-btn:nth-child(7n+7) { border-color: rgba(78, 158, 207, 1); }
 
-
 .grammar-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .grammar-btn.active {
   background-color: rgba(255, 255, 255, 0.95);
   transform: translateY(1px);
   box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset;
-  border: 2px solid #0e4d79;
+  font-weight: bold;
 }
 
 .grammar-btn span {
@@ -765,7 +752,6 @@ body {
   border: 2px solid transparent;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 25px !important;
   min-width: 100px;
   margin: 5px;
   position: relative;
@@ -837,103 +823,6 @@ body {
 .style-img-btn::before {
   content: none !important;
 }
-
-/* Estilização para os botões de filtro de estilo musical */
-.style-filter {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin: 15px 0;
-  width: 100%;
-  padding: 5px;
-}
-
-.style-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  width: 100%;
-}
-
-.style-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px 8px;
-  border-radius: 18px;
-  border-radius: 25px !important;
-  cursor: pointer;
-  color: #333;
-  font-weight: 500;
-  background-color: rgba(255, 255, 255, 0.7);
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  min-width: 100px;
-  margin: 5px;
-  position: relative;
-}
-
-/* Cores diferentes para cada botão de estilo */
-.style-btn:nth-child(1) { border-color: #9C27B0; } /* Purple - Pop */
-.style-btn:nth-child(2) { border-color: #E91E63; } /* Pink - Rock */
-.style-btn:nth-child(3) { border-color: #3F51B5; } /* Indigo - Gospel */
-.style-btn:nth-child(4) { border-color: #FF9800; } /* Orange - Rap And Hip-Hop */
-.style-btn:nth-child(5) { border-color: #8BC34A; } /* Light Green - Country */
-
-.style-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  background-color: rgba(255, 255, 255, 0.9);
-}
-
-/* Estilo para botão ativo */
-.style-btn.active {
-  background-color: rgba(255, 255, 255, 0.95);
-  transform: translateY(1px);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset;
-  font-weight: bold;
-}
-
-/* Estilo para botões sem correspondências */
-.style-btn.no-matches {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: rgba(240, 240, 240, 0.7);
-}
-
-.style-btn.no-matches:hover {
-  transform: none;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-/* Responsividade para telas menores */
-@media (max-width: 768px) {
-  .style-btn {
-    padding: 8px 12px;
-    min-width: 90px;
-    font-size: 13px;
-  }
-  
-  .style-filter {
-    gap: 6px;
-  }
-}
-
-/* Ícones para os botões de estilo (opcional) */
-.style-btn::before {
-  content: "♫";
-  margin-right: 5px;
-  font-size: 14px;
-}
-
-.style-btn:nth-child(1)::before { content: "🎵"; } /* Pop */
-.style-btn:nth-child(2)::before { content: "🎸"; } /* Rock */
-.style-btn:nth-child(3)::before { content: "✝️"; } /* Gospel */
-.style-btn:nth-child(4)::before { content: "🎤"; } /* Rap */
-.style-btn:nth-child(5)::before { content: "🤠"; } /* Country */
 
 .music-list {
   display: flex;
@@ -1137,12 +1026,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 20px;
 }
 
 .game-area {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -1163,12 +1051,20 @@ body {
   margin-top: 30px;
 }
 
+.video-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
 .lyrics-area {
   width: 560px;
   flex-shrink: 0;
   display: flex;
   margin-top: 10px;
-  margin-left: 180px;
+  margin-left: 200px;
   flex-direction: column;
   align-items: center;
 }
@@ -1322,14 +1218,6 @@ body {
   box-sizing: border-box;
   position: relative;
   z-index: 10;
-  cursor: grab; /* Cursor de mão fechada */
-}
-
-.dropped-word:active{
-  cursor: grabbing !important; /* Cursor de mão fechada */
-  -webkit-cursor: grabbing !important; /* Para compatibilidade com Safari */
-  transform: scale(0.98);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .dropped-word:active {
@@ -1409,154 +1297,165 @@ body {
 }
 
 #screen-drag .header {
-  display: none;
-}
-
-.content .video-buttons {
-  width: 100%;
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.content .video-buttons .btn {
-  font-size: 18px;
-  padding: 10px 20px;
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  color: #6e6e6e;
-  border: 1px solid #e5e4e4;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.content .video-buttons .btn:hover {
-  background-color: #e6e6e6;
-  color: #000;
-}
-
-.toggle-filtros-btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 16px;
-  margin: 10px 0;
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.toggle-filtros-btn:hover {
-  background-color: #e0e0e0;
-}
-
-.toggle-filtros-btn.active {
-  background-color: #e0e0e0;
-}
-
-.filter-icon {
-  margin-left: 8px;
-  font-style: normal;
-}
-
-.auth-modal {
-  display: block;
-  position: fixed;
-  z-index: 9999 !important;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
-.auth-modal-content {
+  margin-top: 20px;
+  padding: 15px;
   position: relative;
-  z-index: 10000 !important;
 }
 
-.auth-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 9998 !important;
+#screen-drag {
+  padding-top: 80px; /* Espaço para a navbar */
+  position: relative;
 }
 
-@media (max-width: 768px) {
-  #search-input {
-    width: 90%;
-  }
-  
-  .country-filter, .dificult-filter {
-    justify-content: center;
-  }
-  
-  .nav ul {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .dificult-btn, .style-btn, .grammar-btn {
-    padding: 8px 12px;
-    min-width: 90px;
-    font-size: 13px;
-  }
-  
-  .dificult-filter, .style-filter, .grammar-filter {
-    gap: 6px;
-  }
+#screen-drag .content {
+  position: relative;
+  z-index: 5;
 }
 
-@media (min-width: 992px) {
-  .game-area {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    flex-wrap: nowrap;
-    gap: 30px;
-  }
-  
-  .lyrics-area {
-    order: 1;
-  }
-  
-  .video-area {
-    order: 0;
-  }
-  
-  .word-bank-area {
-    order: 2;
-  }
+.video-area {
+  margin-top: 0;
+}
+
+.navbar-fillthesong .navbar-collapse {
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: transparent; /* Fundo semi-transparente para o menu mobile */
+  border-radius: 0 0 10px 10px;
 }
 
 @media (max-width: 991px) {
-  .game-area {
-    flex-direction: column;
-    align-items: center;
+  .navbar-fillthesong .navbar-collapse {
+    padding: 15px;
+    margin-top: 5px;
   }
   
-  .video-area, 
-  .lyrics-area,
-  .word-bank-area {
-    width: 100%;
-    max-width: 560px;
+  #screen-drag {
+    padding-top: 70px;
   }
   
-  .word-bank-area {
-    position: static;
-    margin-top: 20px;
+  #screen-drag .header {
+    margin-top: 15px;
   }
 }
+
+/* Adicione isto no final do seu arquivo CSS */
+
+/* 1. Esconder a navbar principal quando o jogo estiver aberto */
+body:has(#screen-drag:not([style*="display: none"])) header.header-conteiner {
+  display: none !important;
+}
+
+/* Para browsers que não suportam :has() */
+.hide-header {
+  display: none !important;
+}
+
+/* Estilos básicos para o cabeçalho da música no jogo */
+.music-header {
+  display: flex; /* Permite alinhar itens */
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  padding: 10px 15px; /* Espaçamento interno */
+  margin-bottom: 15px; /* Espaço abaixo do cabeçalho */
+  background-color: #f0f0f0; /* Cor de fundo simples para visualização */
+  border-radius: 8px; /* Bordas arredondadas */
+  max-width: 800px; /* Limita a largura */
+  margin-left: auto; /* Centraliza o bloco */
+  margin-right: auto; /* Centraliza o bloco */
+}
+
+.music-info {
+  text-align: center; /* Centraliza o texto */
+  display: flex;
+  flex-direction: column; /* Coloca título e artista um abaixo do outro */
+  align-items: center; /* Alinha itens no centro */
+}
+
+#music-title-game {
+  font-size: 1.4rem; /* Tamanho da fonte para o título */
+  font-weight: bold; /* Título em negrito */
+  color: #333; /* Cor do texto */
+  margin: 0 0 3px 0; /* Margem inferior pequena */
+  display: block; /* Garante que ocupe a linha */
+  visibility: visible; /* Garante visibilidade */
+}
+
+#music-artist-game {
+  font-size: 1rem; /* Tamanho da fonte para o artista */
+  color: #555; /* Cor do texto mais suave */
+  margin: 0; /* Sem margens extras */
+  display: block; /* Garante que ocupe a linha */
+  visibility: visible; /* Garante visibilidade */
+}
+
+/* Ajuste no padding do container do jogo para acomodar o header */
+#screen-drag {
+  padding-top: 20px; /* Adiciona espaço acima do conteúdo do jogo */
+  position: relative;
+}
+
+/* Adicione ao arquivo style.css */
+.music-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.music-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  padding: 5px 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  height: 30px;
+}
+
+.music-badge img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.country-badge img {
+  width: 24px;
+  height: 24px;
+  scale: 1.2;
+}
+
+.style-badge img {
+  width: 24px;
+  height: 24px;
+  scale: 1.4;
+  
+}
+
+.level-badge img {
+  width: 24px;
+  height: 24px;
+  scale: 1.3;
+  
+}
+
+.grammar-badge {
+  color: #000;
+  font-size: 12px;
+  white-space: nowrap;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grammar-count {
+  margin-left: 5px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  padding: 1px 5px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+
