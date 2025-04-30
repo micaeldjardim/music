@@ -51,9 +51,20 @@
 
 
 <div id="screen-drag">
-    <div class="header">
-        <div id="music-title" class="music-title"></div>
+  <div class="music-header">
+    
+    <div class="music-info">
+      <h1 id="music-title-game" class="music-title-game"></h1>
+      <p id="music-artist-game" class="music-artist-game"></p>
+      <!-- Adicionando os indicadores não interativos -->
+      <div class="music-badges">
+        <div id="music-country-badge" class="music-badge country-badge"></div>
+        <div id="music-style-badge" class="music-badge style-badge"></div>
+        <div id="music-level-badge" class="music-badge level-badge"></div>
+        <div id="music-grammar-badge" class="music-badge grammar-badge"></div>
       </div>
+    </div>
+  </div>
       <div class="content">
         <div class="video-area" id="player-container"></div>
         <div class="video-buttons">
@@ -64,7 +75,7 @@
             </button>
           </a>
 
-          <button class="btn-video-interactive" id="btn-repeat"> 
+          <button class="btn-video-interactive" id="btn-repeat" onclick="window.location.reload()"> 
             <img src="img/repeat.webp" alt="Repeat" id="btn-repeat-icon" width="35" height="35">
           </button>
 
@@ -76,13 +87,16 @@
             <img src="img/pause-play.webp" alt="Play/Pause" id="btn-play-pause-icon" width="50" height="50">
           </button>
 
-          <button class="btn-video-interactive" id="btn-next" onclick="proximaMusica()">
+          
+          <button class="btn-video-interactive" id="btn-next">
             <img src="img/next.webp" alt="Next Music" id="btn-next-icon" width="40" height="40">
           </button>
+          
 
           <button class="btn-video-interactive" id="btn-submit">
             <img src="img/submit.webp" alt="Submit" id="btn-submit-icon" width="35" height="35">
           </button>
+          
           
           <button class="btn-video-interactive" id="btn-report">
             <img src="img/report.webp" alt="Report" id="btn-report-icon" width="20" height="20">
@@ -101,11 +115,74 @@
 
 <div id="resultModal" class="modal"></div>
 
+<!-- Modal de Relatório -->
+<div class="modal fade" id="reportModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reportar um Erro</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <form id="reportForm">
+          <div class="mb-3">
+            <label for="reportDescription" class="form-label">Descreva o erro:</label>
+            <textarea class="form-control" id="reportDescription" rows="3" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <a href="#" class="btn btn-primary" id="sendReportBtn">Enviar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="services/firebase.js" type="module"></script>
 <script src="auth/modalLogin.js" type="module"></script>
 <script src="drag.js" type="module"></script> 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // Script para o botão de relatório
+  document.addEventListener('DOMContentLoaded', function() {
+    const reportBtn = document.getElementById('btn-report');
+    const sendReportBtn = document.getElementById('sendReportBtn');
+    const reportModal = new bootstrap.Modal(document.getElementById('reportModal'));
+    
+    // Abrir modal ao clicar no botão de relatório
+    reportBtn.addEventListener('click', function() {
+      reportModal.show();
+    });
+    
+    // Configurar o link de email quando o usuário digitar algo
+    document.getElementById('reportDescription').addEventListener('input', function() {
+      const description = this.value;
+      const musicTitle = document.getElementById('music-title-game').textContent || 'Não especificada';
+      const subject = "Relatório de Erro - Fill the Song";
+      const emailBody = `Erro na música: ${musicTitle}\n\nDescrição: ${description}`;
+      
+      // Atualizar o href do botão de envio
+      sendReportBtn.href = `mailto:alinelspba@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+    });
+    
+    // Verificar se há texto antes de permitir o envio
+    sendReportBtn.addEventListener('click', function(e) {
+      const description = document.getElementById('reportDescription').value;
+      if (!description.trim()) {
+        e.preventDefault(); // Impede que o link seja seguido
+        alert('Por favor, descreva o erro encontrado.');
+      } else {
+        // Fechar o modal depois de clicar, com um pequeno atraso para garantir que o cliente de email abra
+        setTimeout(function() {
+          reportModal.hide();
+        }, 500);
+      }
+    });
+  });
+</script>
 </body>
 </html>
