@@ -1105,6 +1105,11 @@ body {
   text-decoration: line-through; 
 }
 
+body.dragging {
+  cursor: grabbing !important;
+  -webkit-cursor: grabbing !important;
+}
+
 .dragging {
   opacity: 0.7;
 }
@@ -1166,6 +1171,8 @@ body {
   opacity: 0.8;
   transform: scale(1.05);
   z-index: 1000;
+  cursor: grabbing !important;
+  -webkit-cursor: grabbing !important;
 }
 
 .dropped-word {
